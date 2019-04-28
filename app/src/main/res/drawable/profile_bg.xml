@@ -4,7 +4,7 @@
 
     <gradient android:angle="90"
         android:endColor="@color/parkmateGreen"
-        android:startColor="@color/parkmateBlue"></gradient>
+        android:startColor="@color/parkmateBlue" />
 
 
 
