@@ -3,4 +3,19 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <!-- DONTOUCH COLOR PALLETTE -->
+    <color name="dtBlack">#010B29</color>
+    <color name="dtBlack2">#04001C</color>
+    <color name="dtGrey">#F0F1F2</color>
+
+
+    <color name="green">#008000</color>
+    <color name="parkmateGreen">#57af65</color>
+    <color name="parkmateBlue">#92C5B9</color>
+    <color name="parkmateIcons">#56BBBF</color>
+
+
 </resources>
