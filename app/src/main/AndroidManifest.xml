@@ -13,31 +13,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Statistics"
-            android:label="@string/title_activity_statistics"
-            android:parentActivityName=".NewSession"
+        <activity android:name=".PersonalProfile"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.dontouchv1.NewSession" />
-        </activity>
-        <activity
-            android:name=".NewSession"
-            android:label="Create New Session"
-            android:parentActivityName=".MainScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
+
+      <activity
+            android:name=".NewSession"
+            android:label="Create New Session"
+            android:parentActivityName=".MainScreen">
+           
+        </activity>
+
+        <activity
+
+            android:name=".gameScreen"
+            android:label="DonTouch Game"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+
+        <activity
             android:name=".MainScreen"
             android:label="@string/title_activity_main_screen"
             android:theme="@style/AppTheme.NoActionBar" />
+      
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name">
+        </activity>
+      
+      
     </application>
 
 </manifest>
