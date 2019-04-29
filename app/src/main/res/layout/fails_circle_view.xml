@@ -12,8 +12,8 @@
         android:layout_centerInParent="true"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         >
 
         <RelativeLayout
