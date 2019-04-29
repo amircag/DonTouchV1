@@ -21,7 +21,7 @@ public class NewSession extends AppCompatActivity {
         setContentView(R.layout.activity_new_session);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
+        //((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
     }
 
     static final RadioGroup.OnCheckedChangeListener ToggleListener = new RadioGroup.OnCheckedChangeListener() {

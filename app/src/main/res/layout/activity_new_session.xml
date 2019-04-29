@@ -48,6 +48,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="75dp"
             android:orientation="vertical"
+            android:gravity="center_horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp">
@@ -82,23 +83,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:clipToPadding="false">
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_gap"
-                    android:layout_marginTop="@dimen/default_gap"
-                    android:layout_marginRight="@dimen/default_gap"
-                    android:clipToPadding="true"
-                    app:cardCornerRadius="2dp"
-                    app:cardPreventCornerOverlap="true"
-                    app:cardUseCompatPadding="true">
+                android:paddingVertical="15sp"
+                >
 
                 <LinearLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -107,12 +98,14 @@
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@drawable/profile_border"
+                    >
 
                     <ImageView
                         android:id="@+id/Chill"
-                        android:layout_width="30sp"
-                        android:layout_height="50sp"
+                        android:layout_width="45dp"
+                        android:layout_height="75dp"
                         android:onClick="onToggle"
                         app:srcCompat="@drawable/ic_local_cafe_black_24dp"
                         />
@@ -133,62 +126,39 @@
                         android:textAlignment="center" />
 
                 </LinearLayout>
-                </android.support.v7.widget.CardView>
-                <android.support.v7.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_gap"
-                    android:layout_marginTop="@dimen/default_gap"
-                    android:layout_marginRight="@dimen/default_gap"
-                    android:clipToPadding="true"
-                    app:cardCornerRadius="2dp"
-                    app:cardPreventCornerOverlap="true"
-                    app:cardUseCompatPadding="true">
 
-                <LinearLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="100sp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/THRILL"
-                        android:layout_width="30sp"
-                        android:layout_height="50sp"
-                        android:onClick="onToggle"
-                        app:srcCompat="@drawable/ic_local_bar_black_24dp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="100sp"
                         android:layout_height="wrap_content"
-                        android:text="THRILL"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPrimary"
-                        android:textAlignment="center" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10sp"
-                        android:text="Random Tracking Level"
-                        android:textAlignment="center" />
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:background="@drawable/profile_border">
 
-                </LinearLayout>
-                </android.support.v7.widget.CardView>
+                        <ImageView
+                            android:id="@+id/THRILL"
+                            android:layout_width="45sp"
+                            android:layout_height="75sp"
+                            android:onClick="onToggle"
+                            app:srcCompat="@drawable/ic_local_bar_black_24dp"/>
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/default_gap"
-                    android:layout_marginTop="@dimen/default_gap"
-                    android:layout_marginRight="@dimen/default_gap"
-                    android:clipToPadding="true"
-                    app:cardCornerRadius="2dp"
-                    app:cardPreventCornerOverlap="true"
-                    app:cardUseCompatPadding="true">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="THRILL"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10sp"
+                            android:text="Random Tracking Level"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -197,13 +167,14 @@
                         android:layout_width="100sp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@drawable/profile_border">
 
 
                         <ImageView
                             android:id="@+id/Kill"
-                            android:layout_width="30sp"
-                            android:layout_height="50sp"
+                            android:layout_width="45sp"
+                            android:layout_height="75sp"
                             android:onClick="onToggle"
                             app:srcCompat="@drawable/ic_gavel_black_24dp" />
 
@@ -223,7 +194,6 @@
                             android:textAlignment="center" />
 
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
 
             </LinearLayout>
         </LinearLayout>
@@ -245,8 +215,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="create game"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/rounded_button"
             android:textColor="#fff"
+
             />
 
 
