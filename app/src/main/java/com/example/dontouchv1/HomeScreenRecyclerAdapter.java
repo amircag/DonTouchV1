@@ -1,6 +1,7 @@
 package com.example.dontouchv1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,13 +50,16 @@ public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRe
         int imageId = mContext.getResources().getIdentifier ("drawable/"+mImage.get(position),null,mContext.getPackageName());
         holder.image.setImageResource(imageId);
         holder.imageName.setText(mImageNames.get(position));
-        holder.image.setOnClickListener(new View.OnClickListener() {
+        holder.people.setText(mPeople.get(position));
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
                 Log.d(TAG,"OnClick: Clicked on an image: "+mImageNames.get(position));
 
                 //CHANGE LATER TO ACTUAL ACTION!
-                Toast.makeText(mContext, "msg", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(mContext, "msg", Toast.LENGTH_SHORT).show();
+                Intent newGame = new Intent(mContext, NewSession.class);
+                mContext.startActivity(newGame);
 
             }
         });
@@ -78,7 +82,7 @@ public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRe
             image=itemView.findViewById(R.id.image);
             imageName=itemView.findViewById(R.id.image_name);
             people=itemView.findViewById(R.id.people);
-            parentLayout=itemView.findViewById(R.id.parent_layout);
+            parentLayout=itemView.findViewById(R.id.homeGroupCard);
 
 
 

@@ -1,9 +1,12 @@
 package com.example.dontouchv1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +35,8 @@ public class PersonalProfile extends AppCompatActivity {
         initFails();
         initProfileImage();
         initProfileData();
+
+        setBackButton();
 
 
 
@@ -182,5 +187,17 @@ public class PersonalProfile extends AppCompatActivity {
 
     }
 
+    private void setBackButton(){
+
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeScreen = new Intent(PersonalProfile.this, HomeScreen.class);
+                startActivity(homeScreen);
+
+            }
+        });
+    }
 
 }

@@ -1,11 +1,14 @@
 package com.example.dontouchv1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,8 +25,13 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
         initGroupImages();
         initUserInfo();
+
+        setButtonListeners();
+
+
 
     }
 
@@ -71,17 +79,35 @@ public class HomeScreen extends AppCompatActivity {
         /* Grab user info from server */
         userNickname.setText(tempNickname);
         userRating.setText(tempRating);
-        // userProfilePictureHome.setImageResource(R.drawable.profile);
+        userProfilePictureHome.setImageResource(R.drawable.profile);
 
     }
 
     private void initGroupRecyclerView(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        RecyclerView groupRecyclerView = findViewById(R.id.groupRecyclerView);
+        RecyclerView groupRecyclerView = findViewById(R.id.home_recycler_view);
         groupRecyclerView.setLayoutManager(layoutManager);
-        GroupRecyclerViewAdapter groupAdapter = new GroupRecyclerViewAdapter(this,mImageNames,mImages,mPeople);
+        HomeScreenRecyclerAdapter groupAdapter = new HomeScreenRecyclerAdapter(this,mImageNames,mImages,mPeople);
         groupRecyclerView.setAdapter(groupAdapter);
 
+    }
+
+    private void moveToProfileScreen(){
+
+    }
+
+
+    private void setButtonListeners(){
+        /* Set "Go to Profile" listener */
+        RelativeLayout userInfoBox = findViewById(R.id.Nickname);
+        userInfoBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent profileScreen = new Intent(HomeScreen.this, PersonalProfile.class);
+                startActivity(profileScreen);
+
+            }
+        });
     }
 
 }
