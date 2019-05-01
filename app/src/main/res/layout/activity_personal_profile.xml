@@ -41,29 +41,208 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/profile_border"
             >
 
-            <LinearLayout
+
+            <RelativeLayout
+                android:id="@+id/nickNameBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
 
                 <TextView
                     android:id="@+id/nicknameTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/nickname_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
 
                 <TextView
-                    android:id="@+id/nicknameText"
+                    android:id="@+id/nicknameDynamic"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </TextView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/nicknameTitle"
+                    android:layout_toRightOf="@id/nicknameTitle"
+                    android:text="USERNAME"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
 
-            </LinearLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rankBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/rankTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/rank_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/rankDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/rankTitle"
+                    android:layout_toRightOf="@id/rankTitle"
+                    android:text="USER RANK"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/timeTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/time_on_phone_title"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/timeDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/timeTitle"
+                    android:layout_toRightOf="@id/timeTitle"
+                    android:text="USER TIME ON PHONE"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gamesBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/gamesTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/games_played_title"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/gamesDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/gamesTitle"
+                    android:layout_toRightOf="@id/gamesTitle"
+                    android:text="# of GAMES PLAYED"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/failsBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/failsTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/fails_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/failsDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/failsTitle"
+                    android:layout_toRightOf="@id/failsTitle"
+                    android:text="# OF FAILS EARNED"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
 
 
 
@@ -147,7 +326,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/profileImage"
+        android:id="@+id/profileImageContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -160,8 +339,10 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:id="@+id/profileImageCircle"
+            android:id="@+id/profileImage"
             android:src="@drawable/profile_placeholder"
+            app:civ_border_color="#000"
+            app:civ_border_width="1dp"
             android:background="@drawable/circle"/>
 
     </LinearLayout>
