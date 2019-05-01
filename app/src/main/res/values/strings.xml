@@ -89,7 +89,16 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
-
+    <!-- PROFILE PAGE STRINGS -->
     <string name="group_title"><b>Groups:</b></string>
     <string name="fails_title"><b>Fails:</b></string>
+    <string name="nickname_title">Nickname:</string>
+    <string name="rank_title">Rank:</string>
+    <string name="score_title">Score:</string>
+    <string name="time_on_phone_title">Time on Phone:</string>
+    <string name="games_played_title">Games played:</string>
+    <string name="times_failed_title">Times failed:</string>
+    
+    
+    
 </resources>
