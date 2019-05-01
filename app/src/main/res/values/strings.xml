@@ -92,4 +92,9 @@
 
     <string name="group_title"><b>Groups:</b></string>
     <string name="fails_title"><b>Fails:</b></string>
+
+
+    <!-- FOR HOME SCREEN -->
+    <string name="new_group_button"><b>Create New Group</b></string>
+
 </resources>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -19,8 +21,9 @@ public class HomeScreen extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_profile);
+        setContentView(R.layout.activity_home_screen);
         initGroupImages();
+        initUserInfo();
 
     }
 
@@ -51,6 +54,25 @@ public class HomeScreen extends AppCompatActivity {
         mPeople.add("Liad & Amir 4 ever");
 
         initGroupRecyclerView();
+    }
+
+    private void initUserInfo(){
+
+        /* Define data members */
+        String tempNickname = "Fresh Prince of TLV";
+        String tempRating = "34%";
+
+
+        /* Define Views */
+        TextView userNickname = findViewById(R.id.name);
+        ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);
+        TextView userRating = findViewById(R.id.rate);
+
+        /* Grab user info from server */
+        userNickname.setText(tempNickname);
+        userRating.setText(tempRating);
+        // userProfilePictureHome.setImageResource(R.drawable.profile);
+
     }
 
     private void initGroupRecyclerView(){
