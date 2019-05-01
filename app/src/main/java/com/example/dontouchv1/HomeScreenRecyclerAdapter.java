@@ -19,7 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRecyclerAdapter.ViewHolder>{
 
 
-    private static final String TAG = "HomeScreenRecyclerAdapter";
+    private static final String TAG = "HomeScreenRecAdapter";
 
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImage = new ArrayList<>();
@@ -53,6 +53,8 @@ public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRe
             @Override
                 public void onClick(View view) {
                 Log.d(TAG,"OnClick: Clicked on an image: "+mImageNames.get(position));
+
+                //CHANGE LATER TO ACTUAL ACTION!
                 Toast.makeText(mContext, "msg", Toast.LENGTH_SHORT).show();
 
             }
