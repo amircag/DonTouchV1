@@ -4,8 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonalProfile extends AppCompatActivity {
 
@@ -26,6 +30,8 @@ public class PersonalProfile extends AppCompatActivity {
 
         initGroupImages();
         initFails();
+        initProfileImage();
+        initProfileData();
 
 
 
@@ -36,7 +42,8 @@ public class PersonalProfile extends AppCompatActivity {
     /* --- GROUP RECYCLES METHODS --- */
 
     /**
-     * Later use to get Groups from Server
+     * Initialized Group images + names + members.
+     * @// TODO: 30-Apr-19 grab actual data from server
      */
     private void initGroupImages(){
         mGroupImages.add("group0");
@@ -66,6 +73,9 @@ public class PersonalProfile extends AppCompatActivity {
         initGroupRecyclerView();
     }
 
+    /**
+     * Starts Group recycler view, don't touch basically.
+     */
     private void initGroupRecyclerView(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         RecyclerView groupRecyclerView = findViewById(R.id.groupRecyclerView);
@@ -80,7 +90,10 @@ public class PersonalProfile extends AppCompatActivity {
 
     /* --- FAIL RECYCLES METHODS --- */
 
-
+    /**
+     * Initializes "Fails" images + information.
+     * @// TODO: 30-Apr-19 grab actual data from server
+     */
     private void initFails(){
         mFailMissions.add("Buy Asaf a shot");
         mFailImages.add("beer");
@@ -113,12 +126,59 @@ public class PersonalProfile extends AppCompatActivity {
         initFailRecyclerView();
     }
 
+    /**
+     * Starts //Fails// recycler view, don't touch basically.
+     */
     private void initFailRecyclerView(){
         LinearLayoutManager layoutManagerFails = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         RecyclerView failsRecyclerView = findViewById(R.id.failsRecyclerView);
         failsRecyclerView.setLayoutManager(layoutManagerFails);
         FailRecyclerViewAdapter failAdapter = new FailRecyclerViewAdapter(this,mFailMissions,mFailImages);
         failsRecyclerView.setAdapter(failAdapter);
+
+    }
+
+    /**
+     * Init the user's profile image.
+     * @// TODO: 30-Apr-19 GRAB ACTUAL FROM SERVER
+     */
+    private void initProfileImage(){
+        ;
+        CircleImageView profileImage = findViewById(R.id.profileImage);
+        profileImage.setImageResource(R.drawable.profile); // CHANGE THIS TO SERVER IMAGE
+    }
+
+    /**
+     * Init the user's statistics, info etc..
+     * @// TODO: 30-Apr-19 GRAB ACTUAL FROM SERVER
+     */
+    private void initProfileData(){
+
+        /* Temp. data members */
+        String temp_nick = "Fresh Prince of TLV";
+        String temp_rank = "1";
+        String temp_time = "58 minutes";
+        String temp_games_played = "12";
+        String temp_fail_counter = "18";
+        /* End of temp strings */
+
+        /* Declare textViews */
+        TextView nicknameText = findViewById(R.id.nicknameDynamic);
+        TextView rankText = findViewById(R.id.rankDynamic);
+        TextView timeText = findViewById(R.id.timeDynamic);
+        TextView gamesText = findViewById(R.id.gamesDynamic);
+        TextView failsText = findViewById(R.id.failsDynamic);
+
+        /* Set Text from Server / Temp */
+        nicknameText.setText(temp_nick);
+        rankText.setText(temp_rank);
+        timeText.setText(temp_time);
+        gamesText.setText(temp_games_played);
+        failsText.setText(temp_fail_counter);
+
+
+
+
 
     }
 
