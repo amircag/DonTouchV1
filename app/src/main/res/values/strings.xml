@@ -99,6 +99,7 @@
     <string name="games_played_title">Games played:</string>
     <string name="times_failed_title">Times failed:</string>
     
-    
+    <!-- FOR HOME SCREEN -->
+    <string name="new_group_button"><b>Create New Group</b></string>
     
 </resources>
