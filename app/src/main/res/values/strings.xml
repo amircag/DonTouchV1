@@ -13,7 +13,6 @@
         completions."
     </string>
     <string name="title_activity_main_screen">MainScreen</string>
-
     <string name="title_activity_new_session">NewSession</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -101,5 +100,16 @@
     
     <!-- FOR HOME SCREEN -->
     <string name="new_group_button"><b>Create New Group</b></string>
-    
+
+    <!-- NEW SESSION SCREEN -->
+    <string name="chill_name">CHILL</string>
+    <string name="thrill_name">THRILL</string>
+    <string name="kill_name">KILL</string>
+    <string name="chill_short_desc">Easy Friends Meetup</string>
+    <string name="thrill_short_desc">Random Tracking Level</string>
+    <string name="kill_short_desc">Full Commitment</string>
+    <string name="chill_desc">keeping track of heavy phone use, and let you enjoy your time with your friends while looking on the phone from time to time</string>
+    <string name="thrill_desc">if you don\'t like surprises, don\'t pick this mode.</string>
+    <string name="kill_desc">using the phone is forbidden during the meeting.</string>
+    <string name="new_session_button">START GAME</string>
 </resources>

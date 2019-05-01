@@ -198,4 +198,10 @@ public class gameScreen extends AppCompatActivity {
         return 3;
      }
 
+    @Override
+    public void onBackPressed() {
+        //endGameButton()
+    }
+
 }
+
