@@ -18,7 +18,7 @@
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/image"
         android:text="group"
-        android:textColor="00"
+        android:textColor="#000000"
         android:textSize="17sp"
         android:textStyle="bold" />
 
@@ -30,6 +30,6 @@
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/image"
         android:text="group"
-        android:textColor="00" />
+        android:textColor="#000000" />
 
 </RelativeLayout>
