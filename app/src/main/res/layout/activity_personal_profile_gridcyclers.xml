@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dtBlack"
+    tools:context=".PersonalProfile">
+
+
+    <LinearLayout
+        android:id="@+id/headerStrip"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/ic_arrow_back_black_24dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="55dp"
+        app:layout_constraintTop_toBottomOf="@+id/headerStrip"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/info_section"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:background="@drawable/profile_border"
+            >
+
+
+            <RelativeLayout
+                android:id="@+id/nickNameBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/nicknameTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/nickname_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/nicknameDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/nicknameTitle"
+                    android:layout_toRightOf="@id/nicknameTitle"
+                    android:text="USERNAME"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rankBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/rankTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/rank_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/rankDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/rankTitle"
+                    android:layout_toRightOf="@id/rankTitle"
+                    android:text="USER RANK"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/timeTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/time_on_phone_title"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/timeDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/timeTitle"
+                    android:layout_toRightOf="@id/timeTitle"
+                    android:text="USER TIME ON PHONE"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gamesBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/gamesTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/games_played_title"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/gamesDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/gamesTitle"
+                    android:layout_toRightOf="@id/gamesTitle"
+                    android:text="# of GAMES PLAYED"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/failsBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/failsTitle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="@string/fails_title"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/failsDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/failsTitle"
+                    android:layout_toRightOf="@id/failsTitle"
+                    android:text="# OF FAILS EARNED"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintTop_toBottomOf="@+id/info_section">
+
+            <LinearLayout
+                android:id="@+id/groups_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/profile_border"
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true">
+
+                <TextView
+                    android:id="@+id/groupsHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:baselineAligned="true"
+                    android:text="@string/group_title"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
+
+                <!-- A RecyclerView with some commonly used attributes -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/groupRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fails_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/profile_border"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/groups_section">
+
+                <TextView
+                    android:id="@+id/failsHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:baselineAligned="true"
+                    android:text="@string/fails_title"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
+
+                <!-- A RecyclerView with some commonly used attributes -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/failsRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profileImageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/headerStrip">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/profileImage"
+            android:src="@drawable/profile_placeholder"
+            app:civ_border_color="#000"
+            app:civ_border_width="1dp"
+            android:background="@drawable/circle"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

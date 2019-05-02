@@ -3,6 +3,7 @@ package com.example.dontouchv1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,6 +31,7 @@ public class PersonalProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_profile);
+        // ^ add _gridcycle to change to grid view
 
         initGroupImages();
         initFails();
@@ -82,9 +84,15 @@ public class PersonalProfile extends AppCompatActivity {
      * Starts Group recycler view, don't touch basically.
      */
     private void initGroupRecyclerView(){
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         RecyclerView groupRecyclerView = findViewById(R.id.groupRecyclerView);
+
+        /* Switch comments to change to grid view: */
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         groupRecyclerView.setLayoutManager(layoutManager);
+        //GridLayoutManager groupGridManager = new GridLayoutManager(this,2);
+        //groupRecyclerView.setLayoutManager(groupGridManager);
+        /* Switch comments end */
+
         GroupRecyclerViewAdapter groupAdapter = new GroupRecyclerViewAdapter(this,mGroupNames,mGroupImages,mGroupMembers);
         groupRecyclerView.setAdapter(groupAdapter);
 
@@ -135,9 +143,15 @@ public class PersonalProfile extends AppCompatActivity {
      * Starts //Fails// recycler view, don't touch basically.
      */
     private void initFailRecyclerView(){
-        LinearLayoutManager layoutManagerFails = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         RecyclerView failsRecyclerView = findViewById(R.id.failsRecyclerView);
+
+        /* Switch comments to change to Grid view: */
+        LinearLayoutManager layoutManagerFails = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         failsRecyclerView.setLayoutManager(layoutManagerFails);
+        //GridLayoutManager gridLayourFails = new GridLayoutManager(this,2);
+        //failsRecyclerView.setLayoutManager(gridLayourFails);
+        /* Switch comments end */
+
         FailRecyclerViewAdapter failAdapter = new FailRecyclerViewAdapter(this,mFailMissions,mFailImages);
         failsRecyclerView.setAdapter(failAdapter);
 
