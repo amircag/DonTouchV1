@@ -98,8 +98,14 @@
     <string name="time_on_phone_title">Time on Phone:</string>
     <string name="games_played_title">Games played:</string>
     <string name="times_failed_title">Times failed:</string>
-    
+
     <!-- FOR HOME SCREEN -->
     <string name="new_group_button"><b>Create New Group</b></string>
-    
+    <string name="title_activity_end_game_stats">EndGameStats</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
