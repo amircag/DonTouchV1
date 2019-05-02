@@ -10,10 +10,11 @@
 
     <LinearLayout
         android:id="@+id/layout_for_group_stat_screen"
-        android:orientation="vertical"
-        android:background="@color/dtBlack"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/dtBlack"
+        android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/profileImageContainer"
             android:layout_width="match_parent"
@@ -27,20 +28,21 @@
 
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/GroupImageForStats"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:id="@+id/GroupImageForStats"
+                android:background="@drawable/circle"
                 android:src="@drawable/profile_placeholder"
                 app:civ_border_color="#000"
-                app:civ_border_width="1dp"
-                android:background="@drawable/circle"/>
+                app:civ_border_width="1dp" />
+
             <TextView
                 android:id="@+id/group_name_for_stats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Group Name"
-                android:textSize="16sp"
-                android:textColor="#fff"/>
+                android:textColor="#fff"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,9 +56,9 @@
             <LinearLayout
                 android:id="@+id/WinnerLayoutForStats"
                 android:layout_width="0dp"
-                android:layout_weight=".50"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_weight=".50"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,28 +67,29 @@
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/WinnerImageForStats"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:id="@+id/WinnerImageForStats"
+                    android:background="@drawable/circle"
                     android:src="@drawable/profile_placeholder"
                     app:civ_border_color="#000"
-                    app:civ_border_width="1dp"
-                    android:background="@drawable/circle"/>
+                    app:civ_border_width="1dp" />
+
                 <TextView
                     android:id="@+id/winner_name_for_stats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="winner Name"
-                    android:textSize="16sp"
-                    android:textColor="#fff"/>
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/LoserLayoutForStats"
                 android:layout_width="0dp"
-                android:layout_weight=".50"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_weight=".50"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,57 +98,55 @@
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/loserImageForStats"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:id="@+id/loserImageForStats"
+                    android:background="@drawable/circle"
                     android:src="@drawable/profile_placeholder"
                     app:civ_border_color="#000"
-                    app:civ_border_width="1dp"
-                    android:background="@drawable/circle"/>
+                    app:civ_border_width="1dp" />
+
                 <TextView
                     android:id="@+id/Loser_name_for_stats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="winner Name"
-                    android:textSize="16sp"
-                    android:textColor="#fff"/>
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
             </LinearLayout>
-
 
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/group_stats_end_screen"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/profile_border">
+            android:background="@drawable/profile_border"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/ScoreBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
-                >
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:id="@+id/Score_text"
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:text="Score:"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
                     android:layout_alignParentLeft="true"
-                    android:textAlignment="viewEnd"
                     android:gravity="end"
-                    />
+                    android:text="Score:"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/ScoreDynamic"
@@ -153,9 +154,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/Score_text"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="0dp"
                     android:layout_toEndOf="@+id/Score_text"
                     android:layout_toRightOf="@+id/Score_text"
@@ -173,22 +174,20 @@
                 android:id="@+id/failBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
-                >
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:id="@+id/FailsTitleEndScreen"
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:text="@string/rank_title"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
                     android:layout_alignParentLeft="true"
-                    android:textAlignment="viewEnd"
                     android:gravity="end"
-                    />
+                    android:text="@string/rank_title"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/failsDynamicEndScreen"
@@ -211,37 +210,34 @@
                 android:id="@+id/timeBoxEndScreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
-                >
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:id="@+id/timeTitleEndScreen"
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:text="Duration"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
                     android:layout_alignParentLeft="true"
-                    android:textAlignment="viewEnd"
                     android:gravity="end"
-                    />
+                    android:text="Duration"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/timeDynamic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
                     android:layout_alignBaseline="@+id/timeTitleEndScreen"
-                    android:layout_toRightOf="@id/timeTitleEndScreen"
-                    android:text="Total Game Time"
-                    android:textColor="#000"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMinTextSize="15sp"
-                    android:autoSizeMaxTextSize="20sp"
                     android:layout_alignParentRight="true"
-                    />
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/timeTitleEndScreen"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeTextType="uniform"
+                    android:text="Total Game Time"
+                    android:textColor="#000" />
 
 
             </RelativeLayout>
@@ -249,20 +245,20 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:id="@+id/leaderBoardLayout"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@drawable/profile_border"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/profile_border"
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_leaderBoard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recycle_leaderBoard"/>
-
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"/>
 
 
         </LinearLayout>
