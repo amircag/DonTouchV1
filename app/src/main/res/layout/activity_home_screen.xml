@@ -10,118 +10,119 @@
 
     <RelativeLayout
         android:id="@+id/Nickname"
-        android:layout_width="415dp"
-        android:layout_height="180dp"
+
+        android:layout_width="411dp"
+        android:layout_height="118dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:orientation="horizontal"
         android:theme="?attr/actionBarTheme"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal">
+        tools:layout_editor_absoluteY="0dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/MainProfilePicture"
+            android:layout_width="77dp"
+            android:layout_height="81dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_width="131dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
-            app:civ_border_width="1dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="67dp"
+            android:layout_marginLeft="67dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="18dp"
             app:civ_border_color="#000000"
+            app:civ_border_width="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.073"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars[3]" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/MainProfilePicture">
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="-27dp"
+            android:layout_marginEnd="27dp"
+            android:layout_marginRight="27dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toRightOf="@id/MainProfilePicture"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="204dp"
-                android:layout_height="51dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Nickname"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="#FFFFFF"
-                android:textSize="45sp"
-                app:layout_constraintBottom_toTopOf="@+id/searchView"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/trophy"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.78"
-                app:layout_constraintStart_toStartOf="@+id/Nickname"
+                app:layout_constraintHorizontal_bias="0.405"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.23000002" />
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_conversion_absoluteHeight="32dp"
+                tools:layout_conversion_absoluteWidth="109dp" />
 
-            <LinearLayout
+
+            <ImageView
+                android:id="@+id/trophy"
+                android:layout_width="47dp"
+                android:layout_height="39dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rate"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/Nickname"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/image"
+                tools:layout_conversion_absoluteHeight="35dp"
+                tools:layout_conversion_absoluteWidth="60dp" />
+
+            <TextView
+                android:id="@+id/rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/trophy"
-                    android:layout_width="70dp"
-                    android:layout_height="76dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/searchView"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/Nickname"
-                    app:layout_constraintVertical_bias="0.843"
-                    app:srcCompat="@drawable/image" />
-
-                <TextView
-                    android:id="@+id/rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="19dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="34%"
-                    android:textSize="35sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/Nickname"
-                    app:layout_constraintEnd_toEndOf="@+id/Nickname"
-                    app:layout_constraintHorizontal_bias="0.696"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.82" />
-
-            </LinearLayout>
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="120dp"
+                android:layout_marginRight="120dp"
+                android:layout_marginBottom="8dp"
+                android:text="34%"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                app:layout_constraintVertical_bias="0.333"
+                tools:layout_conversion_absoluteHeight="27dp"
+                tools:layout_conversion_absoluteWidth="37dp" />
 
 
-
-        </LinearLayout>
-
-
+        </android.support.constraint.ConstraintLayout>
 
 
     </RelativeLayout>
 
     <EditText
         android:id="@+id/searchEditText"
-        android:layout_width="392dp"
-        android:layout_height="33dp"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -135,12 +136,10 @@
         app:layout_constraintTop_toTopOf="@+id/searchView" />
 
 
-
-
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="393dp"
-        android:layout_height="344dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -155,16 +154,16 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/home_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" />
 
     </LinearLayout>
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="410dp"
-        android:layout_height="61dp"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
