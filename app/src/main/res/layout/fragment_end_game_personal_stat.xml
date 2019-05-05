@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EndGamePersonalStat"
+    android:theme="@style/AppTheme.NoActionBar">
+
+    <LinearLayout
+        android:id="@+id/layout_for_personal_stat_screen"
+        android:orientation="vertical"
+        android:background="@color/dtBlack"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/profileImageContainer_pStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/headerStrip">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/personalImageForStats"
+                android:src="@drawable/profile_placeholder"
+                app:civ_border_color="#fff"
+                app:civ_border_width="1dp"
+                android:background="@drawable/circle"/>
+            <TextView
+                android:id="@+id/player_name_for_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Player Name"
+                android:textSize="16sp"
+                android:textColor="#fff"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/stat_for_owend_text"
+            android:orientation="vertical"
+            android:layout_marginTop="25dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/stats_title_ps"
+                android:textColor="@color/dtGold"
+                android:text="STATISTICS"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/personal_stats_end_screen"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/profile_border">
+
+            <RelativeLayout
+                android:id="@+id/RankBox_pStats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/Rank_text_pStats"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="Rank:"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/rankDynamic_ps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/Rank_text_pStats"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_toEndOf="@+id/Rank_text_pStats"
+                    android:layout_toRightOf="@+id/Rank_text_pStats"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeTextType="uniform"
+                    android:text="My Rank"
+                    android:textColor="#000" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/ScoreBox_ps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/ScoreTitle_ps"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="Score"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/ScoreDynamic_ps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/ScoreTitle_ps"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/ScoreTitle_ps"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeTextType="uniform"
+                    android:text="My Score"
+                    android:textColor="#000" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeBox_ps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/timeTitle_ps"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:text="Time On Phone"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="viewEnd"
+                    android:gravity="end"
+                    />
+
+                <TextView
+                    android:id="@+id/timeDynamic_ps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignBaseline="@+id/timeTitle_ps"
+                    android:layout_toRightOf="@id/timeTitle_ps"
+                    android:text="Time On Phone"
+                    android:textColor="#000"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_for_owend_text"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/owned_title_ps"
+                android:textColor="@color/dtBronze"
+                android:text="OWNED"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fail_icon_layout_ps"
+            android:orientation="vertical"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/profile_border">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_for_owned_ps"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".333"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/beer_layout_ps"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/beer_image_ps"
+                        android:src="@drawable/beer"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".333"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/conver_layout_ps"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/conve_image_ps"
+                        android:src="@drawable/conversation"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".333"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/run_layout_ps"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/run_image_ps"
+                        android:src="@drawable/running"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/layout_lobby_bt"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="bottom"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/lobby_bt"
+                android:background="@drawable/rounded_button"
+                android:text="To Lobby"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="#fff"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>
