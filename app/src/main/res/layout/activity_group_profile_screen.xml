@@ -70,6 +70,77 @@
 
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/group_win_lose_container"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/winerloserv1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/group_winner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight=".50"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/group_winner_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/profile_placeholder"
+                    app:civ_border_color="#fff"
+                    app:civ_border_width="1dp" />
+
+                <TextView
+                    android:id="@+id/group_winner_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Winner"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/group_loser"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight=".50"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/group_loser_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/profile_placeholder"
+                    app:civ_border_color="#fff"
+                    app:civ_border_width="1dp" />
+
+                <TextView
+                    android:id="@+id/group_loser_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loser"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/groupMembersHeader"
             app:layout_constraintTop_toTopOf="@+id/group_container"
@@ -77,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="16dp"
             android:baselineAligned="true"
             android:text="@string/group_members_header"
             android:textColor="@color/dtGrey"

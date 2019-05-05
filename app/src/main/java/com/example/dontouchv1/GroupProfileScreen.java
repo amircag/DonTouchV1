@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.security.acl.Group;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class GroupProfileScreen extends AppCompatActivity {
 
     /* PHASE ONE: only includes:
@@ -26,9 +28,11 @@ public class GroupProfileScreen extends AppCompatActivity {
 
      */
 
-    ArrayList<String> mMembers = new ArrayList<>();
-    ArrayList<String> mImages = new ArrayList<>();
-    ArrayList<String> mFailCounter = new ArrayList<>();
+    private ArrayList<String> mMembers = new ArrayList<>();
+    private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<String> mFailCounter = new ArrayList<>();
+    private DummyServer server = new DummyServer();
+
 
 
     @Override
@@ -41,50 +45,22 @@ public class GroupProfileScreen extends AppCompatActivity {
         initGroupImage(groupImage);
         initButtons();
         initMembers();
+        initWinners();
 
 
     }
 
     private void initMembers(){
-        mMembers.add("amir");
-        mImages.add("group0");
+
+        mMembers = server.getGroupMembersNames();
+        mImages = server.getGroupMembersImages();
+
         mFailCounter.add("10");
+        mFailCounter.add("12");
+        mFailCounter.add("1");
+        mFailCounter.add("77");
+        mFailCounter.add("0");
 
-        mMembers.add("Liav");
-        mImages.add("group1");
-        mFailCounter.add("5");
-
-        mMembers.add("Roni");
-        mImages.add("group2");
-        mFailCounter.add("6");
-
-        mMembers.add("ashga78ahf9asdasdasty53645");
-        mImages.add("group3");
-        mFailCounter.add("3");
-
-        mMembers.add("Asaf");
-        mImages.add("group4");
-        mFailCounter.add("2");
-
-        mMembers.add("ddd");
-        mImages.add("group1");
-        mFailCounter.add("65");
-
-        mMembers.add("lo");
-        mImages.add("group4");
-        mFailCounter.add("14");
-
-        mMembers.add("asaf");
-        mImages.add("profile");
-        mFailCounter.add("19");
-
-        mMembers.add("do");
-        mImages.add("group5");
-        mFailCounter.add("6");
-
-        mMembers.add("beer");
-        mImages.add("beer");
-        mFailCounter.add("4");
 
         initRecyclerGrid();
     }
@@ -104,7 +80,7 @@ public class GroupProfileScreen extends AppCompatActivity {
     private void initGroupImage(ImageView groupImage){
 
         /* Temporary Data Members */
-        String imageName = "group4";
+        String imageName = "group0";
 
         /* Set group header */
         int imageId = this.getResources().getIdentifier
@@ -141,6 +117,21 @@ public class GroupProfileScreen extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+    }
+
+    private void initWinners(){
+        CircleImageView winnerImg = findViewById(R.id.group_winner_image);
+        CircleImageView loserImg = findViewById(R.id.group_loser_image);
+        TextView winnerTxt = findViewById(R.id.group_winner_name);
+        TextView loserTxt = findViewById(R.id.group_loser_name);
+
+        winnerImg.setImageResource(R.drawable.asaf);
+        winnerTxt.setText("Chef");
+
+        loserImg.setImageResource(R.drawable.isar);
+        loserTxt.setText("AbuShefa");
+
 
     }
 

@@ -37,7 +37,7 @@
                 android:id="@+id/player_name_for_stats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Player Name"
+                android:text="Fresh Prince"
                 android:textSize="16sp"
                 android:textColor="#fff"/>
         </LinearLayout>
@@ -86,11 +86,11 @@
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:textColor="#000"
-                    android:text="Rank:"
+                    android:text="RANK:"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_alignParentLeft="true"
-                    android:textAlignment="viewEnd"
+                    android:textAlignment="center"
                     android:gravity="end"
                     />
 
@@ -129,11 +129,11 @@
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:textColor="#000"
-                    android:text="Score"
+                    android:text="SCORE:"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:layout_alignParentLeft="true"
-                    android:textAlignment="viewEnd"
+                    android:textAlignment="center"
                     android:gravity="end"
                     />
 
@@ -167,11 +167,11 @@
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:textColor="#000"
-                    android:text="Time On Phone"
-                    android:textSize="18sp"
+                    android:text="TIME ON PHONE:"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_alignParentLeft="true"
-                    android:textAlignment="viewEnd"
+                    android:textAlignment="center"
                     android:gravity="end"
                     />
 

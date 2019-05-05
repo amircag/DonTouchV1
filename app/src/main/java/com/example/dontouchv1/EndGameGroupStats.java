@@ -82,40 +82,36 @@ public class EndGameGroupStats extends Fragment {
 
     private void initLeaderBoard(){
 
-        playersImage.add("group0");
-        playersName.add("Asaf");
+
+
+        playersImage.add("asaf");
+        playersName.add("Chef");
         playersRank.add("1.");
         playersBg.add("gold_lb");
 
 
-        playersImage.add("group1");
-        playersName.add("Amir");
+        playersImage.add("amir");
+        playersName.add("Fresh Prince");
         playersRank.add("2.");
         playersBg.add("silver_bl");
 
 
 
-        playersImage.add("group2");
-        playersName.add("Noa");
+        playersImage.add("noa");
+        playersName.add("NoaMen");
         playersRank.add("3.");
         playersBg.add("bronze_bl");
 
 
-        playersImage.add("group3");
-        playersName.add("Issar");
+        playersImage.add("isar");
+        playersName.add("AbuShefa");
         playersRank.add("4.");
         playersBg.add("profile_border");
 
 
-        playersImage.add("group4");
+        playersImage.add("liav");
         playersName.add("Liad");
         playersRank.add("5.");
-        playersBg.add("profile_border");
-
-
-        playersImage.add("group5");
-        playersName.add("AbuShefa");
-        playersRank.add("6.");
         playersBg.add("red_bl");
 
 
@@ -135,10 +131,10 @@ public class EndGameGroupStats extends Fragment {
     }
 
     private void setWinnerLoserDisplay(){
-        winnerImage.setImageResource(R.drawable.group5);
-        loserImage.setImageResource(R.drawable.group4);
-        winnerName.setText("Asaf");
-        loserName.setText("AbuShefe");
+        winnerImage.setImageResource(R.drawable.asaf);
+        loserImage.setImageResource(R.drawable.liav);
+        winnerName.setText("Chef");
+        loserName.setText("Liad");
     }
 
     private void setGroupStast(){
@@ -150,7 +146,7 @@ public class EndGameGroupStats extends Fragment {
     }
 
     private String getGroupName(){
-        return "Dream Team";
+        return "The New Dream Team";
     }
 
     private String getGroupScore(){
