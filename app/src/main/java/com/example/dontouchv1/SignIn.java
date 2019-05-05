@@ -54,8 +54,10 @@ public class SignIn extends AppCompatActivity {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                Intent intent = new Intent(this,HomeScreen.class);
+                Intent intent = new Intent(this,NewProfile.class);
                 intent.putExtra("USER_ID", user.getUid());
+                intent.putExtra("USER_PHOTO", user.getPhotoUrl());
+                intent.putExtra("NEW_USER", response.isNewUser());
                 startActivity(intent);
                 // ...
             } else {

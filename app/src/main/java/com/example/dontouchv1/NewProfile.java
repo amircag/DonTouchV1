@@ -21,6 +21,14 @@ public class NewProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent fromIntent = getIntent();
+        if (!fromIntent.getBooleanExtra("NEW_USER",false)){
+            Intent intentTo = new Intent(this, HomeScreen.class);
+            startActivity(intentTo);
+            return;
+        }
+
         setContentView(R.layout.activity_new_profile);
 
         initUserInfo();
