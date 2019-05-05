@@ -2,6 +2,7 @@ package com.example.dontouchv1;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +85,15 @@ public class EndGamePersonalStat extends Fragment {
                 Toast toast = Toast.makeText(getContext(),getOwnedTextRun(),Toast.LENGTH_SHORT);
                 toast.setGravity(0,0,0);
                 toast.show();
+            }
+        });
+
+        Button lobbyButton = view.findViewById(R.id.lobby_bt);
+        lobbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToLobby = new Intent(getContext(),HomeScreen.class);
+                startActivity(goToLobby);
             }
         });
 
