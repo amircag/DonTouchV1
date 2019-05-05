@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".EndGamePersonalStat">
+    tools:context=".EndGamePersonalStat"
+    android:theme="@style/AppTheme.NoActionBar">
 
     <LinearLayout
         android:id="@+id/layout_for_personal_stat_screen"

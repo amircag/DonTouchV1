@@ -85,7 +85,7 @@ public class EndGameGroupStats extends Fragment {
         playersImage.add("group0");
         playersName.add("Asaf");
         playersRank.add("1.");
-        playersBg.add("gold_bg");
+        playersBg.add("gold_lb");
 
 
         playersImage.add("group1");
