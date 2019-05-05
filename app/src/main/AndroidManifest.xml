@@ -16,6 +16,9 @@
         <activity android:name=".GroupProfileScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+            </intent-filter>
 
 
         </activity>

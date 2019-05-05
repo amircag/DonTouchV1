@@ -102,4 +102,9 @@
     <!-- FOR HOME SCREEN -->
     <string name="new_group_button"><b>Create New Group</b></string>
 
+    <!--GROUP SCREEN-->
+
+    <string name="group_members_header">Group Members:</string>
+    <string name="new_game_button">New Game</string>
+
 </resources>

@@ -46,10 +46,24 @@
                 android:autoSizeMinTextSize="5sp"
                 android:autoSizeMaxTextSize="12sp"
                 android:textSize="14sp"
-
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textStyle="bold"
                 />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/fail_counter"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="end"
+            android:textSize="10sp"
+            android:text="12"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/fails_counter"
+            />
 
 
     </android.support.v7.widget.CardView>

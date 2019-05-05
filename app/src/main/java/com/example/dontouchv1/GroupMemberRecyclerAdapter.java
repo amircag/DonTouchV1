@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -21,11 +23,13 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
     //vars
     private ArrayList<String> mMemberNames = new ArrayList<>();
     private ArrayList<String> mMemberImages = new ArrayList<>();
+    private ArrayList<String> mFailsCount = new ArrayList<>();
     private Context mContext;
 
-    public GroupMemberRecyclerAdapter(Context mContext, ArrayList<String> mMemberNames, ArrayList<String> mMemberImages) {
+    public GroupMemberRecyclerAdapter(Context mContext, ArrayList<String> mMemberNames, ArrayList<String> mMemberImages, ArrayList<String> mFailsCount) {
         this.mMemberNames = mMemberNames;
         this.mMemberImages = mMemberImages;
+        this.mFailsCount = mFailsCount;
         this.mContext = mContext;
     }
 
@@ -51,6 +55,7 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
 
         //holder.image.setImageResource(R.drawable.group0);
         holder.name.setText(mMemberNames.get(position));
+        holder.failCount.setText(mFailsCount.get(position));
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
                 public void onClick(View view){
@@ -70,11 +75,13 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
 
         CircleImageView image;
         TextView name;
+        TextView failCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.memberProfImage);
             name =  itemView.findViewById(R.id.memberName);
+            failCount = itemView.findViewById(R.id.fail_counter);
         }
     }
 
