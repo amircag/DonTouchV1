@@ -28,9 +28,9 @@ public class GroupProfileScreen extends AppCompatActivity {
 
      */
 
-    private ArrayList<String> mMembers = new ArrayList<>();
-    private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<String> mFailCounter = new ArrayList<>();
+    private ArrayList<String> mMembers = new ArrayList<>(15);
+    private ArrayList<String> mImages = new ArrayList<>(15);
+    private ArrayList<String> mFailCounter = new ArrayList<>(15);
     private DummyServer server = new DummyServer();
 
 

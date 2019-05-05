@@ -19,9 +19,9 @@ public class HomeScreen extends AppCompatActivity {
 
     private static final String TAG = "HomeScreen";
 
-    private ArrayList<String> mImageNames = new ArrayList<>();
-    private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<String> mPeople = new ArrayList<>();
+    private ArrayList<String> mImageNames = new ArrayList<>(15);
+    private ArrayList<String> mImages = new ArrayList<>(15);
+    private ArrayList<String> mPeople = new ArrayList<>(15);
     private DummyServer server = new DummyServer();
 
     protected void onCreate(Bundle savedInstanceState) {

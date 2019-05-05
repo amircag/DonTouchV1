@@ -22,11 +22,11 @@ public class PersonalProfile extends AppCompatActivity {
 
     // vars
     private DummyServer server = new DummyServer();
-    private ArrayList<String> mGroupNames = new ArrayList<>();
-    private ArrayList<String> mGroupImages = new ArrayList<>();
-    private ArrayList<String> mGroupMembers = new ArrayList<>();
-    private ArrayList<String> mFailMissions = new ArrayList<>();
-    private ArrayList<String> mFailImages = new ArrayList<>();
+    private ArrayList<String> mGroupNames = new ArrayList<>(15);
+    private ArrayList<String> mGroupImages = new ArrayList<>(15);
+    private ArrayList<String> mGroupMembers = new ArrayList<>(15);
+    private ArrayList<String> mFailMissions = new ArrayList<>(15);
+    private ArrayList<String> mFailImages = new ArrayList<>(15);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

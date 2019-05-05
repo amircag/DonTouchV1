@@ -5,17 +5,17 @@ import java.util.ArrayList;
 public class DummyServer {
 
     /* GROUPS: Names, Images, Members */
-    public ArrayList<String> groupNames = new ArrayList<>();
-    public ArrayList<String> groupImages = new ArrayList<>();
-    public ArrayList<String> groupMembersNames = new ArrayList<>();
-    public ArrayList<String> groupMembersImages = new ArrayList<>();
-    public ArrayList<String> people = new ArrayList<>();
+    public ArrayList<String> groupNames = new ArrayList<>(15);
+    public ArrayList<String> groupImages = new ArrayList<>(15);
+    public ArrayList<String> groupMembersNames = new ArrayList<>(15);
+    public ArrayList<String> groupMembersImages = new ArrayList<>(15);
+    public ArrayList<String> people = new ArrayList<>(15);
 
     /* GAME: Rank, border, name, image */
 
     /*FAILS: Types (Images) + Mission*/
-    public ArrayList<String> failMissions = new ArrayList<>();
-    public ArrayList<String> failImages = new ArrayList<>();
+    public ArrayList<String> failMissions = new ArrayList<>(15);
+    public ArrayList<String> failImages = new ArrayList<>(15);
 
     public DummyServer(){
         /* Demo Group */
