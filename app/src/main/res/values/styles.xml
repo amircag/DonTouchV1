@@ -31,10 +31,17 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
-    <style name="SignInStyle">
-        <item name = "android:windowActionBar">false</item>
-        <item name = "android:windowNoTitle">true</item>
-        <item name = "android:background">@color/dtBlack</item>
+    <style name="SignInStyle" parent="FirebaseUI">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/dtBlack</item>
+        <item name="android:color">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:keyTextColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+
     </style>
     <style name="ToggleButtonChill" parent="Base.Widget.AppCompat.Button">
         <item name="colorButtonNormal">@color/colorPrimary</item>
