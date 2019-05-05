@@ -116,6 +116,7 @@
 
             <Button
                 android:layout_alignParentBottom="true"
+                android:id="@+id/newGameButton"
                 android:paddingHorizontal="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

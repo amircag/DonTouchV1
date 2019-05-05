@@ -58,7 +58,7 @@ public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRe
 
                 //CHANGE LATER TO ACTUAL ACTION!
                 // Toast.makeText(mContext, "msg", Toast.LENGTH_SHORT).show();
-                Intent newGame = new Intent(mContext, NewSession.class);
+                Intent newGame = new Intent(mContext, GroupProfileScreen.class);
                 mContext.startActivity(newGame);
 
             }

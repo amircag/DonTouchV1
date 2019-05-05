@@ -207,9 +207,7 @@ public class PersonalProfile extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent homeScreen = new Intent(PersonalProfile.this, HomeScreen.class);
-                startActivity(homeScreen);
-
+                onBackPressed();
             }
         });
     }

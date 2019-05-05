@@ -1,6 +1,7 @@
 package com.example.dontouchv1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,8 +57,10 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
                 public void onClick(View view){
-                Log.d(TAG,"OnClick: Clicked on an image: "+mGroupNames.get(position));
-                Toast.makeText(mContext, mGroupMembers.get(position), Toast.LENGTH_SHORT).show();
+                // Log.d(TAG,"OnClick: Clicked on an image: "+mGroupNames.get(position));
+                // Toast.makeText(mContext, mGroupMembers.get(position), Toast.LENGTH_SHORT).show();
+                Intent groupScreen = new Intent(mContext, GroupProfileScreen.class);
+                mContext.startActivity(groupScreen);
             }
         });
 
