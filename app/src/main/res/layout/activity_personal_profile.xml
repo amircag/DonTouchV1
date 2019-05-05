@@ -80,7 +80,7 @@
                     android:layout_toRightOf="@id/nicknameTitle"
                     android:text="USERNAME"
                     android:textColor="#000"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:layout_alignParentRight="true"
                     />
 
@@ -118,7 +118,7 @@
                     android:layout_toRightOf="@id/rankTitle"
                     android:text="USER RANK"
                     android:textColor="#000"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:layout_alignParentRight="true"
                     />
 
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:text="@string/time_on_phone_title"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_alignParentLeft="true"
                     android:textAlignment="center"
@@ -155,7 +155,7 @@
                     android:layout_toRightOf="@id/timeTitle"
                     android:text="USER TIME ON PHONE"
                     android:textColor="#000"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:layout_alignParentRight="true"
                     />
 
@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:text="@string/games_played_title"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_alignParentLeft="true"
                     android:textAlignment="center"
@@ -192,7 +192,7 @@
                     android:layout_toRightOf="@id/gamesTitle"
                     android:text="# of GAMES PLAYED"
                     android:textColor="#000"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:layout_alignParentRight="true"
                     />
 
@@ -229,7 +229,7 @@
                     android:layout_toRightOf="@id/failsTitle"
                     android:text="# OF FAILS EARNED"
                     android:textColor="#000"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:layout_alignParentRight="true"
                     />
 
