@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/dtBlack"
     tools:context=".NewSession">
 
     <!--Toolbar
@@ -40,7 +40,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@color/dtBlack"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,6 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20sp"
                 app:hintEnabled="true"
+                android:background="@drawable/profile_border"
+                android:padding="15sp"
                 >
 
 
