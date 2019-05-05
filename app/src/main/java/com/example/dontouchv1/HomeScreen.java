@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -69,17 +70,42 @@ public class HomeScreen extends AppCompatActivity {
         /* Define data members */
         String tempNickname = "Fresh Prince of TLV";
         String tempRating = "34%";
+        String timeOnPhoneText = "58 min";
 
 
         /* Define Views */
         TextView userNickname = findViewById(R.id.name);
         ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);
         TextView userRating = findViewById(R.id.rate);
+        TextView timeOnPhone = findViewById(R.id.timeonphone);
+        ImageView TimeOnPhoneIm = findViewById(R.id.timeonphoneimg);
+        SearchView groupSearch = findViewById(R.id.searchView);
+        groupSearch.onActionViewExpanded();
+        groupSearch.setIconifiedByDefault(false);
+        groupSearch.setQueryHint("Search Group...");
+        if(!groupSearch.isFocused()){
+            groupSearch.clearFocus();
+        }
+        groupSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
 
         /* Grab user info from server */
         userNickname.setText(tempNickname);
         userRating.setText(tempRating);
         userProfilePictureHome.setImageResource(R.drawable.profile);
+        timeOnPhone.setText(timeOnPhoneText);
+        //TimeOnPhoneIm.setImageResource(R.drawable.ontimesupport2);
+
 
     }
 
