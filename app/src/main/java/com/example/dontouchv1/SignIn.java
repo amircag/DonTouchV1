@@ -29,7 +29,7 @@ public class SignIn extends AppCompatActivity {
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
         Random rand = new Random();
-        RC_SIGN_IN = rand.nextInt(100000);
+        RC_SIGN_IN = Math.abs(rand.nextInt(100000));
 
         // Create and launch sign-in intent
         startActivityForResult(
