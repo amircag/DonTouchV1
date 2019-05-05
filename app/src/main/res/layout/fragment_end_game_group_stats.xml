@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EndGameGroupStats">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:id="@+id/layout_for_group_stat_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dtBlack"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/profileImageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/headerStrip">
+
+
+            <ImageView
+                android:id="@+id/GroupImageForStats"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circle"
+                android:src="@drawable/profile_placeholder"
+                />
+
+            <TextView
+                android:id="@+id/group_name_for_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Group Name"
+                android:layout_alignBottom="@id/GroupImageForStats"
+                android:layout_alignTop="@id/GroupImageForStats"
+                android:layout_alignRight="@id/GroupImageForStats"
+                android:layout_alignLeft="@id/GroupImageForStats"
+                android:gravity="center"
+                android:paddingTop="65dp"
+                android:textColor="#fff"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/winner_loser_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/winerloserv1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/WinnerLayoutForStats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight=".50"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/headerStrip">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/WinnerImageForStats"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/profile_placeholder"
+                    app:civ_border_color="#fff"
+                    app:civ_border_width="1dp" />
+
+                <TextView
+                    android:id="@+id/winner_name_for_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="winner Name"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LoserLayoutForStats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight=".50"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/headerStrip">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/loserImageForStats"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/profile_placeholder"
+                    app:civ_border_color="#fff"
+                    app:civ_border_width="1dp" />
+
+                <TextView
+                    android:id="@+id/Loser_name_for_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="winner Name"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/group_stats_end_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/profile_border"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/GameNameBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/Game_name_text_gs"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="end"
+                    android:text="Meet:"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/GameNameDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/Game_name_text_gs"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_toEndOf="@+id/Game_name_text_gs"
+                    android:layout_toRightOf="@+id/Game_name_text_gs"
+                    android:textSize="18dp"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:autoSizeMinTextSize="15sp"
+                    android:autoSizeTextType="uniform"
+                    android:text="Meet up name"
+                    android:textColor="#000" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ScoreBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/Score_text_gs"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="end"
+                    android:text="Score:"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ScoreDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/Score_text_gs"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_toEndOf="@+id/Score_text_gs"
+                    android:layout_toRightOf="@+id/Score_text_gs"
+                    android:textSize="18sp"
+
+                    android:text="Group Score"
+                    android:textColor="#000" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/failBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/FailsTitleEndScreen"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="end"
+                    android:text="Owned"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/failsDynamicEndScreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/FailsTitleEndScreen"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/FailsTitleEndScreen"
+                    android:textSize="18sp"
+
+
+                    android:text="Number Of Fails"
+                    android:textColor="#000" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/timeBoxEndScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/timeTitleEndScreen"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="end"
+                    android:text="Duration"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/timeDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/timeTitleEndScreen"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/timeTitleEndScreen"
+                    android:textSize="18sp"
+
+                    android:text="Total Game Time"
+                    android:textColor="#000" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/leaderBoardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/profile_border"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_leaderBoard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

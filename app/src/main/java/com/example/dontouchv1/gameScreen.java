@@ -1,5 +1,6 @@
 package com.example.dontouchv1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +53,8 @@ public class gameScreen extends AppCompatActivity {
         endGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent goToStats = new Intent(gameScreen.this,EndGameStats.class);
+                startActivity(goToStats);
             }
         });
 

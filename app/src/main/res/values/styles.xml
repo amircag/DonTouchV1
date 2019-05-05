@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"> -->
+        <!-- <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"> -->
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -47,10 +47,12 @@
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
     <style name="ToggleButtonSurprise" parent="Base.Widget.AppCompat.Button">
         <item name="colorButtonNormal">@color/colorAccent</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
     <style name="ToggleButtonKill" parent="Base.Widget.AppCompat.Button">
         <item name="colorButtonNormal">@android:color/holo_red_light</item>
         <item name="android:textColor">@android:color/white</item>
