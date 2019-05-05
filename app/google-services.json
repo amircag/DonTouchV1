@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1099364909912",
+    "firebase_url": "https://dontouchv1.firebaseio.com",
+    "project_id": "dontouchv1",
+    "storage_bucket": "dontouchv1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099364909912:android:62326a3d4d7babbb",
+        "android_client_info": {
+          "package_name": "com.example.dontouchv1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1099364909912-532ophaljd0pm50h4l4ou9pjgfadeaos.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHZ2iJtJKO1F-mkkA3cne-QDcn6rKSpT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1099364909912-532ophaljd0pm50h4l4ou9pjgfadeaos.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

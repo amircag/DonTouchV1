@@ -31,6 +31,11 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="SignInStyle">
+        <item name = "android:windowActionBar">false</item>
+        <item name = "android:windowNoTitle">true</item>
+        <item name = "android:background">@color/dtBlack</item>
+    </style>
     <style name="ToggleButtonChill" parent="Base.Widget.AppCompat.Button">
         <item name="colorButtonNormal">@color/colorPrimary</item>
         <item name="android:textColor">@android:color/white</item>
