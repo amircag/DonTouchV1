@@ -41,13 +41,13 @@
             android:name=".NewSession"
             android:label="Create New Session"
             android:parentActivityName=".MainScreen"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".gameScreen"
             android:label="DonTouch Game"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <activity
             android:name=".MainScreen"
