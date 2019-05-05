@@ -6,7 +6,9 @@
 
 
     <solid android:color="@color/dtSilver" />
+    <stroke android:width="3dp" android:color="@color/dtSilverStrok">
 
+    </stroke>
     <corners android:radius="15dp"/>
 
 

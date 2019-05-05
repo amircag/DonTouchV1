@@ -45,7 +45,9 @@
             android:name=".gameScreen"
             android:label="DonTouch Game"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".MainScreen"
             android:label="@string/title_activity_main_screen"

@@ -12,10 +12,12 @@
     <color name="dtGrey">#F0F1F2</color>
     <color name="dtGold">#FFE603</color>
     <color name="dtSilver">#C0C0C0</color>
-    <color name="dtBronze">#CD7F32</color>
+    <color name="dtBronze">#D17E29</color>
     <color name="dtRed">#F00</color>
 
-
+    <color name="dtGoldStrok">#FFB700</color>
+    <color name="dtSilverStrok">#868D8D</color>
+    <color name="dtBronzeStrok">#9C6312</color>
 
     <color name="green">#008000</color>
     <color name="parkmateGreen">#57af65</color>
