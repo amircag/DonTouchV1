@@ -21,10 +21,6 @@
                 <action android:name="android.intent.action.VIEW"></action>
             </intent-filter>
       </activity>
-        <activity android:name=".HomeScreen"
-            android:windowSoftInputMode="adjustPan"
-                  android:theme="@style/AppTheme.NoActionBar">
-        </activity>
         <activity
             android:name=".SignIn">
             <intent-filter>
@@ -47,7 +43,8 @@
         <activity
             android:name=".HomeScreen"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
