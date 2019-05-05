@@ -101,6 +101,10 @@
     <!-- FOR HOME SCREEN -->
     <string name="new_group_button"><b>Create New Group</b></string>
 
+    <!--GROUP SCREEN-->
+
+    <string name="group_members_header">Group Members:</string>
+    <string name="new_game_button">New Game</string>
     <string name="title_activity_end_game_stats">EndGameStats</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>

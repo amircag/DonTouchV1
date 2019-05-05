@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/headerStrip"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="50dp"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,21 +20,19 @@
 
         <Button
             android:id="@+id/backButton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
             android:background="@drawable/ic_arrow_back_black_24dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/profile_main_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="55dp"
         app:layout_constraintTop_toBottomOf="@+id/headerStrip"
         android:orientation="vertical">
 
@@ -43,7 +41,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:orientation="vertical"
             android:background="@drawable/profile_border"
             >
@@ -250,79 +248,87 @@
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/groups_section"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/profile_border"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="25dp"
             app:layout_constraintTop_toBottomOf="@+id/info_section">
 
-            <TextView
-                android:id="@+id/groupsHeader"
+            <LinearLayout
+                android:id="@+id/groups_section"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:baselineAligned="true"
-                android:text="@string/group_title"
-                android:textColor="#000"
-                android:textSize="20sp" />
+                android:layout_marginRight="8dp"
+                android:background="@drawable/profile_border"
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true">
 
-            <!-- A RecyclerView with some commonly used attributes -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/groupRecyclerView"
+                <TextView
+                    android:id="@+id/groupsHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:baselineAligned="true"
+                    android:text="@string/group_title"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
+
+                <!-- A RecyclerView with some commonly used attributes -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/groupRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fails_section"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal"
-                android:scrollbars="horizontal"
-                android:scrollbarAlwaysDrawHorizontalTrack="true"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fails_section"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/profile_border"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/info_section">
-
-            <TextView
-                android:id="@+id/failsHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:baselineAligned="true"
-                android:text="@string/fails_title"
-                android:textColor="#000"
-                android:textSize="20sp" />
+                android:layout_marginRight="8dp"
+                android:background="@drawable/profile_border"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/groups_section">
 
-            <!-- A RecyclerView with some commonly used attributes -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/failsRecyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal"
-                android:scrollbars="horizontal" />
+                <TextView
+                    android:id="@+id/failsHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:baselineAligned="true"
+                    android:text="@string/fails_title"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
 
-        </LinearLayout>
+                <!-- A RecyclerView with some commonly used attributes -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/failsRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -331,7 +337,7 @@
         android:id="@+id/profileImageContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroupProfileScreen"
+    android:background="@color/dtBlack">
+
+    <LinearLayout
+        android:id="@+id/group_whole_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/groupNavBar"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/groupBackButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/ic_arrow_back_black_24dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/group_screen_header_box"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/group_header_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:background="@drawable/group3"/>
+
+            <TextView
+                android:id="@+id/group_header_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/group_header_image"
+                android:layout_alignTop="@+id/group_header_image"
+                android:layout_alignLeft="@+id/group_header_image"
+                android:layout_alignRight="@+id/group_header_image"
+                android:text="Group Name"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:shadowColor="@color/colorPrimary"
+                android:shadowDx="-4"
+                android:shadowDy="4"
+                android:shadowRadius="50"
+                android:textStyle="bold"
+                android:textSize="24sp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/groupMembersHeader"
+            app:layout_constraintTop_toTopOf="@+id/group_container"
+            app:layout_constraintBottom_toTopOf="@+id/groupMembersREC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="85dp"
+            android:baselineAligned="true"
+            android:text="@string/group_members_header"
+            android:textColor="@color/dtGrey"
+            android:layout_gravity="start"
+            android:textSize="18sp"
+            android:textAllCaps="true"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/group_container"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/profile_border"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/groupMembersREC"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toStartOf="@+id/group_container"
+                app:layout_constraintEnd_toEndOf="@id/group_container"></android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center|bottom">
+
+            <Button
+                android:layout_alignParentBottom="true"
+                android:paddingHorizontal="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_button"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="30dp"
+                android:text="@string/new_game_button"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/ic_gamepad_black_24dp"
+                android:drawableTint="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
