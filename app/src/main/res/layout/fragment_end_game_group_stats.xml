@@ -149,8 +149,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:gravity="end"
-                    android:text="Meet:"
-                    android:textAlignment="viewEnd"
+                    android:text="GAME:"
+                    android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -191,8 +191,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:gravity="end"
-                    android:text="Score:"
-                    android:textAlignment="viewEnd"
+                    android:text="SCORE:"
+                    android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -231,8 +231,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:gravity="end"
-                    android:text="Owned"
-                    android:textAlignment="viewEnd"
+                    android:text="OWNED:"
+                    android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -267,8 +267,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:gravity="end"
-                    android:text="Duration"
-                    android:textAlignment="viewEnd"
+                    android:text="DURATION:"
+                    android:textAlignment="center"
                     android:textColor="#000"
                     android:textSize="18sp"
                     android:textStyle="bold" />

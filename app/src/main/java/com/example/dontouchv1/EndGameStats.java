@@ -142,4 +142,8 @@ public class EndGameStats extends AppCompatActivity {
             return 2;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

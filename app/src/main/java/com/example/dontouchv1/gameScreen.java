@@ -28,10 +28,10 @@ public class gameScreen extends AppCompatActivity {
     private Button endGameButton;
     private Handler fakeServer = new Handler();
     private int x = 0;
-    final String[] lofMsg = {"Run 3 times", "Buy bear to every one",
-            "talk with the next table", "Jump 4 times on one leg","buy s chaser",
-            "order electric powder"};
-    final String [] playersNames = {"Amir","Asaf","Noa","Issar"};
+    final String[] lofMsg = {"Jump 3 times", "Buy everyone shots",
+            "Talk with the next table", "Jump 99 times on one leg","Call your mom",
+            "Order electric powder"};
+    final String [] playersNames = {"Fresh","Chef","NoaMe","AbuSh","Liad"};
 
 
 
@@ -193,11 +193,11 @@ public class gameScreen extends AppCompatActivity {
     }
 
      private int getTotalPlayers(){
-        return 10;
+        return 5;
      }
 
      private int getCurrentPlayers(){
-        return 3;
+        return 5;
      }
 
     @Override

@@ -19,9 +19,10 @@ public class HomeScreen extends AppCompatActivity {
 
     private static final String TAG = "HomeScreen";
 
-    private ArrayList<String> mImageNames = new ArrayList<>();
-    private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<String> mPeople = new ArrayList<>();
+    private ArrayList<String> mImageNames = new ArrayList<>(15);
+    private ArrayList<String> mImages = new ArrayList<>(15);
+    private ArrayList<String> mPeople = new ArrayList<>(15);
+    private DummyServer server = new DummyServer();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,12 @@ public class HomeScreen extends AppCompatActivity {
 
 
     private void initGroupImages(){
-        mImages.add("group0");
+
+        mImages = server.getGroupImages();
+        mImageNames = server.getGroupNames();
+        mPeople = server.getPeople();
+
+        /*mImages.add("group0");
         mImageNames.add("I&S Empire");
         mPeople.add("Chef, Michal, Maayan, Shpig, Shira, Nethaniel, Nick & You");
 
@@ -60,7 +66,7 @@ public class HomeScreen extends AppCompatActivity {
 
         mImages.add("group5");
         mImageNames.add("LGBTQ+ community");
-        mPeople.add("Liad & Amir 4 ever");
+        mPeople.add("Liad & Amir 4 ever");*/
 
         initGroupRecyclerView();
     }
@@ -68,7 +74,7 @@ public class HomeScreen extends AppCompatActivity {
     private void initUserInfo(){
 
         /* Define data members */
-        String tempNickname = "Fresh Prince of TLV";
+        String tempNickname = "Fresh Prince";
         String tempRating = "34%";
         String timeOnPhoneText = "58 min";
 

@@ -21,11 +21,12 @@ public class PersonalProfile extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     // vars
-    private ArrayList<String> mGroupNames = new ArrayList<>();
-    private ArrayList<String> mGroupImages = new ArrayList<>();
-    private ArrayList<String> mGroupMembers = new ArrayList<>();
-    private ArrayList<String> mFailMissions = new ArrayList<>();
-    private ArrayList<String> mFailImages = new ArrayList<>();
+    private DummyServer server = new DummyServer();
+    private ArrayList<String> mGroupNames = new ArrayList<>(15);
+    private ArrayList<String> mGroupImages = new ArrayList<>(15);
+    private ArrayList<String> mGroupMembers = new ArrayList<>(15);
+    private ArrayList<String> mFailMissions = new ArrayList<>(15);
+    private ArrayList<String> mFailImages = new ArrayList<>(15);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,29 +54,10 @@ public class PersonalProfile extends AppCompatActivity {
      * @// TODO: 30-Apr-19 grab actual data from server
      */
     private void initGroupImages(){
-        mGroupImages.add("group0");
-        mGroupNames.add("I&S Empire");
-        mGroupMembers.add("Chef, Michal, Maayan, Shpig, Shira, Nethaniel, Nick & You");
 
-        mGroupImages.add("group1");
-        mGroupNames.add("The LOVVVERS");
-        mGroupMembers.add("Oren Hazan, Donald Trump & You");
-
-        mGroupImages.add("group2");
-        mGroupNames.add("I<3BB");
-        mGroupMembers.add("1,140,369 Members & You");
-
-        mGroupImages.add("group3");
-        mGroupNames.add("PPE Class of 19'");
-        mGroupMembers.add("Gantzoosh, Ashkenazi, Lapid, Boogie & You");
-
-        mGroupImages.add("group4");
-        mGroupNames.add("New Dream Team");
-        mGroupMembers.add("Asaf, Amir, Issar, Noa & You");
-
-        mGroupImages.add("group5");
-        mGroupNames.add("LGBTQ+ community");
-        mGroupMembers.add("Liad & Amir 4 ever");
+        mGroupImages = server.getGroupImages();
+        mGroupNames = server.getGroupNames();
+        mGroupMembers = server.getGroupMembersNames();
 
         initGroupRecyclerView();
     }
@@ -108,33 +90,9 @@ public class PersonalProfile extends AppCompatActivity {
      * @// TODO: 30-Apr-19 grab actual data from server
      */
     private void initFails(){
-        mFailMissions.add("Buy Asaf a shot");
-        mFailImages.add("beer");
 
-        mFailMissions.add("Jump 20 times in front of the bartender");
-        mFailImages.add("running");
-
-        mFailMissions.add("Tell a story from your childhood");
-        mFailImages.add("conversation");
-
-        mFailMissions.add("Buy Liav a Breezer");
-        mFailImages.add("beer");
-
-        mFailMissions.add("Buy Nethaniel a Pizza");
-        mFailImages.add("beer");
-
-        mFailMissions.add("Talk about politics because everyone loves it");
-        mFailImages.add("conversation");
-
-        mFailMissions.add("Discuss your opinions of Twitter Bots");
-        mFailImages.add("conversation");
-
-        mFailMissions.add("Dance on the bar");
-        mFailImages.add("running");
-
-        mFailMissions.add("Drink 8 shots of Tequila");
-        mFailImages.add("beer");
-
+        mFailImages = server.getFailImages();
+        mFailMissions = server.getFailMissions();
 
         initFailRecyclerView();
     }

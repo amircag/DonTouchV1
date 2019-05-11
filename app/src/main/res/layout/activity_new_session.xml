@@ -74,7 +74,7 @@
                     android:layout_width="@android:dimen/thumbnail_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:hint="Session Name"
+                    android:hint="Game Name"
                     android:textSize="15sp"
                     android:inputType="text"
                     android:text="Fish &amp; Chips"
@@ -96,13 +96,12 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="400dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingVertical="15sp"
-                android:paddingHorizontal="16sp"
+                android:padding="16dp"
                 >
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -111,7 +110,7 @@
                     android:id="@+id/chill"
                     android:layout_width="105sp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10sp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/profile_border"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -152,7 +151,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:layout_marginHorizontal="10sp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:background="@drawable/profile_border"
                         android:clickable="true"
                         android:onClick="onTypeSelected">
@@ -191,7 +191,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:layout_marginHorizontal="10sp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/profile_border"
                         android:clickable="true"
                         android:onClick="onTypeSelected">
