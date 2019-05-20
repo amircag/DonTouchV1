@@ -23,24 +23,36 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_sign_in);
 
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            Intent intent = new Intent(this,HomeScreen.class);
+            intent.putExtra("USER_ID", user.getUid());
+            intent.putExtra("USER_PHOTO", user.getPhotoUrl());
+            intent.putExtra("NEW_USER", false);
+            startActivity(intent);
 
-        Random rand = new Random();
-        RC_SIGN_IN = Math.abs(rand.nextInt(100000));
+        } else {
+            // No user is signed in
 
-        // Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .setLogo(R.drawable.phowned_with_text)
-                        .setTheme(R.style.SignInStyle)
-                        .build(),
-                RC_SIGN_IN);
+            // Choose authentication providers
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.PhoneBuilder().build());
 
+            Random rand = new Random();
+            RC_SIGN_IN = Math.abs(rand.nextInt(100000));
+
+            // Create and launch sign-in intent
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .setLogo(R.drawable.phowned_with_text)
+                            .setAlwaysShowSignInMethodScreen(true)
+                            .setTheme(R.style.SignInStyle)
+                            .build(),
+                    RC_SIGN_IN);
+        }
     }
 
     @Override
@@ -57,7 +69,7 @@ public class SignIn extends AppCompatActivity {
                 Intent intent = new Intent(this,NewProfile.class);
                 intent.putExtra("USER_ID", user.getUid());
                 intent.putExtra("USER_PHOTO", user.getPhotoUrl());
-                intent.putExtra("NEW_USER", response.isNewUser());
+                intent.putExtra("NEW_USER", true);
                 startActivity(intent);
                 // ...
             } else {

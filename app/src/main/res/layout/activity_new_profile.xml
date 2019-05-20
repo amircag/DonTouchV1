@@ -28,7 +28,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/newProfilePic"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="16dp"
@@ -48,11 +48,13 @@
                 android:padding="16sp">
 
                 <EditText
+                    android:id="@+id/nickName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nick Name"
                     android:maxLength="25"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>

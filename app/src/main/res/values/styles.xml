@@ -39,8 +39,10 @@
         <item name="android:windowBackground">@color/dtBlack</item>
         <item name="android:color">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
-        <item name="android:keyTextColor">@android:color/white</item>
         <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:keyTextColor">@android:color/white</item>
+        <item name="android:editTextColor">@android:color/white</item>
+
 
     </style>
     <style name="ToggleButtonChill" parent="Base.Widget.AppCompat.Button">
