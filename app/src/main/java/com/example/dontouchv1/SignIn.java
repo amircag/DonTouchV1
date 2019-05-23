@@ -32,6 +32,7 @@ public class SignIn extends AppCompatActivity {
             intent.putExtra("USER_PHOTO", user.getPhotoUrl());
             intent.putExtra("NEW_USER", false);
             startActivity(intent);
+            finish();
 
         } else {
             // No user is signed in
