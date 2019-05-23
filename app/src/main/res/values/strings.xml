@@ -123,4 +123,5 @@
     <string name="thrill_desc">if you don\'t like surprises, don\'t pick this mode.</string>
     <string name="kill_desc">using the phone is forbidden during the meeting.</string>
     <string name="new_session_button">START GAME</string>
+    <string name="no_members">NO MEMBERS ADDED YET</string>
 </resources>
