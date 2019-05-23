@@ -48,15 +48,21 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     }
 
     public void insertNewMember(int position){
-        MembersToAdd.add(arrayList_Android_Contacts.get(position));
-        Android_Contact curContact = MembersToAdd.get(MembersToAdd.size()-1);
-        newMemberPic.add(getMemberPic(curContact.android_contact_Name));
-        newMemberName.add(curContact.android_contact_Name);
-        newMemberId.add(curContact.android_contact_TelefonNr);
-        adapter.notifyItemInserted(MembersToAdd.size()-1);
+        Android_Contact curContact = arrayList_Android_Contacts.get(position);
+        if (curContact.added) {
+            MembersToAdd.add(arrayList_Android_Contacts.get(position));
+            adapter.notifyItemInserted(MembersToAdd.size()-1);
+        }else {
+            MembersToAdd.remove(curContact);
+            adapter.notifyDataSetChanged();
+        }
+
 
         if (hint_for_recycler.getVisibility() == View.VISIBLE) {
             hint_for_recycler.setVisibility(View.INVISIBLE);
+        }
+        if (MembersToAdd.size() == 0){
+            hint_for_recycler.setVisibility(View.VISIBLE);
         }
 
 
@@ -86,22 +92,6 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linaiarManagernewGroup = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linaiarManagernewGroup);
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-            }
-        });
 
     }
 
