@@ -18,14 +18,16 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
     private ArrayList<String> memberPic = new ArrayList<>();
     private ArrayList<String> membersName = new ArrayList<>();
     public ArrayList<String> memcersId = new ArrayList<>();
+    private ArrayList<Android_Contact> contactsToAdd = new ArrayList<>();
 
     private Context mContaxt;
 
-    public NewGroupMembersAdapter(ArrayList<String> memberImage, ArrayList<String> name,ArrayList<String> id,Context Contaxt) {
-        memberPic = memberImage;
-        membersName = name;
+    public NewGroupMembersAdapter(ArrayList<Android_Contact> contacts,Context Contaxt) {
+//        memberPic = memberImage;
+//        membersName = name;
         mContaxt = Contaxt;
-        memcersId = id;
+        this.contactsToAdd = contacts;
+//        memcersId = id;
     }
 
     @NonNull
@@ -37,17 +39,18 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
     }
 
     public void removeFromView(int position){
-        memberPic.remove(position);
-        membersName.remove(position);
-        memcersId.remove(position);
+//        memberPic.remove(position);
+//        membersName.remove(position);
+//        memcersId.remove(position);
+        contactsToAdd.remove(position);
         notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final int position = i;
-        viewHolder.newMemberName.setText(membersName.get(i));
-        int imageId = mContaxt.getResources().getIdentifier("drawable/"+ memberPic.get(i),null,mContaxt.getPackageName());
+        viewHolder.newMemberName.setText(contactsToAdd.get(i).android_contact_Name);
+        int imageId = mContaxt.getResources().getIdentifier("drawable/"+ contactsToAdd.get(i).android_contact_Name,null,mContaxt.getPackageName());
         viewHolder.newMemberPic.setImageResource(imageId);
         viewHolder.newMemberLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +63,7 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
 
     @Override
     public int getItemCount() {
-        return membersName.size();
+        return contactsToAdd.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -82,7 +82,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     }
     private void initMembersView(){
         RecyclerView recyclerView = findViewById(R.id.newGroupMembersRecyclerView);
-        adapter = new NewGroupMembersAdapter(newMemberPic,newMemberName,newMemberId,this);
+        adapter = new NewGroupMembersAdapter(MembersToAdd,this);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linaiarManagernewGroup = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linaiarManagernewGroup);
