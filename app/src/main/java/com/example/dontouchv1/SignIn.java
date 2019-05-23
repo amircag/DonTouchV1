@@ -26,7 +26,8 @@ public class SignIn extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // User is signed in
-            Intent intent = new Intent(this,HomeScreen.class);
+            /*Intent intent = new Intent(this,HomeScreen.class);*/
+            Intent intent = new Intent(this,SplashScreen.class);
             intent.putExtra("USER_ID", user.getUid());
             intent.putExtra("USER_PHOTO", user.getPhotoUrl());
             intent.putExtra("NEW_USER", false);

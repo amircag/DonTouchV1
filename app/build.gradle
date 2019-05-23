@@ -42,7 +42,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:19.0.0'
 
 
-
     // circle imageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
