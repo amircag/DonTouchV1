@@ -1,6 +1,8 @@
 package com.example.dontouchv1;
 
-public class Android_Contact {
+import java.io.Serializable;
+
+public class Android_Contact implements Serializable {
     //----------------< fritzbox_Contacts() >----------------
     public String android_contact_Name = "";
     public String android_contact_TelefonNr = "";

@@ -2,10 +2,12 @@ package com.example.dontouchv1;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import java.util.ArrayList;
@@ -31,11 +34,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddMembersCreateGroup extends AppCompatActivity {
 
-    private ArrayList<String> newMemberPic = new ArrayList<>();
+/*    private ArrayList<String> newMemberPic = new ArrayList<>();
     private ArrayList<String> newMemberName = new ArrayList<>();
-    private ArrayList<String> newMemberId = new ArrayList<>();
+    private ArrayList<String> newMemberId = new ArrayList<>();*/
 
     private Button backBt;
+    private FloatingActionButton continueBt;
+
+    private final String choose_friends_msg = "Please select at least 1 friend to add to the group.";
 
     NewGroupMembersAdapter adapter;
     TextView hint_for_recycler;
@@ -60,7 +66,34 @@ public class AddMembersCreateGroup extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        continueBt = findViewById(R.id.continue_bt_add_members);
+        continueBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MembersToAdd.size()>0) {
+                    Intent intent = new Intent(AddMembersCreateGroup.this, CreateNewGroup.class);
+                /*ArrayList<String> membersNames = passingContactsId();
 
+                intent.putExtra("CHOSEN_MEMBERS",membersNames);*/
+                    intent.putExtra("CHOSEN_MEMBERS", MembersToAdd);
+                    startActivity(intent);
+                }else {
+                    Toast message = Toast.makeText(AddMembersCreateGroup.this,choose_friends_msg,Toast.LENGTH_LONG);
+                    message.setGravity(0,0,0);
+                    message.show();
+                }
+
+            }
+        });
+
+    }
+
+    private ArrayList<String> passingContactsId(){
+        ArrayList<String> membersNames = new ArrayList<>();
+        for (Android_Contact contact:MembersToAdd){
+            membersNames.add(contact.android_contact_Name);
+
+        }return membersNames;
     }
 
     public void insertNewMember(int position){
@@ -146,23 +179,6 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         return true;
     }
 
-//    public class Android_Contact {
-//        //----------------< fritzbox_Contacts() >----------------
-//        public String android_contact_Name = "";
-//        public String android_contact_TelefonNr = "";
-//        public String android_contact_ID="";
-//        public boolean added = false;
-//
-//        public void changeState(){
-//            if (added){
-//                added= false;
-//
-//            }else{
-//                added = true;
-//            }
-//        }
-////----------------</ fritzbox_Contacts() >----------------
-//    }
 
     public void fp_get_Android_Contacts() {
 //----------------< fp_get_Android_Contacts() >----------------
