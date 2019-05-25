@@ -42,6 +42,7 @@ public class NewProfile extends AppCompatActivity {
     private static final int PICK_IMAGE_REQ = 0;
     private Uri filePath;
     private String picUrl;
+    private String picFilename;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -96,6 +97,7 @@ public class NewProfile extends AppCompatActivity {
         data.put("nickName",((EditText)findViewById(R.id.nickName)).getText().toString());
         data.put("phoneNumber",user.getPhoneNumber());
         data.put("profilePic", picUrl);
+        data.put("profilePicFilename",picFilename);
         db.collection("users").document(userId)
                 .set(data);
     }
@@ -128,8 +130,8 @@ public class NewProfile extends AppCompatActivity {
             progressDialog.show();
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-
-            StorageReference ref = storageReference.child("users/" + user.getUid().toString() + "/" + UUID.randomUUID());
+            final UUID filename = UUID.randomUUID();
+            StorageReference ref = storageReference.child("users/" + user.getUid().toString() + "/" + filename);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -139,6 +141,7 @@ public class NewProfile extends AppCompatActivity {
                             Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
                             while(!uri.isComplete());
 
+                            picFilename = filename.toString();
                             picUrl = uri.getResult().toString();
                             saveDB();
                             Intent intent = new Intent(self,HomeScreen.class);
