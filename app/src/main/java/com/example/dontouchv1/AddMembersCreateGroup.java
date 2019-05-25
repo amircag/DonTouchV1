@@ -3,6 +3,7 @@ package com.example.dontouchv1;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +11,18 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +34,13 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     private ArrayList<String> newMemberPic = new ArrayList<>();
     private ArrayList<String> newMemberName = new ArrayList<>();
     private ArrayList<String> newMemberId = new ArrayList<>();
+
+    private Button backBt;
+
     NewGroupMembersAdapter adapter;
     TextView hint_for_recycler;
-
+    Adapter_for_Android_Contacts listadapter;
+    List<Android_Contact> mList_Android_Contacts;
     ArrayList<Android_Contact> arrayList_Android_Contacts = new ArrayList<Android_Contact>();
     ArrayList<Android_Contact> MembersToAdd = new ArrayList<Android_Contact>();
 
@@ -45,6 +53,14 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         initPicMembersToAdd();
         initMembersView();
         hint_for_recycler = findViewById(R.id.hint_for_add_members_text);
+        backBt = findViewById(R.id.backButton_for_add_members);
+        backBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     public void insertNewMember(int position){
@@ -92,6 +108,27 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager linaiarManagernewGroup = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(linaiarManagernewGroup);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                System.out.println(MembersToAdd.size());
+                for (Android_Contact contact: mList_Android_Contacts){
+                    System.out.println("list:"+adapter.contactsToAdd.size());
+                    if (!adapter.contactsToAdd.contains(contact) && contact.added){
+
+                        mList_Android_Contacts.get(mList_Android_Contacts.indexOf(contact)).changeState();
+                        listadapter.notifyDataSetChanged();
+
+                        if (MembersToAdd.size() == 0){
+                            hint_for_recycler.setVisibility(View.VISIBLE);
+                        }
+
+
+                    }
+                }
+            }
+        });
 
     }
 
@@ -189,15 +226,16 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 //----</ @Loop: all Contacts >----
 
 //< show results >
-            final Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this, arrayList_Android_Contacts);
+            listadapter = new Adapter_for_Android_Contacts(this, arrayList_Android_Contacts);
             final ListView listView_Android_Contacts = findViewById(R.id.listview_Android_Contacts);
-            listView_Android_Contacts.setAdapter(adapter);
+            listView_Android_Contacts.setAdapter(listadapter);
             listView_Android_Contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     arrayList_Android_Contacts.get(position).changeState();
-                    adapter.notifyDataSetChanged();
+                    listadapter.notifyDataSetChanged();
                     insertNewMember(position);
+
 
 
                 }
@@ -215,7 +253,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         //----------------< Adapter_for_Android_Contacts() >----------------
 //< Variables >
         Context mContext;
-        List<Android_Contact> mList_Android_Contacts;
+
         RelativeLayout relativeLayout;
         ImageView addedMemberIcon;
 //</ Variables >
@@ -223,7 +261,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         //< constructor with ListArray >
         public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact) {
             this.mContext = mContext;
-            this.mList_Android_Contacts = mContact;
+            mList_Android_Contacts = mContact;
             relativeLayout = findViewById(R.id.contactsView);
 //            addedMemberIcon = findViewById(R.id.added_member_icon);
         }

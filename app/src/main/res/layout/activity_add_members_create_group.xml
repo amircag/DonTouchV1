@@ -6,20 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".AddMembersCreateGroup">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/dtBlack">
 
-        <android.support.v7.widget.SearchView
+        <LinearLayout
+            android:id="@+id/actionbar_for_add_members"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/profile_border"
-            android:layout_margin="8dp"
-            android:id="@+id/search_members">
+            android:layout_height="35dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        </android.support.v7.widget.SearchView>
+            <Button
+                android:id="@+id/backButton_for_add_members"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/ic_arrow_back_black_24dp" />
+        </LinearLayout>
+
+
 
 
         <RelativeLayout
@@ -62,6 +78,15 @@
 
         </RelativeLayout>
 
+        <android.support.v7.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/profile_border"
+            android:layout_margin="8dp"
+            android:id="@+id/search_members">
+
+        </android.support.v7.widget.SearchView>
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
@@ -69,7 +94,7 @@
             tools:context="layout.AContacts"
             android:id="@+id/contactsView"
             android:background="@drawable/profile_border"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp">
 

@@ -18,14 +18,14 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
     private ArrayList<String> memberPic = new ArrayList<>();
     private ArrayList<String> membersName = new ArrayList<>();
     public ArrayList<String> memcersId = new ArrayList<>();
-    private ArrayList<Android_Contact> contactsToAdd = new ArrayList<>();
+    public ArrayList<Android_Contact> contactsToAdd = new ArrayList<>();
 
     private Context mContaxt;
 
-    public NewGroupMembersAdapter(ArrayList<Android_Contact> contacts,Context Contaxt) {
+    public NewGroupMembersAdapter(ArrayList<Android_Contact> contacts,Context context) {
 //        memberPic = memberImage;
 //        membersName = name;
-        mContaxt = Contaxt;
+        mContaxt = context;
         this.contactsToAdd = contacts;
 //        memcersId = id;
     }
