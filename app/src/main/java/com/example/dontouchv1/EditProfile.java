@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -84,6 +85,18 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+    public void backToProfile(View view){
+        onBackPressed();
+
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this,PersonalProfile.class);
+        startActivity(intent);
+        finish();
+    }
 
     public void chooseImage(View view){
         Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
@@ -140,8 +153,9 @@ public class EditProfile extends AppCompatActivity {
                             picUrl = uri.getResult().toString();
                             String userId = user.getUid().toString();
                             HashMap<String,Object> data = new HashMap<>();
-                            data.put("nickName",((EditText)findViewById(R.id.edit_nickname)).getText().toString());
                             data.put("profilePic", picUrl);
+
+                            data.put("nickName",((EditText)findViewById(R.id.edit_nickname)).getText().toString());
                             db.collection("users").document(userId)
                                     .update(data);
 
@@ -166,6 +180,17 @@ public class EditProfile extends AppCompatActivity {
                             progressDialog.setMessage("Uploaded "+(int)progress+"%");
                         }
                     });
+        }
+        else{
+            String userId = user.getUid().toString();
+            HashMap<String,Object> data = new HashMap<>();
+            data.put("nickName",((EditText)findViewById(R.id.edit_nickname)).getText().toString());
+            db.collection("users").document(userId)
+                    .update(data);
+            Intent intent = new Intent(EditProfile.this,PersonalProfile.class);
+            startActivity(intent);
+            finish();
+
         }
     }
 

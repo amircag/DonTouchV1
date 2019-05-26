@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".EditProfile"
             android:label="Edit Profile"
-            android:parentActivityName=".PersonalProfile">
+            android:parentActivityName=".PersonalProfile"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

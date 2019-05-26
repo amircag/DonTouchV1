@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7">
+            android:layout_weight="1.0">
             <Button
                 android:id="@+id/backButton"
                 android:layout_width="36dp"
@@ -35,7 +35,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2">
+            android:layout_weight="0.0">
         <Button
             android:id="@+id/editButton"
             android:layout_width="36dp"

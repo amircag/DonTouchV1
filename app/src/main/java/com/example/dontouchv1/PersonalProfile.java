@@ -232,6 +232,13 @@ public class PersonalProfile extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this,HomeScreen.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void onClickEdit(View view){
         Intent editIntent = new Intent(this,EditProfile.class);
         editIntent.putExtra(USER_NICKNAME,userData.get(USER_NICKNAME));
