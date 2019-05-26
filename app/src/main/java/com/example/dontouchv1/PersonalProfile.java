@@ -1,5 +1,6 @@
 package com.example.dontouchv1;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class PersonalProfile extends AppCompatActivity {
     private RecyclerView groupsRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
-
+    private final HashMap<String,String> userData = new HashMap<>();
     private final String USER_NICKNAME = "NICKNAME";
     private final String USER_IMAGE = "PROFILE_IMAGE";
 
@@ -167,6 +168,9 @@ public class PersonalProfile extends AppCompatActivity {
                     String nickname = document.getString("nickName");
                     userNickname.setText(nickname);
 
+                    userData.put(USER_NICKNAME,nickname);
+                    userData.put(USER_IMAGE,profileImageLink);
+
 
 
                 }
@@ -226,6 +230,15 @@ public class PersonalProfile extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public void onClickEdit(View view){
+        Intent editIntent = new Intent(this,EditProfile.class);
+        editIntent.putExtra(USER_NICKNAME,userData.get(USER_NICKNAME));
+        editIntent.putExtra(USER_IMAGE,userData.get(USER_IMAGE));
+        startActivity(editIntent);
+        finish();
+
     }
 
 }
