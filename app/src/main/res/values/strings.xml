@@ -132,4 +132,6 @@
     <string name="nickname_hint">Nickname cannot be blank</string>
     <string name="edit_nickname">Edit nickname:</string>
 
+    <string name="no_members">NO MEMBERS ADDED YET</string>
+
 </resources>

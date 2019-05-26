@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/newMembersLayOut"
+    android:layout_marginRight="3dp"
+    android:layout_marginLeft="3dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        card_view:cardElevation="0dp"
+        app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dtGrey">
+
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/newMemberPic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_placeholder"
+            app:civ_border_color="#000"
+            app:civ_border_width="1dp"
+            android:layout_marginTop="3dp"/>
+
+
+
+        <TextView
+            android:id="@+id/newMemberName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/newMemberPic"
+
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Member"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/removeMember"
+            android:layout_width="20dp"
+            android:layout_height="20sp"
+            android:layout_alignEnd="@id/newMemberPic"
+
+            android:src="@drawable/removemembericom" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

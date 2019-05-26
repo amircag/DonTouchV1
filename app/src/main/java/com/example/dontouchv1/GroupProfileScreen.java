@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.security.acl.Group;
 import java.util.ArrayList;
 
@@ -32,12 +34,15 @@ public class GroupProfileScreen extends AppCompatActivity {
     private ArrayList<String> mImages = new ArrayList<>(15);
     private ArrayList<String> mFailCounter = new ArrayList<>(15);
     private DummyServer server = new DummyServer();
-
-
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String teamId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        teamId = intent.getStringExtra("teamId");
+
         setContentView(R.layout.activity_group_profile_screen);
         TextView groupTitle = findViewById(R.id.group_header_name);
         ImageView groupImage = findViewById(R.id.group_header_image);
