@@ -204,4 +204,11 @@ public class HomeScreen extends AppCompatActivity {
         /*finish();*/
     }
 
+
+    public void createGroupPressed(View view){
+        Intent intent = new Intent(this,AddMembersCreateGroup.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
