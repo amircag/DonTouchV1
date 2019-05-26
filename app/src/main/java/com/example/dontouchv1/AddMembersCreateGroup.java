@@ -187,17 +187,18 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
 
     private void havePhownd(final Android_Contact android_contact){
-        String pn = "+".concat(android_contact.android_contact_TelefonNr);
-        Query query = db.collection("users")
+        String pn = "+" + android_contact.android_contact_TelefonNr;
+        db.collection("users")
                 .orderBy("phoneNumber")
-                .whereLessThanOrEqualTo("phoneNumber", pn);
-        System.out.println(android_contact.android_contact_TelefonNr);
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .whereGreaterThanOrEqualTo("phoneNumber", pn)
+                .whereLessThanOrEqualTo("phoneNumber", pn)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
                 if (users.size() > 1) {
-                    Log.e("Private Error", "more than one user for one phone number");
+                    Log.e("Private Error", "more than one user for one phone number " + android_contact.android_contact_TelefonNr);
+                    System.out.println(users);
                 } else if (users.size() == 0){
                     Log.e("Private Error", "no user with phone number " + android_contact.android_contact_TelefonNr);
                 } else{

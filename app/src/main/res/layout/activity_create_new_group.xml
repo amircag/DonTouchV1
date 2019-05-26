@@ -54,7 +54,8 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:background="@drawable/circle"
-                android:src="@drawable/uploadimage" />
+                android:src="@drawable/uploadimage"
+                android:onClick="getTeamPic"/>
 
         </RelativeLayout>
 
