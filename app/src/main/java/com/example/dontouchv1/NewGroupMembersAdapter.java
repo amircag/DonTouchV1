@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -50,8 +52,14 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final int position = i;
         viewHolder.newMemberName.setText(contactsToAdd.get(i).android_contact_Name);
+        /*
         int imageId = mContaxt.getResources().getIdentifier("drawable/"+ contactsToAdd.get(i).android_contact_Name,null,mContaxt.getPackageName());
-        viewHolder.newMemberPic.setImageResource(imageId);
+        */
+        Glide.with(mContaxt)
+                .load(contactsToAdd.get(position).picUrl)
+                .disallowHardwareConfig()
+                .into(viewHolder.newMemberPic);
+
         viewHolder.newMemberLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

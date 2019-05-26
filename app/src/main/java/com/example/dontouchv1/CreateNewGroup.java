@@ -2,20 +2,36 @@ package com.example.dontouchv1;
 
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class CreateNewGroup extends AppCompatActivity {
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private ArrayList<Android_Contact> addedContacts = new ArrayList<>();
 
@@ -32,7 +48,6 @@ public class CreateNewGroup extends AppCompatActivity {
         setContentView(R.layout.activity_create_new_group);
         backBotton  = findViewById(R.id.backButton_for_create_group);
         groupNickname = findViewById(R.id.group_nickName_input);
-        final String groupName = groupNickname.getEditText().getText().toString().trim();
         getDisplay();
         initPicMembersToAdd();
         initMembersView();
@@ -47,11 +62,50 @@ public class CreateNewGroup extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (groupName.isEmpty()){
+                String groupName = groupNickname.getEditText().getText().toString();
+                if (groupName.equals("")){
                     groupNickname.setError("please choose nickname");
                 }else{
-                    onBackPressed();
+                    Map<String,Object> team = new HashMap<>();
+                    team.put("name", groupName);
+                    db.collection("teams").add(team).
+                            addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        public void onSuccess(DocumentReference documentReference) {
+                            String teamId = documentReference.getId();
+
+                            WriteBatch batch = db.batch();
+                            for (int i=0; i<addedContacts.size(); i++){
+                                DocumentReference userTeamRef = db.collection("teams").document(teamId).collection("users").document(addedContacts.get(i).Uid);
+                                Map<String,Object> userData = new HashMap<>();
+                                userData.put("nickName", addedContacts.get(i).nickName);
+                                userData.put("phoneNumber", addedContacts.get(i).android_contact_TelefonNr);
+                                userData.put("picUrl", addedContacts.get(i).picUrl);
+                                batch.set(userTeamRef,userData);
+
+                                DocumentReference userRef = db.collection("users").document(addedContacts.get(i).Uid).collection("teams").document();
+                                batch.set(userRef, teamId);
+                            }
+
+                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Intent newIntent = new Intent(CreateNewGroup.this, GroupProfileScreen.class);
+                                    startActivity(newIntent);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("Private Error", "Failed to put team users");
+                                }
+                            });
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("Private Error", "Failed to Create Team Document");
+                        }
+                    });
+
                 }
             }
         });

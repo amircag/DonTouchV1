@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,16 +28,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
+
+import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddMembersCreateGroup extends AppCompatActivity {
 
-/*    private ArrayList<String> newMemberPic = new ArrayList<>();
-    private ArrayList<String> newMemberName = new ArrayList<>();
-    private ArrayList<String> newMemberId = new ArrayList<>();*/
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private Button backBt;
     private FloatingActionButton continueBt;
@@ -123,7 +140,6 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 //            // TODO: 5/20/2019 change to phone num to get pic from server
 //            newMemberPic.add(getMemberPic(curContact.android_contact_Name));
 //            newMemberName.add(curContact.android_contact_Name);
-//            System.out.println(MembersToAdd.size());
 //
 //        }
 //        newMemberName.add("issar");
@@ -145,7 +161,6 @@ public class AddMembersCreateGroup extends AppCompatActivity {
             @Override
             public void onChanged() {
                 super.onChanged();
-                System.out.println(MembersToAdd.size());
                 for (Android_Contact contact: mList_Android_Contacts){
                     System.out.println("list:"+adapter.contactsToAdd.size());
                     if (!adapter.contactsToAdd.contains(contact) && contact.added){
@@ -171,12 +186,30 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     }
 
 
-    private boolean havePhownd(String phoneNum){
-        // TODO: 5/19/2019 get from server if this phone register
-        if(phoneNum.equals("45566")){
-            return false;
-        }
-        return true;
+    private void havePhownd(final Android_Contact android_contact){
+        String pn = "+".concat(android_contact.android_contact_TelefonNr);
+        Query query = db.collection("users")
+                .orderBy("phoneNumber")
+                .whereLessThanOrEqualTo("phoneNumber", pn);
+        System.out.println(android_contact.android_contact_TelefonNr);
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
+                if (users.size() > 1) {
+                    Log.e("Private Error", "more than one user for one phone number");
+                } else if (users.size() == 0){
+                    Log.e("Private Error", "no user with phone number " + android_contact.android_contact_TelefonNr);
+                } else{
+                    DocumentSnapshot user = users.get(0);
+                    android_contact.Uid = user.getId();
+                    android_contact.nickName = user.getString("nickName");
+                    android_contact.picUrl = user.getString("profilePic");
+                    arrayList_Android_Contacts.add(android_contact);
+                    listadapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 
@@ -234,10 +267,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 //----</ get phone number >----
 
 // Add the contact to the ArrayList
-                if (havePhownd(android_contact.android_contact_TelefonNr)) {
-                    arrayList_Android_Contacts.add(android_contact);
-                }
-
+                havePhownd(android_contact);
             }
 //----</ @Loop: all Contacts >----
 
@@ -308,8 +338,14 @@ public class AddMembersCreateGroup extends AppCompatActivity {
             addedMemberIcon = view.findViewById(R.id.added_member_icon);
 //< show values >
             textview_contact_Name.setText(mList_Android_Contacts.get(position).android_contact_Name);
+            /*
             int imageId = mContext.getResources().getIdentifier("drawable/"+ mList_Android_Contacts.get(position).android_contact_Name,null,mContext.getPackageName());
             memberPic.setImageResource(imageId);
+            */
+            Glide.with(AddMembersCreateGroup.this)
+                    .load(arrayList_Android_Contacts.get(position).picUrl)
+                    .disallowHardwareConfig()
+                    .into(memberPic);
             if (mList_Android_Contacts.get(position).added) {
                 addedMemberIcon.setVisibility(view.VISIBLE);
             }
