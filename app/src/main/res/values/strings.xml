@@ -113,6 +113,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="splash_title">Welcome Back!</string>
+    <string name="splash_dynamic_message">Welcome Back, \n %s!</string>
 
     <!-- NEW SESSION SCREEN -->
     <string name="chill_name">CHILL</string>
@@ -125,5 +126,12 @@
     <string name="thrill_desc">if you don\'t like surprises, don\'t pick this mode.</string>
     <string name="kill_desc">using the phone is forbidden during the meeting.</string>
     <string name="new_session_button">START GAME</string>
+
+    <!-- EDIT PROFILE -->
+    <string name="save_changes">Save Changes</string>
+    <string name="nickname_hint">Nickname cannot be blank</string>
+    <string name="edit_nickname">Edit nickname:</string>
+
     <string name="no_members">NO MEMBERS ADDED YET</string>
+
 </resources>

@@ -1,16 +1,28 @@
 package com.example.dontouchv1;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 
@@ -22,20 +34,67 @@ public class HomeScreen extends AppCompatActivity {
     private ArrayList<String> mImageNames = new ArrayList<>(15);
     private ArrayList<String> mImages = new ArrayList<>(15);
     private ArrayList<String> mPeople = new ArrayList<>(15);
+    private ArrayList<String> userData = new ArrayList<>();
+
+    /* FIREBASE VARIABLES */
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    DocumentReference userDocument = db.collection("users").document(user.getUid());
+
+
     private DummyServer server = new DummyServer();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen);
 
+        /*if (getIntent().hasExtra("USER_DATA")){
+            userData = getIntent().getStringArrayListExtra("USER_DATA");
+        }*/
+
+
+        loadServerData();
+
+        /*setContentView(R.layout.activity_home_screen);
+
+        initiateHomeScreen();
+        *//*todo: change when groups exist *//*
         initGroupImages();
-        initUserInfo();
-
-        setButtonListeners();
+        setButtonListeners();*/
 
 
 
     }
+
+    private void loadServerData(){
+        userDocument.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    String userNickname = document.getString("nickName");
+                    String userProfilePic = document.getString("profilePic");
+
+                    setContentView(R.layout.activity_home_screen);
+
+                    TextView nickname = findViewById(R.id.name);
+                    ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);
+
+                    nickname.setText(userNickname);
+                    Glide.with(HomeScreen.this)
+                            .load(userProfilePic)
+                            .into(userProfilePictureHome);
+
+                }
+                else{
+                    setContentView(R.layout.activity_home_screen);
+                }
+                initiateHomeScreen();
+                initGroupImages();
+                setButtonListeners();
+            }
+        });
+    }
+
 
 
     private void initGroupImages(){
@@ -44,47 +103,23 @@ public class HomeScreen extends AppCompatActivity {
         mImageNames = server.getGroupNames();
         mPeople = server.getPeople();
 
-        /*mImages.add("group0");
-        mImageNames.add("I&S Empire");
-        mPeople.add("Chef, Michal, Maayan, Shpig, Shira, Nethaniel, Nick & You");
-
-        mImages.add("group1");
-        mImageNames.add("The LOVVVERS");
-        mPeople.add("Oren Hazan, Donald Trump & You");
-
-        mImages.add("group2");
-        mImageNames.add("I<3BB");
-        mPeople.add("1,140,369 Members & You");
-
-        mImages.add("group3");
-        mImageNames.add("PPE Class of 19'");
-        mPeople.add("Gantzoosh, Ashkenazi, Lapid, Boogie & You");
-
-        mImages.add("group4");
-        mImageNames.add("New Dream Team");
-        mPeople.add("Asaf, Amir, Issar, Noa & You");
-
-        mImages.add("group5");
-        mImageNames.add("LGBTQ+ community");
-        mPeople.add("Liad & Amir 4 ever");*/
-
         initGroupRecyclerView();
     }
 
-    private void initUserInfo(){
+    private void initiateHomeScreen(){
 
         /* Define data members */
-        String tempNickname = "Fresh Prince";
+        /*String tempNickname = "Fresh Prince";*/
         String tempRating = "34%";
         String timeOnPhoneText = "58 min";
 
 
         /* Define Views */
-        TextView userNickname = findViewById(R.id.name);
-        ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);
-        TextView userRating = findViewById(R.id.rate);
-        TextView timeOnPhone = findViewById(R.id.timeonphone);
-        ImageView TimeOnPhoneIm = findViewById(R.id.timeonphoneimg);
+        /*TextView userNickname = findViewById(R.id.name);
+        ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);*/
+        TextView userRating = findViewById(R.id.userrating);
+        TextView timeOnPhone = findViewById(R.id.total_time_on_phone);
+        ImageView TimeOnPhoneIm = findViewById(R.id.time_phone_icon);
         SearchView groupSearch = findViewById(R.id.searchView);
         groupSearch.onActionViewExpanded();
         groupSearch.setIconifiedByDefault(false);
@@ -106,9 +141,18 @@ public class HomeScreen extends AppCompatActivity {
 
 
         /* Grab user info from server */
-        userNickname.setText(tempNickname);
+        /*userNickname.setText(tempNickname);
+        userProfilePictureHome.setImageResource(R.drawable.profile);*/
+
+        /*if (userData.size() > 0){
+            userNickname.setText(userData.get(0));
+            Glide.with(HomeScreen.this)
+                    .load(userData.get(1))
+                    .into(userProfilePictureHome);
+        }*/
+
+
         userRating.setText(tempRating);
-        userProfilePictureHome.setImageResource(R.drawable.profile);
         timeOnPhone.setText(timeOnPhoneText);
         //TimeOnPhoneIm.setImageResource(R.drawable.ontimesupport2);
 
@@ -145,7 +189,19 @@ public class HomeScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        /*new AlertDialog.Builder(this)
+                .setTitle("Exit Game")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton("No",null)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });*/
+
+        // close when clicking back
+        /*finish();*/
     }
 
 }

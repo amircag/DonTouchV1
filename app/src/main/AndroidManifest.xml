@@ -17,7 +17,16 @@
         android:roundIcon="@mipmap/phowned_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+      
+        <activity android:name=".EditProfile"
+            android:label="Edit Profile"
+            android:parentActivityName=".PersonalProfile"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+      
         <activity android:name=".AddMembersCreateGroup"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -25,9 +34,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SplashScreen"
+        <activity
+            android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar" />
-  
+
         <activity
             android:name=".GroupProfileScreen"
             android:screenOrientation="portrait"
@@ -64,7 +74,7 @@
             android:label="@string/title_activity_end_game_stats"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        
+
         <activity
             android:name=".HomeScreen"
             android:screenOrientation="portrait"

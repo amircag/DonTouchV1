@@ -2,42 +2,40 @@ package com.example.dontouchv1;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class NewProfile extends AppCompatActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class EditProfile extends AppCompatActivity {
+
 
     private static final int PICK_IMAGE_REQ = 0;
     private Uri filePath;
@@ -46,60 +44,66 @@ public class NewProfile extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private NewProfile self;
-    
+
+
+    /**
+     * Some constants
+     */
+    final int semiTransparentGrey = Color.argb(155, 41, 36, 33);
+    private final String USER_NICKNAME = "NICKNAME";
+    private final String USER_IMAGE = "PROFILE_IMAGE";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_profile);
+        loadCurrentData();
 
-        Intent fromIntent = getIntent();
-        if (!fromIntent.getBooleanExtra("NEW_USER",false)){
-            Intent intentTo = new Intent(this, HomeScreen.class);
-            startActivity(intentTo);
-            return;
-        }
+        CircleImageView profileImage = findViewById(R.id.edit_profile_pic);
+        profileImage.setColorFilter(semiTransparentGrey, PorterDuff.Mode.SRC_ATOP);
 
-        setContentView(R.layout.activity_new_profile);
-        self = this;
-        initUserInfo();
     }
 
-    public void pickFromGallery(View view){
+
+    /**
+     * Load user's current Image and Name for the screen
+     */
+    private void loadCurrentData(){
+        EditText enterNickname = findViewById(R.id.edit_nickname);
+        CircleImageView choosePic = findViewById(R.id.edit_profile_pic);
+
+
+        Intent prevScreen = getIntent();
+        String currNickname = prevScreen.getStringExtra(USER_NICKNAME);
+        String currProfPic = prevScreen.getStringExtra(USER_IMAGE);
+
+        enterNickname.setText(currNickname);
+        Glide.with(this)
+                .load(currProfPic)
+                .into(choosePic);
+
+    }
+
+    public void backToProfile(View view){
+        onBackPressed();
+
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this,PersonalProfile.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void chooseImage(View view){
         Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         String[] mimeTypes = {"image/jpeg", "image/png"};
         intent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
         startActivityForResult(intent,PICK_IMAGE_REQ);
-    }
-
-    private void initUserInfo(){
-        ImageView profile = (ImageView) findViewById(R.id.newProfilePic);
-        profile.setImageResource(R.drawable.ic_person_black_24dp);
-/*
-        Cursor c = getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
-        c.moveToFirst();
-        TextInputEditText text = (TextInputEditText) findViewById(R.id.nameInput);
-        text.setText(c.getString(c.getColumnIndex("display_name")));
-        c.close();
-*/
-    }
-
-    public void onClickSave(View view){
-        //intent.putExtra("PROFILE_EMAIL",((EditText)findViewById(R.id.profileEmail)).getText());
-        //intent.putExtra("PROFILE_IMAGE_BYTE", bs.toByteArray());
-        uploadImage(filePath);
-
-    }
-
-    private void saveDB(){
-        String userId = user.getUid().toString();
-        HashMap<String,Object> data = new HashMap<>();
-        data.put("nickName",((EditText)findViewById(R.id.nickName)).getText().toString());
-        data.put("phoneNumber",user.getPhoneNumber());
-        data.put("profilePic", picUrl);
-        data.put("profilePicFilename",picFilename);
-        db.collection("users").document(userId)
-                .set(data);
     }
 
     @Override
@@ -108,10 +112,10 @@ public class NewProfile extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_REQ && resultCode == RESULT_OK
                 && data != null && data.getData() != null )
         {
-             filePath = data.getData();
+            filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                ImageView imageView = (ImageView) findViewById(R.id.newProfilePic);
+                ImageView imageView = (ImageView) findViewById(R.id.edit_profile_pic);
                 imageView.setImageBitmap(bitmap);
             }
             catch (IOException e)
@@ -121,7 +125,12 @@ public class NewProfile extends AppCompatActivity {
         }
     }
 
-    private void uploadImage(Uri filePath) {
+
+    public void saveChangesClick(View view){
+        saveProfileChanges(filePath);
+    }
+
+    private void saveProfileChanges(Uri filePath) {
 
         if(filePath != null)
         {
@@ -131,28 +140,36 @@ public class NewProfile extends AppCompatActivity {
 
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             final UUID filename = UUID.randomUUID();
-            StorageReference ref = storageReference.child("users/" + user.getUid().toString() + "/" + filename);
+            StorageReference ref = storageReference.child("users/" + user.getUid() + "/" + filename);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(NewProfile.this, "Image Uploaded Successfully.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfile.this, "Image Uploaded Successfully.", Toast.LENGTH_SHORT).show();
                             Task<Uri> uri = taskSnapshot.getStorage().getDownloadUrl();
                             while(!uri.isComplete());
 
-                            picFilename = filename.toString();
                             picUrl = uri.getResult().toString();
-                            saveDB();
-                            Intent intent = new Intent(self,HomeScreen.class);
+                            String userId = user.getUid().toString();
+                            HashMap<String,Object> data = new HashMap<>();
+                            data.put("profilePic", picUrl);
+
+                            data.put("nickName",((EditText)findViewById(R.id.edit_nickname)).getText().toString());
+                            db.collection("users").document(userId)
+                                    .update(data);
+
+                            Intent intent = new Intent(EditProfile.this,PersonalProfile.class);
                             startActivity(intent);
+                            finish();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(NewProfile.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfile.this, "Image Upload Failed."+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -164,6 +181,19 @@ public class NewProfile extends AppCompatActivity {
                         }
                     });
         }
+        else{
+            String userId = user.getUid().toString();
+            HashMap<String,Object> data = new HashMap<>();
+            data.put("nickName",((EditText)findViewById(R.id.edit_nickname)).getText().toString());
+            db.collection("users").document(userId)
+                    .update(data);
+            Intent intent = new Intent(EditProfile.this,PersonalProfile.class);
+            startActivity(intent);
+            finish();
+
+        }
     }
+
+
 
 }

@@ -1,17 +1,28 @@
 package com.example.dontouchv1;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -20,7 +31,21 @@ public class PersonalProfile extends AppCompatActivity {
     private RecyclerView groupsRecyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
-    // vars
+    private final HashMap<String,String> userData = new HashMap<>();
+    private final String USER_NICKNAME = "NICKNAME";
+    private final String USER_IMAGE = "PROFILE_IMAGE";
+
+    /**
+     * Firebase related data
+     */
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    DocumentReference userDocument = db.collection("users").document(user.getUid());
+
+
+    // FAKE SERVER
+    // todo: delete after Firebase Implementation
     private DummyServer server = new DummyServer();
     private ArrayList<String> mGroupNames = new ArrayList<>(15);
     private ArrayList<String> mGroupImages = new ArrayList<>(15);
@@ -31,15 +56,15 @@ public class PersonalProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_profile);
+        loadProfileDetails();
+
+        /*setContentView(R.layout.activity_personal_profile);
         // ^ add _gridcycle to change to grid view
 
         initGroupImages();
         initFails();
-        initProfileImage();
-        initProfileData();
-
-        setBackButton();
+        grabStatistics();
+        setBackButton();*/
 
 
 
@@ -47,10 +72,10 @@ public class PersonalProfile extends AppCompatActivity {
     }
 
 
-    /* --- GROUP RECYCLES METHODS --- */
+    /* --- GROUP RECYCLER METHODS --- */
 
     /**
-     * Initialized Group images + names + members.
+     * Initializes Group images + names + members.
      * @// TODO: 30-Apr-19 grab actual data from server
      */
     private void initGroupImages(){
@@ -79,8 +104,6 @@ public class PersonalProfile extends AppCompatActivity {
         groupRecyclerView.setAdapter(groupAdapter);
 
     }
-
-
 
 
     /* --- FAIL RECYCLES METHODS --- */
@@ -115,24 +138,65 @@ public class PersonalProfile extends AppCompatActivity {
 
     }
 
+
     /**
-     * Init the user's profile image.
-     * @// TODO: 30-Apr-19 GRAB ACTUAL FROM SERVER
+     * Init the user's profile image and username.
      */
-    private void initProfileImage(){
-        ;
-        CircleImageView profileImage = findViewById(R.id.profileImage);
-        profileImage.setImageResource(R.drawable.profile); // CHANGE THIS TO SERVER IMAGE
+    private void loadProfileDetails(){
+
+        /* Load user data from server */
+        userDocument.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                /* after loading: */
+                if (task.isSuccessful()) {
+
+                    /*if loaded correctly, set image, nickname etc.*/
+
+                    setContentView(R.layout.activity_personal_profile);
+                    // ^ add _gridcycle to change to grid view
+
+                    final CircleImageView profileImage = findViewById(R.id.profileImage);
+                    final TextView userNickname = findViewById(R.id.nicknameDynamic);
+
+                    DocumentSnapshot document = task.getResult();
+                    String profileImageLink = document.getString("profilePic");
+                    Glide.with(PersonalProfile.this)
+                            .load(profileImageLink)
+                            .into(profileImage);
+
+                    String nickname = document.getString("nickName");
+                    userNickname.setText(nickname);
+
+                    userData.put(USER_NICKNAME,nickname);
+                    userData.put(USER_IMAGE,profileImageLink);
+
+
+
+                }
+                else{
+                    /*else just set the layout*/
+                    setContentView(R.layout.activity_personal_profile);
+                    // ^ add _gridcycle to change to grid view
+                }
+
+                /*to be replaced later with actual firebase functions*/
+                initGroupImages();
+                initFails();
+                grabStatistics();
+                setBackButton();
+            }
+        });
+
     }
 
     /**
      * Init the user's statistics, info etc..
      * @// TODO: 30-Apr-19 GRAB ACTUAL FROM SERVER
      */
-    private void initProfileData(){
+    private void grabStatistics(){
 
         /* Temp. data members */
-        String temp_nick = "Fresh Prince of TLV";
         String temp_rank = "1";
         String temp_time = "58 minutes";
         String temp_games_played = "12";
@@ -140,14 +204,12 @@ public class PersonalProfile extends AppCompatActivity {
         /* End of temp strings */
 
         /* Declare textViews */
-        TextView nicknameText = findViewById(R.id.nicknameDynamic);
         TextView rankText = findViewById(R.id.rankDynamic);
         TextView timeText = findViewById(R.id.timeDynamic);
         TextView gamesText = findViewById(R.id.gamesDynamic);
         TextView failsText = findViewById(R.id.failsDynamic);
 
         /* Set Text from Server / Temp */
-        nicknameText.setText(temp_nick);
         rankText.setText(temp_rank);
         timeText.setText(temp_time);
         gamesText.setText(temp_games_played);
@@ -168,6 +230,22 @@ public class PersonalProfile extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this,HomeScreen.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void onClickEdit(View view){
+        Intent editIntent = new Intent(this,EditProfile.class);
+        editIntent.putExtra(USER_NICKNAME,userData.get(USER_NICKNAME));
+        editIntent.putExtra(USER_IMAGE,userData.get(USER_IMAGE));
+        startActivity(editIntent);
+        finish();
+
     }
 
 }
