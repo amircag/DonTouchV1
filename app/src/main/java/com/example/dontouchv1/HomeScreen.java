@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class HomeScreen extends AppCompatActivity {
@@ -22,10 +24,20 @@ public class HomeScreen extends AppCompatActivity {
     private ArrayList<String> mImageNames = new ArrayList<>(15);
     private ArrayList<String> mImages = new ArrayList<>(15);
     private ArrayList<String> mPeople = new ArrayList<>(15);
+
+    private ArrayList<String> userData = new ArrayList<>();
+
+
     private DummyServer server = new DummyServer();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getIntent().hasExtra("USER_DATA")){
+            userData = getIntent().getStringArrayListExtra("USER_DATA");
+        }
+
+
         setContentView(R.layout.activity_home_screen);
 
         initGroupImages();
@@ -107,8 +119,17 @@ public class HomeScreen extends AppCompatActivity {
 
         /* Grab user info from server */
         userNickname.setText(tempNickname);
-        userRating.setText(tempRating);
         userProfilePictureHome.setImageResource(R.drawable.profile);
+
+        /*if (userData.size() > 0){
+            userNickname.setText(userData.get(0));
+            Glide.with(HomeScreen.this)
+                    .load(userData.get(1))
+                    .into(userProfilePictureHome);
+        }*/
+
+
+        userRating.setText(tempRating);
         timeOnPhone.setText(timeOnPhoneText);
         //TimeOnPhoneIm.setImageResource(R.drawable.ontimesupport2);
 

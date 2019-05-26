@@ -18,6 +18,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class SplashScreen extends AppCompatActivity {
 
     private final int WAIT_DURATION = 3500;
@@ -25,6 +28,8 @@ public class SplashScreen extends AppCompatActivity {
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private ArrayList<String> userData;
 
     String nicknameString;
 
@@ -34,15 +39,14 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_splash_screen);
 
-        getUsername();
-
-
+        userData = getUsername();
 
         timer = new Handler();
         timer.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(SplashScreen.this, HomeScreen.class);
+                intent.putStringArrayListExtra("USER DATA",userData);
                 startActivity(intent);
                 finish();
             }
@@ -51,7 +55,8 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
-    private void getUsername(){
+    private ArrayList<String> getUsername(){
+        final ArrayList<String> dataFromServer = new ArrayList<>();
         DocumentReference docRef = db.collection("users").document(user.getUid());
         //DocumentSnapshot doc = docRef.get(Source.DEFAULT).getResult();
         docRef.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -62,6 +67,10 @@ public class SplashScreen extends AppCompatActivity {
                     setContentView(R.layout.activity_splash_screen);
                     if (document.getString("nickName") != null) {
                         nicknameString = document.getString("nickName");
+                        dataFromServer.add(nicknameString);
+                        if(document.getString("profilcPic") != null){
+                            dataFromServer.add(document.getString("profilcPic"));
+                        }
                         TextView message = findViewById(R.id.welcome_message);
                         String displayMessage = getString(R.string.splash_dynamic_message,nicknameString);
                         message.setText(displayMessage);
@@ -73,6 +82,7 @@ public class SplashScreen extends AppCompatActivity {
                 }
             }
         });
+        return dataFromServer;
     }
 
 
