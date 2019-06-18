@@ -102,10 +102,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gameScreen"
+            android:name=".GameScreen"
             android:label="DonTouch Game"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".MainScreen"
             android:label="@string/title_activity_main_screen"

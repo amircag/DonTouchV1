@@ -1,13 +1,8 @@
 package com.example.dontouchv1;
 
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -93,7 +88,7 @@ public class NewSession extends AppCompatActivity {
             EditText gameName = (EditText) findViewById(R.id.gameName);
             String text = gameName.getText().toString();
 
-            Intent intent = new Intent(this,gameScreen.class);
+            Intent intent = new Intent(this, GameScreen.class);
             intent.putExtra("GAME_TYPE", selectedGame);
             intent.putExtra("GAME_NAME", text);
             startActivity(intent);
