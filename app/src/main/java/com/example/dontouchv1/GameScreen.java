@@ -1,5 +1,6 @@
 package com.example.dontouchv1;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,7 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.display.DisplayManager;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -287,7 +290,7 @@ public class GameScreen extends AppCompatActivity {
         batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
             public void onSuccess(Void aVoid) {
                 pushNotif(own);
-                playSound();
+                //playSound(); //fixed to be directly from Notification
                 if(thrill) updateThreshold();
                 ownWarn = own;
             }
@@ -298,6 +301,7 @@ public class GameScreen extends AppCompatActivity {
         });
     }
 
+    //depracated - using directly from Notification
     private void playSound() {
         MediaPlayer ring = MediaPlayer.create(GameScreen.this,R.raw.notif);
         ring.setLooping(false);
@@ -305,25 +309,41 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void pushNotif(Map.Entry<String, Integer> own) {
-        createNotificationChannel();
+        //createNotificationChannel();
         final Intent notificationIntent = new Intent(this, GameScreen.class);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Uri soundUri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.notif);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "phOWNED")
                 .setSmallIcon(R.drawable.phowned_logo_small)
                 .setContentTitle("You Got phOWNED!")
                 .setContentText(own.getKey())
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(own.getKey()))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
-                .setDefaults(0)
-                .setSound(null);
+                .setSound(soundUri)
+                .setContentIntent(resultPendingIntent);
 
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            if(soundUri != null){
+                // Changing Default mode of notification
+                builder.setDefaults(Notification.DEFAULT_VIBRATE);
+                // Creating an Audio Attribute
+                AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .build();
+
+                // Creating Channel
+                NotificationChannel notificationChannel = new NotificationChannel("phOWNED","phOWNED",NotificationManager.IMPORTANCE_HIGH);
+                notificationChannel.setSound(soundUri,audioAttributes);
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, builder.build());
     }
