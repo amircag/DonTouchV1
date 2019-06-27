@@ -1,6 +1,7 @@
 package com.example.dontouchv1;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -46,6 +48,7 @@ public class HomeScreen extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setAppDirectionLTR();
 
         /*if (getIntent().hasExtra("USER_DATA")){
             userData = getIntent().getStringArrayListExtra("USER_DATA");
@@ -61,8 +64,14 @@ public class HomeScreen extends AppCompatActivity {
         initGroupImages();
         setButtonListeners();*/
 
+    }
 
-
+    private void setAppDirectionLTR() {
+        Locale locale = new Locale("en");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
     private void loadServerData(){

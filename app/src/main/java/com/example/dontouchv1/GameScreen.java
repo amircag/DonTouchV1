@@ -3,11 +3,14 @@ package com.example.dontouchv1;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.display.DisplayManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -16,8 +19,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -37,6 +40,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -48,7 +52,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
-import com.google.firebase.firestore.core.OrderBy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +63,7 @@ public class GameScreen extends AppCompatActivity {
     private int playersCount, ownsCount, myOwnsCount = 0;
 
     private Owns owns = new Owns();
-    private int own_threshold;
+    private int ownThreshold;
     private Map.Entry<String, Integer> ownWarn;
     private boolean thrill = false;
     private int pauseCounter = 0;
@@ -99,28 +102,40 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void joinGame(){
-        // Assuming player not leaves the game and come back later
-        WriteBatch batch = db.batch();
-        DocumentReference gameRf = db.collection("games").document(gameId);
-        batch.update(gameRf, "playersCount", FieldValue.increment(1));
-
-        DocumentReference userRf = db.collection("games").document(gameId).collection("players").document(user.getUid());
-        Map<String,Object> userData = new HashMap<>();
-        userData.put("joinAt", FieldValue.serverTimestamp());
-        userData.put("userId",user.getUid());
-        userData.put("userNickname", userNickname);
-        userData.put("userPicUrl", userPicUrl);
-        userData.put("myOwnsCount", (int) 0);
-        batch.set(userRf, userData);
-
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-            public void onComplete(@NonNull Task<Void> task) {
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+        CollectionReference players = db.collection("games").document(gameId).collection("players");
+        players.whereEqualTo("userId", user.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("Private Error", "Failed to join a new game player");
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.size() != 0){
+                    DocumentSnapshot userData = queryDocumentSnapshots.getDocuments().get(0);
+                    myOwnsCount = ((Long)userData.get("myOwnsCount")).intValue();
+
+                    return;
+                };
+
+                WriteBatch batch = db.batch();
+                DocumentReference gameRf = db.collection("games").document(gameId);
+                batch.update(gameRf, "playersCount", FieldValue.increment(1));
+
+                DocumentReference userRf = db.collection("games").document(gameId).collection("players").document(user.getUid());
+                Map<String,Object> userData = new HashMap<>();
+                userData.put("joinAt", FieldValue.serverTimestamp());
+                userData.put("userId",user.getUid());
+                userData.put("userNickname", userNickname);
+                userData.put("userPicUrl", userPicUrl);
+                userData.put("myOwnsCount", (int) 0);
+                batch.set(userRf, userData);
+
+                batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Private Error", "Failed to join a new game player");
+                    }
+                });
             }
         });
 
@@ -145,6 +160,9 @@ public class GameScreen extends AppCompatActivity {
                         nextToStat();
                         return;
                     }
+
+                    setGameType(((Long) data.get("type")).intValue());
+
                     if(((Long)data.get("playersCount")).intValue() != playersCount){
                         updatePlayersCounterText(((Long)data.get("playersCount")).intValue());
                     }
@@ -185,8 +203,8 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void setGameType(int gameType) {
-        if (gameType==R.id.chill) own_threshold = 5;
-        else if (gameType==R.id.kill) own_threshold = 1;
+        if (gameType==R.id.chill) ownThreshold = 5;
+        else if (gameType==R.id.kill) ownThreshold = 1;
         else if (gameType==R.id.thrill){
             thrill = true;
             updateThreshold();
@@ -196,12 +214,36 @@ public class GameScreen extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        if(gameActive == false) return;
 
-        pauseCounter++;
-        if (pauseCounter % own_threshold == 0){
-            myOwnsCount++;
-            setOwn();
+        if (isScreenOn(this) && gameActive) {
+            pauseCounter++;
+            if (pauseCounter % ownThreshold == 0) {
+                myOwnsCount++;
+                setOwn();
+            }
+        }
+    }
+    /**
+     * Is the screen of the device on.
+     * @param context the context
+     * @return true when (at least one) screen is on
+     */
+    public boolean isScreenOn(Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            System.out.println("checking display");
+            DisplayManager dm = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);
+            for (Display display : dm.getDisplays()) {
+                if (display.getState() == Display.STATE_OFF){
+                    return false;
+                }
+            }
+            PowerManager pm = (PowerManager) context.getSystemService(POWER_SERVICE);
+            if (!pm.isInteractive()) return false;
+
+            return true;
+        } else {
+            PowerManager pm = (PowerManager) context.getSystemService(POWER_SERVICE);
+            return pm.isScreenOn();
         }
     }
 
@@ -290,6 +332,10 @@ public class GameScreen extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         gameListen();
+
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+
         if (ownWarn == null) return;
         showOwnPopup();
         ownWarn = null;
@@ -342,7 +388,7 @@ public class GameScreen extends AppCompatActivity {
     private void updateThreshold() {
         if (thrill){
             Random random = new Random();
-            own_threshold = random.nextInt(5)+1;
+            ownThreshold = random.nextInt(5)+1;
         }
     }
 
