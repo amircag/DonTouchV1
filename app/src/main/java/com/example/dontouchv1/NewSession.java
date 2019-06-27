@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -117,7 +118,8 @@ public class NewSession extends AppCompatActivity {
         game.put("creatorId", user.getUid());
         game.put("playersCount", (int) 0);
         game.put("ownsCount", (int) 0);
-        game.put("active", true); /// to make sure db handles boolean
+        game.put("active", true);
+        game.put("createdAt", FieldValue.serverTimestamp());
         db.collection("games").add(game).
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     public void onSuccess(DocumentReference documentReference) {

@@ -329,7 +329,6 @@ public class GameScreen extends AppCompatActivity {
 
     @Override
     protected void onDestroy(){
-        super.onDestroy();
         // !!! not sure this update would take place
         DocumentReference gameRf = db.collection("games").document(gameId);
         gameRf.update("playersCount", FieldValue.increment(-1));
@@ -337,6 +336,7 @@ public class GameScreen extends AppCompatActivity {
         if (playersCount == 0){
             gameRf.update("active",false);
         }
+        super.onDestroy();
     }
 
     private void updateThreshold() {
