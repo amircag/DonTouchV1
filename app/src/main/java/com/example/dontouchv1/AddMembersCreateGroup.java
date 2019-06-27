@@ -1,10 +1,13 @@
 package com.example.dontouchv1;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -222,7 +225,10 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     public void fp_get_Android_Contacts() {
 //----------------< fp_get_Android_Contacts() >----------------
 
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 100);
+            return;
+        }
 //--< get all Contacts >--
         Cursor cursor_Android_Contacts = null;
         ContentResolver contentResolver = getContentResolver();
@@ -287,6 +293,18 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
 // ----------------</ fp_get_Android_Contacts() >----------------
     }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == 100) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                Toast.makeText(this, "please grant contacts permission", Toast.LENGTH_SHORT).show();
+            }
+            fp_get_Android_Contacts();
+        }
+    }
+
 
     private void setApplicationContacts(final ArrayList<Android_Contact> allContacts){
         db.collection("users")
