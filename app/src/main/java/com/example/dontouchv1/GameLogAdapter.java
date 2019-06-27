@@ -19,7 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHolder> {
 
-    private ArrayList<GameLogObj> logs = new ArrayList<>();
+    private ArrayList<GameLogObj> logs;
 
 
     private Context mContaxt;
@@ -59,15 +59,20 @@ public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHold
                 .disallowHardwareConfig()
                 .into(viewHolder.userPic);
 
-        int picOwn = mContaxt.getResources().getIdentifier("drawable/"+logs.get(i).getOwnType(),null,mContaxt.getPackageName());
-        viewHolder.ownType.setImageResource(picOwn);
+        int iconOwn = 0, ownType = logs.get(i).getOwnType();
+        if (ownType == 1) iconOwn = R.drawable.own_1;
+        else if (ownType == 2) iconOwn = R.drawable.own_2;
+        else if (ownType == 3) iconOwn = R.drawable.own_3;
+
+        //int picOwn = mContaxt.getResources().getIdentifier("drawable/"+logs.get(i).getOwnType(),null,mContaxt.getPackageName());
+        viewHolder.ownType.setImageResource(iconOwn);
         final String ownDesc = logs.get(i).getOwnDesc();
 
         viewHolder.ownType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: 5/19/2019 remove from list
-                Toast toast = new Toast(mContaxt);
+                Toast toast = Toast.makeText(mContaxt,"Own Desciprtion", Toast.LENGTH_LONG);
                 toast.setText(ownDesc);
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setGravity(0,0,0);

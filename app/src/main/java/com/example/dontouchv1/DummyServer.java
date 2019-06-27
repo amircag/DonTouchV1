@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class DummyServer {
 
     /* GROUPS: Names, Images, Members */
+    public ArrayList<String> groupIds = new ArrayList<>(15);
     public ArrayList<String> groupNames = new ArrayList<>(15);
     public ArrayList<String> groupImages = new ArrayList<>(15);
     public ArrayList<String> groupMembersNames = new ArrayList<>(15);
@@ -19,22 +20,32 @@ public class DummyServer {
 
     public DummyServer(){
         /* Demo Group */
+        groupIds.add("1");
         groupNames.add("The New Dream Team");
         groupImages.add("group0");
         people.add("Chef, Fresh Prince, NoaMen, AbuShefa & Liad");
         /*other groups*/
+        groupIds.add("2");
         groupNames.add("The Sopranos");
         groupImages.add("group1");
         people.add("Ted, Marshall, Lily, Robin & Kramer");
+
+        groupIds.add("3");
         groupNames.add("CS Faculty");
         groupImages.add("group2");
         people.add("Peter Parker, Beter Barker, Thomas Barker & Oded Shechter");
+
+        groupIds.add("4");
         groupNames.add("PPE Class '19");
         groupImages.add("group3");
         people.add("Benjamin, Moses, Gabriel & Jair");
+
+        groupIds.add("5");
         groupNames.add("Alcoholics Anonymous");
         groupImages.add("group4");
         people.add("155 Persons");
+
+        groupIds.add("6");
         groupNames.add("I&S Empire");
         groupImages.add("group5");
         people.add("Almog, Meital, Michal, Nethaniel, Maayan, Shpig, Shira & More");
@@ -108,4 +119,6 @@ public class DummyServer {
     public ArrayList<String> getPeople() {
         return people;
     }
+
+    public ArrayList<String> getGroupIds(){ return groupIds;}
 }

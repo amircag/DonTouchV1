@@ -4,9 +4,9 @@ public class GameLogObj {
     private String userPicUrl;
     private String userName;
     private String ownDesc;
-    private String ownType;
+    private int ownType;
 
-    public GameLogObj(String userPicUrl, String userName, String ownDesc, String ownType) {
+    public GameLogObj(String userPicUrl, String userName, String ownDesc, int ownType) {
         this.userPicUrl = userPicUrl;
         this.userName = userName;
         this.ownDesc = ownDesc;
@@ -25,7 +25,7 @@ public class GameLogObj {
         return ownDesc;
     }
 
-    public String getOwnType() {
+    public int getOwnType() {
         return ownType;
     }
 }

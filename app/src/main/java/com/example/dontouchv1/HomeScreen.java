@@ -1,9 +1,7 @@
 package com.example.dontouchv1;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,12 +28,14 @@ public class HomeScreen extends AppCompatActivity {
 
 
     private static final String TAG = "HomeScreen";
-
+    private ArrayList<String> mGroupIds = new ArrayList<>(15);
     private ArrayList<String> mImageNames = new ArrayList<>(15);
     private ArrayList<String> mImages = new ArrayList<>(15);
     private ArrayList<String> mPeople = new ArrayList<>(15);
     private ArrayList<String> userData = new ArrayList<>();
 
+    private String userNickname;
+    private String userPicUrl;
     /* FIREBASE VARIABLES */
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -71,8 +71,8 @@ public class HomeScreen extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
-                    String userNickname = document.getString("nickName");
-                    String userProfilePic = document.getString("profilePic");
+                    userNickname = document.getString("nickName");
+                    userPicUrl = document.getString("profilePic");
 
                     setContentView(R.layout.activity_home_screen);
 
@@ -81,7 +81,7 @@ public class HomeScreen extends AppCompatActivity {
 
                     nickname.setText(userNickname);
                     Glide.with(HomeScreen.this)
-                            .load(userProfilePic)
+                            .load(userPicUrl)
                             .into(userProfilePictureHome);
 
                 }
@@ -98,7 +98,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
     private void initGroupImages(){
-
+        mGroupIds = server.getGroupIds();
         mImages = server.getGroupImages();
         mImageNames = server.getGroupNames();
         mPeople = server.getPeople();
@@ -163,7 +163,7 @@ public class HomeScreen extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         RecyclerView groupRecyclerView = findViewById(R.id.home_recycler_view);
         groupRecyclerView.setLayoutManager(layoutManager);
-        HomeScreenRecyclerAdapter groupAdapter = new HomeScreenRecyclerAdapter(this,mImageNames,mImages,mPeople);
+        HomeScreenRecyclerAdapter groupAdapter = new HomeScreenRecyclerAdapter(this,mGroupIds,mImageNames,mImages,mPeople, userNickname, userPicUrl);
         groupRecyclerView.setAdapter(groupAdapter);
 
     }
@@ -207,6 +207,8 @@ public class HomeScreen extends AppCompatActivity {
 
     public void createGroupPressed(View view){
         Intent intent = new Intent(this,AddMembersCreateGroup.class);
+        intent.putExtra("USER_NICKNAME", userNickname);
+        intent.putExtra("USER_PIC_URL", userPicUrl);
         startActivity(intent);
         finish();
     }

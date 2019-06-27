@@ -35,13 +35,13 @@ public class GroupProfileScreen extends AppCompatActivity {
     private ArrayList<String> mFailCounter = new ArrayList<>(15);
     private DummyServer server = new DummyServer();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String teamId;
+    private String teamId, teamPicUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        teamId = intent.getStringExtra("teamId");
+        teamId = intent.getStringExtra("TEAM_ID");
 
         setContentView(R.layout.activity_group_profile_screen);
         TextView groupTitle = findViewById(R.id.group_header_name);
@@ -92,6 +92,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                 ("drawable/"+ imageName,null,this.getPackageName());
         groupImage.setImageResource(imageId);
 
+        teamPicUrl = ((Integer)imageId).toString();
     }
 
     private void initGroupName(TextView groupTitle){
@@ -111,6 +112,8 @@ public class GroupProfileScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
+                createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                createGame.putExtras(getIntent().getExtras());
                 startActivity(createGame);
             }});
 
