@@ -16,10 +16,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 
+import java.text.CollationElementIterator;
 import java.util.HashMap;
 
 public class NewSession extends AppCompatActivity {
@@ -123,8 +126,20 @@ public class NewSession extends AppCompatActivity {
         db.collection("games").add(game).
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     public void onSuccess(DocumentReference documentReference) {
-                        String gameId = documentReference.getId();
-                        next(gameName,gameId);
+
+                        //TODO: when teams are ready, run this method to update team of a game running
+                        final String gameId = documentReference.getId();
+//                        DocumentReference teamRf = db.collection("teams").document(teamId);
+//                        teamRf.update("activeGame", gameId,
+//                                "activeGameCreatedAt", FieldValue.serverTimestamp())
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                nextScreenGame(gameName, gameId);
+//                            }
+//                        });
+                        //TODO: when teams are ready, remove next line
+                        nextScreenGame(gameName, gameId);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -134,7 +149,7 @@ public class NewSession extends AppCompatActivity {
         });
     }
 
-    private void next(String name, String gameId) {
+    private void nextScreenGame(String name, String gameId) {
         Intent intent = new Intent(this, GameScreen.class);
         intent.putExtra("GAME_TYPE", selectedGame);
         intent.putExtra("GAME_NAME", name);

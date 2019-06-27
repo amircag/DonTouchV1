@@ -318,7 +318,8 @@ public class AddMembersCreateGroup extends AppCompatActivity {
                 }else{
                     for(int i = 0; i<users.size(); i++){
                         for(int j = 0; j<allContacts.size(); j++){
-                            if(users.get(i).getString("phoneNumber").contains(allContacts.get(j).android_contact_TelefonNr.substring(1))){
+                            if(allContacts.get(j).android_contact_TelefonNr != null &&
+                                    users.get(i).getString("phoneNumber").contains(allContacts.get(j).android_contact_TelefonNr.substring(1))){
                                 allContacts.get(j).Uid  = users.get(i).getId();
                                 allContacts.get(j).nickName = users.get(i).getString("nickName");
                                 allContacts.get(j).picUrl = users.get(i).getString("profilePic");
