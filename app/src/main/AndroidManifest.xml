@@ -28,6 +28,8 @@
         </activity>
       
         <activity android:name=".AddMembersCreateGroup"
+            android:label="Add members to New Group"
+            android:parentActivityName=".HomeScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

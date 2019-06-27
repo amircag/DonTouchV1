@@ -215,11 +215,10 @@ public class HomeScreen extends AppCompatActivity {
 
 
     public void createGroupPressed(View view){
-        Intent intent = new Intent(this,AddMembersCreateGroup.class);
+        Intent intent = new Intent(HomeScreen.this,AddMembersCreateGroup.class);
         intent.putExtra("USER_NICKNAME", userNickname);
         intent.putExtra("USER_PIC_URL", userPicUrl);
         startActivity(intent);
-        finish();
     }
 
 }
