@@ -9,7 +9,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/dtBlack</item>
-        <!--<item name="android:layoutDirection">ltr</item> supports only 17 and up-->
+        <item name="android:layoutDirection">ltr</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

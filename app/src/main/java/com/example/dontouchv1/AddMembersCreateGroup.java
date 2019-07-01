@@ -324,6 +324,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
                                 allContacts.get(j).nickName = users.get(i).getString("nickName");
                                 allContacts.get(j).picUrl = users.get(i).getString("profilePic");
                                 arrayList_Android_Contacts.add(allContacts.get(j));
+                                break;
                             }
                         }
                     }

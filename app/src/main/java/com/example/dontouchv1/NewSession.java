@@ -31,6 +31,7 @@ public class NewSession extends AppCompatActivity {
 
     private int selectedGame = R.id.thrill;
     private String teamId;
+    private String teamPicUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class NewSession extends AppCompatActivity {
 
         Intent intent = getIntent();
         teamId = intent.getStringExtra("TEAM_ID");
+        teamPicUrl = intent.getStringExtra("TEAM_PIC_URL");
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
@@ -118,6 +120,7 @@ public class NewSession extends AppCompatActivity {
         game.put("name", gameName);
         game.put("type", selectedGame);
         game.put("teamId", teamId);
+        game.put("teamPicUrl", teamPicUrl);
         game.put("creatorId", user.getUid());
         game.put("playersCount", (int) 0);
         game.put("ownsCount", (int) 0);
@@ -130,8 +133,8 @@ public class NewSession extends AppCompatActivity {
                         //TODO: when teams are ready, run this method to update team of a game running
                         final String gameId = documentReference.getId();
 //                        DocumentReference teamRf = db.collection("teams").document(teamId);
-//                        teamRf.update("activeGame", gameId,
-//                                "activeGameCreatedAt", FieldValue.serverTimestamp())
+//                        teamRf.update("currentGame", gameId,
+//                                "currentGameCreatedAt", FieldValue.serverTimestamp())
 //                                .addOnSuccessListener(new OnSuccessListener<Void>() {
 //                            @Override
 //                            public void onSuccess(Void aVoid) {

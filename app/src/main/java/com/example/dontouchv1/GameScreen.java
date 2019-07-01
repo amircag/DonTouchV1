@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -62,7 +63,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class GameScreen extends AppCompatActivity {
-    private String gameId, teamId, teamPicUrl, userNickname, userPicUrl;
+    private String gameId, gameName, teamId, teamPicUrl, userNickname, userPicUrl;
     private int playersCount, ownsCount, myOwnsCount = 0;
 
     private Owns owns = new Owns();
@@ -71,6 +72,8 @@ public class GameScreen extends AppCompatActivity {
     private boolean thrill = false;
     private int pauseCounter = 0;
     private boolean gameActive = true;
+    private Long myWasteTime = 0L;
+    private Long startTime = 0L;
 
     private GameLogAdapter adapter;
     private ArrayList<GameLogObj> logArray = new ArrayList<>();
@@ -89,59 +92,20 @@ public class GameScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         gameId = intent.getStringExtra("GAME_ID");
+        gameName = intent.getStringExtra("GAME_NAME");
         teamId = intent.getStringExtra("TEAM_ID");
         teamPicUrl = intent.getStringExtra("TEAM_PIC_URL");
         int gameType = intent.getIntExtra("GAME_TYPE", -1);
         userNickname = intent.getStringExtra("USER_NICKNAME");
         userPicUrl = intent.getStringExtra("USER_PIC_URL");
 
-        initHeader(intent);
+        initHeader();
         initLogsView();
         setTerminationButton();
         setGameType(gameType);
 
         gameListen();
         joinGame();
-    }
-
-    private void joinGame(){
-        CollectionReference players = db.collection("games").document(gameId).collection("players");
-        players.whereEqualTo("userId", user.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(queryDocumentSnapshots.size() != 0){
-                    DocumentSnapshot userData = queryDocumentSnapshots.getDocuments().get(0);
-                    myOwnsCount = ((Long)userData.get("myOwnsCount")).intValue();
-
-                    return;
-                };
-
-                WriteBatch batch = db.batch();
-                DocumentReference gameRf = db.collection("games").document(gameId);
-                batch.update(gameRf, "playersCount", FieldValue.increment(1));
-
-                DocumentReference userRf = db.collection("games").document(gameId).collection("players").document(user.getUid());
-                Map<String,Object> userData = new HashMap<>();
-                userData.put("joinAt", FieldValue.serverTimestamp());
-                userData.put("userId",user.getUid());
-                userData.put("userNickname", userNickname);
-                userData.put("userPicUrl", userPicUrl);
-                userData.put("myOwnsCount", (int) 0);
-                batch.set(userRf, userData);
-
-                batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("Private Error", "Failed to join a new game player");
-                    }
-                });
-            }
-        });
-
     }
 
     private void gameListen(){
@@ -157,15 +121,21 @@ public class GameScreen extends AppCompatActivity {
 
                 if (snapshot != null && snapshot.exists()) {
                     Map<String,Object> data = snapshot.getData();
-                    //update game
                     if((Boolean)data.get("active") == false){
                         gameActive = false;
                         nextToStat();
                         return;
                     }
+                    //init game data if need (return to game after exit)
+                    if(gameName == null || !gameName.equals((String)data.get("name"))){
+                        teamId = (String)data.get("teamId");
+                        teamPicUrl = (String)data.get("teamPicUrl");
+                        gameName = (String)data.get("name");
+                        initHeader();
+                        setGameType(((Long) data.get("type")).intValue());
+                    }
 
-                    setGameType(((Long) data.get("type")).intValue());
-
+                    //update game
                     if(((Long)data.get("playersCount")).intValue() != playersCount){
                         updatePlayersCounterText(((Long)data.get("playersCount")).intValue());
                     }
@@ -205,6 +175,50 @@ public class GameScreen extends AppCompatActivity {
 
     }
 
+    private void joinGame(){
+        CollectionReference players = db.collection("games").document(gameId).collection("players");
+        players.whereEqualTo("userId", user.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.size() != 0){
+                    DocumentSnapshot userData = queryDocumentSnapshots.getDocuments().get(0);
+                    myOwnsCount = ((Long)userData.get("myOwnsCount")).intValue();
+                    myWasteTime = (Long)userData.get("myWasteTime");
+                    return;
+                };
+
+                WriteBatch batch = db.batch();
+                DocumentReference gameRf = db.collection("games").document(gameId);
+                batch.update(gameRf, "playersCount", FieldValue.increment(1));
+
+                DocumentReference playerRf = db.collection("games").document(gameId).collection("players").document(user.getUid());
+                Map<String,Object> userData = new HashMap<>();
+                userData.put("joinAt", FieldValue.serverTimestamp());
+                userData.put("userId",user.getUid());
+                userData.put("userNickname", userNickname);
+                userData.put("userPicUrl", userPicUrl);
+                userData.put("myOwnsCount", (int) 0);
+                userData.put("myWasteTime", (Long)0L);
+                batch.set(playerRf, userData);
+
+                DocumentReference userRf = db.collection("users").document(user.getUid());
+                batch.update(userRf,"currentGame", gameId);
+
+                batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Private Error", "Failed to join a new game player");
+                    }
+                });
+            }
+        });
+
+    }
+
     private void setGameType(int gameType) {
         if (gameType==R.id.chill) ownThreshold = 5;
         else if (gameType==R.id.kill) ownThreshold = 1;
@@ -220,12 +234,14 @@ public class GameScreen extends AppCompatActivity {
 
         if (isScreenOn(this) && gameActive) {
             pauseCounter++;
+            startTime = SystemClock.elapsedRealtime();
             if (pauseCounter % ownThreshold == 0) {
                 myOwnsCount++;
                 setOwn();
             }
         }
     }
+
     /**
      * Is the screen of the device on.
      * @param context the context
@@ -283,6 +299,7 @@ public class GameScreen extends AppCompatActivity {
 
         DocumentReference player = db.collection("games").document(gameId).collection("players").document(user.getUid());
         batch.update(player,"myOwnsCount", myOwnsCount);
+        batch.update(player, "myWasteTime", myWasteTime);
 
         DocumentReference game = db.collection("games").document(gameId);
         batch.update(game, "ownsCount", FieldValue.increment(1));
@@ -351,6 +368,8 @@ public class GameScreen extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        //update wasteTime on server only when got phowned
+        myWasteTime += (SystemClock.elapsedRealtime()-startTime);
         gameListen();
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
@@ -438,6 +457,8 @@ public class GameScreen extends AppCompatActivity {
         logArray.clear();
         logArray.addAll(owns);
         GameLogObj lastOwn = logArray.get(0);
+        // TODO: remove first own from recycle
+        // logArray.remove(0);
         updateMarquee(lastOwn);
         adapter.notifyDataSetChanged();
     }
@@ -474,16 +495,17 @@ public class GameScreen extends AppCompatActivity {
 
     private void nextToStat(){
         Intent goToStats = new Intent(GameScreen.this,EndGameStats.class);
-        goToStats.putExtra("gameId", gameId);
+        goToStats.putExtra("TEAM_ID",teamId);
+        goToStats.putExtra("TEAM_PIC_URL",teamPicUrl);
+        goToStats.putExtra("GAME_ID", gameId);
+        goToStats.putExtra("OWNS_COUNT", ownsCount);
+        goToStats.putExtra("MY_OWNS_COUNT", myOwnsCount);
+        goToStats.putExtra("MY_WASTE_TIME", myWasteTime);
         finish();
         startActivity(goToStats);
     }
 
-    private void initHeader(Intent intent){
-        String gameName = intent.getStringExtra("GAME_NAME");
-        //String teamId = intent.getStringExtra("teamId");
-        //Bitmap teamPic ;
-
+    private void initHeader(){
         ((TextView)findViewById(R.id.gameNameGameScreen)).setText(gameName);
 
         Glide.with(this)
@@ -505,7 +527,7 @@ public class GameScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //endGameButton()
+        //block back button
     }
 
 }
