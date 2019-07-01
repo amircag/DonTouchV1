@@ -21,17 +21,20 @@ public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRe
 
 
     private static final String TAG = "HomeScreenRecAdapter";
+    private String userNickname;
+    private String userPicUrl;
 
-    private ArrayList<String> mImageNames = new ArrayList<>();
-    private ArrayList<String> mImage = new ArrayList<>();
-    private ArrayList<String> mPeople = new ArrayList<>();
+    private ArrayList<String> mGroupIds, mImageNames, mImage, mPeople;
     private Context mContext;
 
-    public HomeScreenRecyclerAdapter(Context mContext, ArrayList<String> mImageNames, ArrayList<String> mImage, ArrayList<String> mPeople) {
+    public HomeScreenRecyclerAdapter(Context mContext, ArrayList<String> mGroupIds, ArrayList<String> mImageNames, ArrayList<String> mImage, ArrayList<String> mPeople, String userNickname, String userPicUrl) {
+        this.mGroupIds = mGroupIds;
         this.mImageNames = mImageNames;
         this.mImage = mImage;
         this.mPeople = mPeople;
         this.mContext = mContext;
+        this.userNickname = userNickname;
+        this.userPicUrl = userPicUrl;
     }
 
 
@@ -58,8 +61,11 @@ public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRe
 
                 //CHANGE LATER TO ACTUAL ACTION!
                 // Toast.makeText(mContext, "msg", Toast.LENGTH_SHORT).show();
-                Intent newGame = new Intent(mContext, GroupProfileScreen.class);
-                mContext.startActivity(newGame);
+                Intent groupPage = new Intent(mContext, GroupProfileScreen.class);
+                groupPage.putExtra("TEAM_ID", mGroupIds.get(position));
+                groupPage.putExtra("USER_NICKNAME", userNickname);
+                groupPage.putExtra("USER_PIC_URL", userPicUrl);
+                mContext.startActivity(groupPage);
 
             }
         });

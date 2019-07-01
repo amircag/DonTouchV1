@@ -1,10 +1,13 @@
 package com.example.dontouchv1;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.DataSetObserver;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -66,12 +69,16 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     List<Android_Contact> mList_Android_Contacts;
     ArrayList<Android_Contact> arrayList_Android_Contacts = new ArrayList<Android_Contact>();
     ArrayList<Android_Contact> MembersToAdd = new ArrayList<Android_Contact>();
+    ArrayList<Android_Contact> allContacts = new ArrayList<>();
 
+
+    private AddMembersCreateGroup self = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_members_create_group);
+
         fp_get_Android_Contacts();
         initPicMembersToAdd();
         initMembersView();
@@ -93,6 +100,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
                 intent.putExtra("CHOSEN_MEMBERS",membersNames);*/
                     intent.putExtra("CHOSEN_MEMBERS", MembersToAdd);
+                    intent.putExtras(getIntent().getExtras());
                     startActivity(intent);
                 }else {
                     Toast message = Toast.makeText(AddMembersCreateGroup.this,choose_friends_msg,Toast.LENGTH_LONG);
@@ -217,7 +225,10 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     public void fp_get_Android_Contacts() {
 //----------------< fp_get_Android_Contacts() >----------------
 
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 100);
+            return;
+        }
 //--< get all Contacts >--
         Cursor cursor_Android_Contacts = null;
         ContentResolver contentResolver = getContentResolver();
@@ -268,25 +279,12 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 //----</ get phone number >----
 
 // Add the contact to the ArrayList
-                havePhownd(android_contact);
+                allContacts.add(android_contact);
+                //havePhownd(android_contact);
             }
 //----</ @Loop: all Contacts >----
-
+            setApplicationContacts(allContacts);
 //< show results >
-            listadapter = new Adapter_for_Android_Contacts(this, arrayList_Android_Contacts);
-            final ListView listView_Android_Contacts = findViewById(R.id.listview_Android_Contacts);
-            listView_Android_Contacts.setAdapter(listadapter);
-            listView_Android_Contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    arrayList_Android_Contacts.get(position).changeState();
-                    listadapter.notifyDataSetChanged();
-                    insertNewMember(position);
-
-
-
-                }
-            });
 //</ show results >
 
 
@@ -294,6 +292,63 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 //----</ Check: hasContacts >----
 
 // ----------------</ fp_get_Android_Contacts() >----------------
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == 100) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                Toast.makeText(this, "please grant contacts permission", Toast.LENGTH_SHORT).show();
+            }
+            fp_get_Android_Contacts();
+        }
+    }
+
+
+    private void setApplicationContacts(final ArrayList<Android_Contact> allContacts){
+        db.collection("users")
+                .orderBy("phoneNumber")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
+                if (users.size() == 0){
+                    Log.e("Private Error", "no users");
+                }else{
+                    for(int i = 0; i<users.size(); i++){
+                        for(int j = 0; j<allContacts.size(); j++){
+                            if(allContacts.get(j).android_contact_TelefonNr != null &&
+                                    users.get(i).getString("phoneNumber").contains(allContacts.get(j).android_contact_TelefonNr.substring(1))){
+                                allContacts.get(j).Uid  = users.get(i).getId();
+                                allContacts.get(j).nickName = users.get(i).getString("nickName");
+                                allContacts.get(j).picUrl = users.get(i).getString("profilePic");
+                                arrayList_Android_Contacts.add(allContacts.get(j));
+                                break;
+                            }
+                        }
+                    }
+
+                    listadapter = new Adapter_for_Android_Contacts(self, arrayList_Android_Contacts);
+                    final ListView listView_Android_Contacts = findViewById(R.id.listview_Android_Contacts);
+                    listView_Android_Contacts.setAdapter(listadapter);
+                    listView_Android_Contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            arrayList_Android_Contacts.get(position).changeState();
+                            listadapter.notifyDataSetChanged();
+                            insertNewMember(position);
+
+
+
+                        }
+                    });
+
+                    listadapter.notifyDataSetChanged();
+                }
+            }
+        });
+
     }
 
     public class Adapter_for_Android_Contacts extends BaseAdapter {

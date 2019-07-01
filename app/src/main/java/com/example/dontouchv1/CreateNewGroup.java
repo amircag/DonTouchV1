@@ -50,7 +50,6 @@ public class CreateNewGroup extends AppCompatActivity {
     private Uri filePath;
     private String picUrl;
     private String groupName;
-
     private ArrayList<Android_Contact> addedContacts = new ArrayList<>();
     private static int PICK_IMAGE_REQ = 23;
 
@@ -63,6 +62,7 @@ public class CreateNewGroup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_new_group);
         backBotton  = findViewById(R.id.backButton_for_create_group);
         groupNickname = findViewById(R.id.group_nickName_input);
@@ -180,7 +180,8 @@ public class CreateNewGroup extends AppCompatActivity {
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             public void onComplete(@NonNull Task<Void> task) {
                 Intent newIntent = new Intent(CreateNewGroup.this, GroupProfileScreen.class);
-                newIntent.putExtra("teamId", teamId);
+                newIntent.putExtra("TEAM_ID", teamId);
+                newIntent.putExtras(getIntent().getExtras());
                 startActivity(newIntent);
             }
         }).addOnFailureListener(new OnFailureListener() {

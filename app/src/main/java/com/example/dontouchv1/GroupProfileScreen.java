@@ -11,7 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.security.acl.Group;
 import java.util.ArrayList;
@@ -35,13 +42,13 @@ public class GroupProfileScreen extends AppCompatActivity {
     private ArrayList<String> mFailCounter = new ArrayList<>(15);
     private DummyServer server = new DummyServer();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String teamId;
+    private String teamId, teamPicUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        teamId = intent.getStringExtra("teamId");
+        teamId = intent.getStringExtra("TEAM_ID");
 
         setContentView(R.layout.activity_group_profile_screen);
         TextView groupTitle = findViewById(R.id.group_header_name);
@@ -92,6 +99,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                 ("drawable/"+ imageName,null,this.getPackageName());
         groupImage.setImageResource(imageId);
 
+        teamPicUrl = ((Integer)imageId).toString();
     }
 
     private void initGroupName(TextView groupTitle){
@@ -106,14 +114,41 @@ public class GroupProfileScreen extends AppCompatActivity {
 
     private void initButtons() {
 
-        Button createGroup = findViewById(R.id.newGameButton);
-        createGroup.setOnClickListener(new View.OnClickListener() {
+        Button createGame = findViewById(R.id.newGameButton);
+        createGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
+                createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                createGame.putExtras(getIntent().getExtras());
                 startActivity(createGame);
             }});
 
+        Button joinGame = findViewById(R.id.joinGameButton);
+        joinGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: add a filter for team only
+                CollectionReference games = db.collection("games");
+                games.whereEqualTo("active", true)
+                        .orderBy("createdAt", Query.Direction.DESCENDING)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.getDocuments().size() == 0) return;
+
+                        DocumentSnapshot game = queryDocumentSnapshots.getDocuments().get(0);
+                        String gameId = (String) game.getId();
+
+                        Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
+                        joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                        joinGame.putExtra("GAME_ID", gameId);
+                        joinGame.putExtras(getIntent().getExtras());
+                        startActivity(joinGame);
+                    }
+                });
+            }});
 
         Button backButton = findViewById(R.id.groupBackButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +171,6 @@ public class GroupProfileScreen extends AppCompatActivity {
 
         loserImg.setImageResource(R.drawable.isar);
         loserTxt.setText("AbuShefa");
-
 
     }
 

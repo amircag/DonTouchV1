@@ -82,7 +82,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Nick Name"
                     android:maxLength="25"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:inputType="text"/>
             </android.support.design.widget.TextInputLayout>
 
 

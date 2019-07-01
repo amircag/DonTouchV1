@@ -153,7 +153,7 @@
                         android:orientation="vertical"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
-                        android:background="@drawable/profile_border"
+                        android:background="@drawable/profile_border_selected"
                         android:clickable="true"
                         android:onClick="onTypeSelected">
 
