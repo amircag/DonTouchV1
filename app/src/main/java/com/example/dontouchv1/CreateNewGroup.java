@@ -26,10 +26,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -38,8 +39,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -57,6 +58,8 @@ public class CreateNewGroup extends AppCompatActivity {
     Button backBotton;
     Button createButton;
     TextInputLayout groupNickname;
+
+    /*private final Android_Contact selfContact = new Android_Contact();*/
 
 
     @Override
@@ -129,7 +132,8 @@ public class CreateNewGroup extends AppCompatActivity {
                             while(!uri.isComplete());
 
                             picUrl = uri.getResult().toString();
-                            saveDB(teamId);
+                            /*saveDB(teamId);*/
+                            addSelfAndSaveDB(new Android_Contact(),teamId);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -156,6 +160,14 @@ public class CreateNewGroup extends AppCompatActivity {
         DocumentReference teamRef = db.collection("teams").document(teamId);
         Map<String,Object> pic = new HashMap<>();
         pic.put("picUrl", picUrl);
+        pic.put("name",groupName);
+        pic.put("createdAt", FieldValue.serverTimestamp());
+        pic.put("firstPlace",addedContacts.get(0).Uid);
+        if (addedContacts.size() > 1) {
+            pic.put("lastPlace", addedContacts.get(1).Uid);
+        } else {
+            pic.put("lastPlace", addedContacts.get(0).Uid);
+        }
         batch.set(teamRef, pic);
 
         for (int i=0; i<addedContacts.size(); i++){
@@ -250,9 +262,54 @@ public class CreateNewGroup extends AppCompatActivity {
             /*ArrayList<String> members = getIntent().getStringArrayListExtra("CHOSEN_MEMBERS");*/
             for (Android_Contact name:contactlist){
                 addedContacts.add(name);
-
             }
         }
+    }
+
+    public void addSelfAndSaveDB(final Android_Contact contact, final String teamId){
+        /*final Android_Contact selfContact = new Android_Contact();*/
+        contact.Uid = user.getUid();
+        db.collection("users")
+                .whereEqualTo("phoneNumber",user.getPhoneNumber())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> result = queryDocumentSnapshots.getDocuments();
+                if (result.size() > 1){
+                    Log.e("Private Error", "more than one user for one phone number " + user.getPhoneNumber());
+                    System.out.println(result);
+                } else {
+                    DocumentSnapshot selfUser = result.get(0);
+                    contact.android_contact_TelefonNr = selfUser.getString("phoneNumber");
+                    contact.picUrl = selfUser.getString("profilePic");
+                    contact.nickName = selfUser.getString("nickName");
+                    addedContacts.add(contact);
+                    saveDB(teamId);
+
+                }
+
+            }
+        });
+
+
+        /*DocumentReference userDocument = db.collection("users").document(user.getUid());
+        userDocument.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot userData = task.getResult();
+                    System.out.println("Grabbed user document");
+                    selfContact.nickName = userData.getString("nickName");
+                    selfContact.picUrl = userData.getString("profilePic");
+                } else {
+                    System.out.println("Couldn't grab document");
+                    selfContact.nickName = "boo";
+                    selfContact.picUrl = "zzzz";
+                }
+
+            }
+        });*/
+
     }
 
     public void getTeamPic(View view){
