@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,7 +69,7 @@ public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHold
         viewHolder.ownType.setImageResource(iconOwn);
         final String ownDesc = logs.get(i).getOwnDesc();
 
-        viewHolder.ownType.setOnClickListener(new View.OnClickListener() {
+        viewHolder.bgLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: 5/19/2019 remove from list
@@ -90,12 +91,14 @@ public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHold
 
         CircleImageView userPic;
         ImageView ownType;
+        LinearLayout bgLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             userPic = itemView.findViewById(R.id.userPic_game);
             ownType = itemView.findViewById(R.id.ownType_game);
+            bgLayout = itemView.findViewById(R.id.player_bg);
 
         }
     }

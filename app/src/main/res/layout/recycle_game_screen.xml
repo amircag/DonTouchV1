@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.6"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_vertical">
 
             <ImageView
                 android:layout_width="200dp"
