@@ -211,6 +211,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                 Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
                 createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
                 createGame.putExtras(getIntent().getExtras());
+//                createGame.putExtra("TEAM_ID", "SJvhAuMdny1mK0w2Ndvo");
                 startActivity(createGame);
             }});
 
