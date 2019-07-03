@@ -264,4 +264,10 @@ public class GroupProfileScreen extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent homeScreen = new Intent(GroupProfileScreen.this,HomeScreen.class);
+        startActivity(homeScreen);
+    }
+
 }

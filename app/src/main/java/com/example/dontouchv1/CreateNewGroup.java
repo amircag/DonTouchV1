@@ -180,14 +180,15 @@ public class CreateNewGroup extends AppCompatActivity {
 
             DocumentReference userRef = db.collection("users").document(addedContacts.get(i).Uid).collection("teams").document(teamId);
             Map<String,Object> data = new HashMap<>();
+            data.put("picUrl",picUrl);
             data.put("name",groupName);
             batch.set(userRef,data);
         }
 
-        DocumentReference meRef = db.collection("users").document(user.getUid()).collection("teams").document(teamId);
+        /*DocumentReference meRef = db.collection("users").document(user.getUid()).collection("teams").document(teamId);
         Map<String,Object> data = new HashMap<>();
         data.put("name",groupName);
-        batch.set(meRef, data);
+        batch.set(meRef, data);*/
 
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             public void onComplete(@NonNull Task<Void> task) {
@@ -269,7 +270,6 @@ public class CreateNewGroup extends AppCompatActivity {
 
     public void addSelfAndSaveDB(final Android_Contact contact, final String teamId){
         /*final Android_Contact selfContact = new Android_Contact();*/
-        contact.Uid = user.getUid();
         db.collection("users")
                 .whereEqualTo("phoneNumber",user.getPhoneNumber())
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -284,6 +284,7 @@ public class CreateNewGroup extends AppCompatActivity {
                     contact.android_contact_TelefonNr = selfUser.getString("phoneNumber");
                     contact.picUrl = selfUser.getString("profilePic");
                     contact.nickName = selfUser.getString("nickName");
+                    contact.Uid = user.getUid();
                     addedContacts.add(contact);
                     saveDB(teamId);
 

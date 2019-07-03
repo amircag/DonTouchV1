@@ -10,6 +10,24 @@ public class GroupObj {
     private String firstPlacePic;
     private String lastPlaceName;
     private String lastPlacePic;
+    private String groupId;
+    private boolean activeGame;
+
+    public boolean isActiveGame() {
+        return activeGame;
+    }
+
+    public void setActiveGame(boolean activeGame) {
+        this.activeGame = activeGame;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
 
     public String getFirstPlaceName() {
         return firstPlaceName;
