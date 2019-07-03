@@ -195,6 +195,7 @@ public class CreateNewGroup extends AppCompatActivity {
                 newIntent.putExtra("TEAM_ID", teamId);
                 newIntent.putExtras(getIntent().getExtras());
                 startActivity(newIntent);
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
