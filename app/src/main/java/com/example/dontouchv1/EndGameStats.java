@@ -36,7 +36,7 @@ public class EndGameStats extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private long timeOnPhone;
-    private String teamId,gameId,teamPicUrl,duration ,gameName,myPicUrl,myNickName,teamName;
+    private String teamId,gameId,teamPicUrl,duration ,gameName,myPicUrl,myNickName,teamName,durationAsText;
     private int teamOwned, myOwnedCount,myScore,myRank;
     private ArrayList<LeaderBoardObj> leaderBoardObjs = new ArrayList<>();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -115,6 +115,16 @@ public class EndGameStats extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 duration = String.valueOf(documentSnapshot.get("duration"));
+
+                String minutes = String.valueOf ((Long.parseLong(duration) / (1000*60)) % 60);
+                String hours   = String.valueOf ((Long.parseLong(duration) / (1000*60*60)) % 24);
+                if (minutes.length() == 1){
+                    minutes = "0"+minutes;
+                }
+                if (hours.length()==1){
+                    hours="0"+hours;
+                }
+                durationAsText = hours+":"+minutes;
                 setTeamName();
             }
         });
@@ -255,7 +265,7 @@ public class EndGameStats extends AppCompatActivity {
     public Bundle toGroupStats(){
         Bundle myB = new Bundle();
         myB.putInt("OWNES_COUNT",teamOwned);
-        myB.putString("DURATION",duration);
+        myB.putString("DURATION",durationAsText);
         myB.putString("GAME_NAME",gameName);
         myB.putString("TEAM_PIC_URL",teamPicUrl);
         myB.putSerializable("LEADER_BOARD",leaderBoardObjs);
