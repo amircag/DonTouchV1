@@ -1,8 +1,6 @@
 package com.example.dontouchv1;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -20,18 +20,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecycleViewAdapterLeader extends RecyclerView.Adapter<RecycleViewAdapterLeader.ViewHelder>{
     private static final String TAG = "RecycleViewAdapterLeade";
 
-    private ArrayList<String> playerImages = new ArrayList<>();
-    private ArrayList<String> playerNmaes = new ArrayList<>();
-    private ArrayList<String> playerRank = new ArrayList<>();
-    private ArrayList<String> imageBg = new ArrayList<>();
+    private ArrayList<LeaderBoardObj> leaderBoardObjs = new ArrayList<>();
+
     private Context lcontext;
 
-    public RecycleViewAdapterLeader(ArrayList<String> imageName, ArrayList<String> playerNmae,ArrayList<String> rank,Context context,ArrayList<String> bg){
-        playerImages = imageName;
-        playerNmaes = playerNmae;
-        playerRank = rank;
+    public RecycleViewAdapterLeader(ArrayList<LeaderBoardObj> leaders,Context context){
+        leaderBoardObjs = leaders;
         lcontext = context;
-        imageBg = bg;
+
 
     }
     @NonNull
@@ -45,19 +41,23 @@ public class RecycleViewAdapterLeader extends RecyclerView.Adapter<RecycleViewAd
     @Override
     public void onBindViewHolder(@NonNull ViewHelder holder, int i) {
         Log.d(TAG, "onBindViewHolder: ");
-        int imageId = lcontext.getResources().getIdentifier ("drawable/"+playerImages.get(i),null,lcontext.getPackageName());
-        holder.leaderBorardImange.setImageResource(imageId);
-        int bgId = lcontext.getResources().getIdentifier ("drawable/"+imageBg.get(i),null,lcontext.getPackageName());
+
+        Glide.with(lcontext)
+                .load(leaderBoardObjs.get(i).getPicUrl())
+                .disallowHardwareConfig()
+                .into(holder.leaderBorardImange);
+        int bgId = lcontext.getResources().getIdentifier ("drawable/"+leaderBoardObjs.get(i)
+                .getBg(),null,lcontext.getPackageName());
         holder.boardBg.setBackgroundResource(bgId);
-        holder.playerName.setText(playerNmaes.get(i));
-        holder.playerRank.setText(playerRank.get(i));
+        holder.playerName.setText(leaderBoardObjs.get(i).getNickName());
+        holder.playerRank.setText(String.valueOf(i+1));
 
 
     }
 
     @Override
     public int getItemCount() {
-        return playerImages.size();
+        return leaderBoardObjs.size();
     }
 
     public class ViewHelder extends RecyclerView.ViewHolder{

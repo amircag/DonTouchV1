@@ -1,9 +1,7 @@
 package com.example.dontouchv1;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +16,30 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
+
+import java.util.ArrayList;
+
+import java.util.List;
+
 public class EndGameStats extends AppCompatActivity {
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private long timeOnPhone;
+    private String teamId,gameId,teamPicUrl,duration ,gameName,myPicUrl,myNickName,teamName;
+    private int teamOwned, myOwnedCount,myScore,myRank;
+    private ArrayList<LeaderBoardObj> leaderBoardObjs = new ArrayList<>();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -41,6 +62,84 @@ public class EndGameStats extends AppCompatActivity {
         setContentView(R.layout.activity_end_game_stats);
 
 
+        /*// Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);*/
+
+        Intent intent = getIntent();
+        teamId = intent.getStringExtra("TEAM_ID");
+        teamPicUrl = intent.getStringExtra("TEAM_PIC_URL");
+        gameId = intent.getStringExtra("GAME_ID");
+        teamOwned = intent.getIntExtra("OWNS_COUNT",0);
+        myOwnedCount = intent.getIntExtra("MY_OWNS_COUNT",0);
+        timeOnPhone= intent.getLongExtra("MY_WASTE_TIME",0);
+        gameName= intent.getStringExtra("GAME_NAME");
+        setLeaderBoard();
+
+
+    }
+
+    public void setLeaderBoard(){
+        //
+        System.out.println(gameId);
+        System.out.println("reached the leaderboard func");
+        db.collection("games").document(gameId)
+                .collection("players")
+                .orderBy("myOwnsCount", Query.Direction.ASCENDING)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+             @Override
+             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                 List<DocumentSnapshot> members = queryDocumentSnapshots.getDocuments();
+                 System.out.println("hello");
+                 for (DocumentSnapshot member: members){
+                     String ownsCount = String.valueOf(member.getString("userId"));
+                     LeaderBoardObj player = new LeaderBoardObj(member.getString("userId"),
+                             member.getString("userPicUrl"),member.getString("userNickname"),
+                             ownsCount);
+
+                     leaderBoardObjs.add(player);
+                 }
+                 System.out.println("reach SetDUration caller");
+                 setDuration();
+
+             }
+         });
+    }
+
+    public void setDuration(){
+        db.collection("games").document(gameId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                duration = String.valueOf(documentSnapshot.get("duration"));
+                setTeamName();
+            }
+        });
+    }
+
+    private void setTeamName(){
+        db.collection("teams").document(teamId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                teamName = documentSnapshot.getString("name");
+
+                saveDb();
+            }
+        });
+    }
+
+    public void saveDb(){
+        DocumentReference teamRAF = db.collection("teams").document(teamId);
+        DocumentReference userRAF = db.collection("users").document(user.getUid());
+        WriteBatch batch = db.batch();
+        batch.update(teamRAF,"firstPlace",leaderBoardObjs.get(0).getUserUid());
+        batch.update(teamRAF,"lastPlace",leaderBoardObjs.get(leaderBoardObjs.size()-1)
+                .getUserUid());
+        batch.update(userRAF,"myOwnsCount", FieldValue.increment(myOwnedCount));
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -48,10 +147,9 @@ public class EndGameStats extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
-
     }
+
+
 
 
     @Override
@@ -74,6 +172,11 @@ public class EndGameStats extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void calculateScore(){
+        myScore = (int)(1-(timeOnPhone/Long.parseLong(duration)));
+
     }
 
     /**
@@ -129,9 +232,11 @@ public class EndGameStats extends AppCompatActivity {
             switch (position){
                 case 0:
                     fragment = new EndGameGroupStats();
+                    fragment.setArguments(toGroupStats());
                     break;
                 case 1:
                     fragment = new EndGamePersonalStat();
+                    fragment.setArguments(toPersonalStats());
                     break;
             }return fragment;
         }
@@ -146,4 +251,43 @@ public class EndGameStats extends AppCompatActivity {
     @Override
     public void onBackPressed() {
     }
+
+    public Bundle toGroupStats(){
+        Bundle myB = new Bundle();
+        myB.putInt("OWNES_COUNT",teamOwned);
+        myB.putString("DURATION",duration);
+        myB.putString("GAME_NAME",gameName);
+        myB.putString("TEAM_PIC_URL",teamPicUrl);
+        myB.putSerializable("LEADER_BOARD",leaderBoardObjs);
+        myB.putString("TEAM_NAME",teamName);
+
+
+        return myB;
+    }
+
+    public Bundle toPersonalStats(){
+        setMyData();
+        calculateScore();
+        Bundle bundle = new Bundle();
+        bundle.putInt("MY_SCORE",myScore);
+        bundle.putInt("MY_RANK",myRank);
+        bundle.putInt("MY_OWMES_COUNT",myOwnedCount);
+        bundle.putLong("TIME_ON_PHONE",timeOnPhone);
+        bundle.putString("MY_PIC_URL",myPicUrl);
+        bundle.putString("MY_NICK_NAME",myNickName);
+        return bundle;
+    }
+
+    private void setMyData(){
+        for (int i=0; i< leaderBoardObjs.size();i++){
+            if(user.getUid().equals(leaderBoardObjs.get(i).getUserUid())){
+                myRank = i+1;
+                myNickName = leaderBoardObjs.get(i).getNickName();
+                myPicUrl = leaderBoardObjs.get(i).getPicUrl();
+                break;
+            }
+        }
+    }
+
+
 }

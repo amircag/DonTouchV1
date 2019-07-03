@@ -74,6 +74,8 @@ public class GameScreen extends AppCompatActivity {
     private boolean gameActive = true;
     private Long myWasteTime = 0L;
     private Long startTime = 0L;
+    private Long startGame = SystemClock.elapsedRealtime();
+
 
     private GameLogAdapter adapter;
     private ArrayList<GameLogObj> logArray = new ArrayList<>();
@@ -98,6 +100,7 @@ public class GameScreen extends AppCompatActivity {
         int gameType = intent.getIntExtra("GAME_TYPE", -1);
         userNickname = intent.getStringExtra("USER_NICKNAME");
         userPicUrl = intent.getStringExtra("USER_PIC_URL");
+
 
         initHeader();
         initLogsView();
@@ -190,7 +193,7 @@ public class GameScreen extends AppCompatActivity {
                 WriteBatch batch = db.batch();
                 DocumentReference gameRf = db.collection("games").document(gameId);
                 batch.update(gameRf, "playersCount", FieldValue.increment(1));
-
+                updateTotalGames();
                 DocumentReference playerRf = db.collection("games").document(gameId).collection("players").document(user.getUid());
                 Map<String,Object> userData = new HashMap<>();
                 userData.put("joinAt", FieldValue.serverTimestamp());
@@ -295,6 +298,7 @@ public class GameScreen extends AppCompatActivity {
         ownData.put("userNickname", userNickname);
         ownData.put("userPicUrl", userPicUrl);
         ownData.put("createdAt", FieldValue.serverTimestamp());
+
         batch.set(ownRf, ownData);
 
         DocumentReference player = db.collection("games").document(gameId).collection("players").document(user.getUid());
@@ -479,9 +483,10 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void terminateBack(){
+        Long duration = SystemClock.elapsedRealtime() - startGame;
         DocumentReference gameRf = db.collection("games").document(gameId);
         gameRf.update("active", false,
-                "endedAt",FieldValue.serverTimestamp())
+                "endedAt",FieldValue.serverTimestamp(),"duration" , duration)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             public void onSuccess(Void aVoid) {
 
@@ -493,6 +498,12 @@ public class GameScreen extends AppCompatActivity {
         });
     }
 
+    private void updateTotalGames(){
+        DocumentReference userRAF = db.collection("users").document(user.getUid());
+        WriteBatch batch = db.batch();
+        batch.update(userRAF,"myGamesCount",FieldValue.increment(1));
+    }
+
     private void nextToStat(){
         Intent goToStats = new Intent(GameScreen.this,EndGameStats.class);
         goToStats.putExtra("TEAM_ID",teamId);
@@ -501,6 +512,7 @@ public class GameScreen extends AppCompatActivity {
         goToStats.putExtra("OWNS_COUNT", ownsCount);
         goToStats.putExtra("MY_OWNS_COUNT", myOwnsCount);
         goToStats.putExtra("MY_WASTE_TIME", myWasteTime);
+        goToStats.putExtra("GAME_NAME",gameName);
         finish();
         startActivity(goToStats);
     }

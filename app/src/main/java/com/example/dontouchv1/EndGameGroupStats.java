@@ -11,8 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -29,10 +30,10 @@ public class EndGameGroupStats extends Fragment {
         // Required empty public constructor
     }
 
-    private ArrayList<String> playersName = new ArrayList<>();
-    private ArrayList<String> playersRank = new ArrayList<>();
-    private ArrayList<String> playersImage = new ArrayList<>();
-    private ArrayList<String> playersBg = new ArrayList<>();
+    private ArrayList<LeaderBoardObj> leaderBoardObjs = new ArrayList<>();
+    private String duration,gameName,teamPicUrl,teamName;
+    private int ownesCount;
+
     private RecyclerView rv;
     private RecycleViewAdapterLeader adapter;
     private ImageView gorupImage;
@@ -51,11 +52,17 @@ public class EndGameGroupStats extends Fragment {
 
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        leaderBoardObjs = (ArrayList<LeaderBoardObj>)getArguments().getSerializable("LEADER_BOARD");
+        duration = getArguments().getString("DURATION");
+        ownesCount = getArguments().getInt("OWNES_COUNT");
+        gameName = getArguments().getString("GAME_NAME");
+        teamPicUrl = getArguments().getString("TEAM_PIC_URL");
+        teamName = getArguments().getString("TEAM_NAME");
         return inflater.inflate(R.layout.fragment_end_game_group_stats, container, false);
 
     }
@@ -82,67 +89,74 @@ public class EndGameGroupStats extends Fragment {
 
     private void initLeaderBoard(){
 
+//
+//
+//        playersImage.add("asaf");
+//        playersName.add("Chef");
+//        playersRank.add("1.");
+//        playersBg.add("gold_lb");
+//
+//
+//        playersImage.add("amir");
+//        playersName.add("Fresh Prince");
+//        playersRank.add("2.");
+//        playersBg.add("silver_bl");
+//
+//
+//
+//        playersImage.add("noa");
+//        playersName.add("NoaMen");
+//        playersRank.add("3.");
+//        playersBg.add("bronze_bl");
+//
+//
+//        playersImage.add("isar");
+//        playersName.add("AbuShefa");
+//        playersRank.add("4.");
+//        playersBg.add("profile_border");
+//
+//
+//        playersImage.add("liav");
+//        playersName.add("Liad");
+//        playersRank.add("5.");
+//        playersBg.add("red_bl");
 
 
-        playersImage.add("asaf");
-        playersName.add("Chef");
-        playersRank.add("1.");
-        playersBg.add("gold_lb");
-
-
-        playersImage.add("amir");
-        playersName.add("Fresh Prince");
-        playersRank.add("2.");
-        playersBg.add("silver_bl");
-
-
-
-        playersImage.add("noa");
-        playersName.add("NoaMen");
-        playersRank.add("3.");
-        playersBg.add("bronze_bl");
-
-
-        playersImage.add("isar");
-        playersName.add("AbuShefa");
-        playersRank.add("4.");
-        playersBg.add("profile_border");
-
-
-        playersImage.add("liav");
-        playersName.add("Liad");
-        playersRank.add("5.");
-        playersBg.add("red_bl");
-
-
-        setuoData();
+        setupData();
 
     }
 
-    private void setuoData(){
-        adapter = new RecycleViewAdapterLeader(playersImage,playersName,playersRank,getContext(),playersBg);
+    private void setupData(){
+        adapter = new RecycleViewAdapterLeader(leaderBoardObjs,getContext());
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
 
     private void initGroupImage(){
-        gorupImage.setImageResource(R.drawable.group0);
+        Glide.with(getContext())
+                .load(teamPicUrl)
+                .disallowHardwareConfig()
+                .into(gorupImage);
     }
 
     private void setWinnerLoserDisplay(){
-        winnerImage.setImageResource(R.drawable.asaf);
-        loserImage.setImageResource(R.drawable.liav);
-        winnerName.setText("Chef");
-        loserName.setText("Liad");
+        String winnerPic = leaderBoardObjs.get(0).getPicUrl();
+        String winnerNickName = leaderBoardObjs.get(0).getNickName();
+        String losserPic = leaderBoardObjs.get(leaderBoardObjs.size()-1).getPicUrl();
+        String losserName = leaderBoardObjs.get(leaderBoardObjs.size()-1).getNickName();
+        Glide.with(getContext()).load(winnerPic).disallowHardwareConfig().into(winnerImage);
+        Glide.with(getContext()).load(losserPic).disallowHardwareConfig().into(loserImage);
+        winnerName.setText(winnerNickName);
+        loserName.setText(losserName);
     }
 
     private void setGroupStast(){
-        groupName.setText(getGroupName());
+        groupName.setText(teamName);
         groupScore.setText(getGroupScore());
-        groupFails.setText(getGroupOwned());
-        groupDuration.setText(getGroupDuration());
-        meetUpName.setText(getGameName());
+        groupFails.setText(String.valueOf(ownesCount));
+        groupDuration.setText(duration);
+        meetUpName.setText(gameName);
     }
 
     private String getGroupName(){
