@@ -8,11 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,8 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,22 +42,113 @@ public class GroupProfileScreen extends AppCompatActivity {
     private DummyServer server = new DummyServer();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String teamId, teamPicUrl;
+    private GroupObj thisGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         teamId = intent.getStringExtra("TEAM_ID");
+        loadScreen(teamId);
 
-        setContentView(R.layout.activity_group_profile_screen);
+        /*setContentView(R.layout.activity_group_profile_screen);
         TextView groupTitle = findViewById(R.id.group_header_name);
         ImageView groupImage = findViewById(R.id.group_header_image);
-        initGroupName(groupTitle);
+        initGroupName(groupTitle,"a");
         initGroupImage(groupImage);
         initButtons();
         initMembers();
-        initWinners();
+        initWinners();*/
 
+
+    }
+
+    private void loadScreen(final String teamId){
+        final DocumentReference groupRef = db.collection("teams").document(teamId);
+        groupRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                DocumentSnapshot groupDoc = documentSnapshot;
+                final String groupName = groupDoc.getString("name");
+                final String groupPic = groupDoc.getString("picUrl");
+                teamPicUrl = groupDoc.getString("picUrl");
+                final String firstPlaceId = groupDoc.getString("firstPlace");
+                final String lastPlaceId = groupDoc.getString("lastPlace");
+                thisGroup = new GroupObj(groupName,groupPic,firstPlaceId,lastPlaceId);
+
+                loadGroupMembers(teamId);
+            }
+        });
+    }
+
+    private void loadGroupMembers(final String teamId){
+        db.collection("teams").document(teamId)
+                .collection("users")
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> members = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot member : members){
+                    String memberName = member.getString("nickName");
+                    String memberPic = member.getString("picUrl");
+
+                    mMembers.add(memberName);
+                    mImages.add(memberPic);
+
+                    if (member.getId().equals(thisGroup.getFirstPlaceId())){
+                        thisGroup.setFirstPlaceName(memberName);
+                        thisGroup.setFirstPlacePic(memberPic);
+                    } else if (member.getId().equals(thisGroup.getLastPlaceId())){
+                        thisGroup.setLastPlaceName(memberName);
+                        thisGroup.setLastPlacePic(memberPic);
+                    }
+                }
+
+                startDisplay();
+
+            }
+        });
+    }
+
+    private void startDisplay(){
+        // set screen
+        setContentView(R.layout.activity_group_profile_screen);
+
+        // set group image + name
+        TextView groupTitle = findViewById(R.id.group_header_name);
+        groupTitle.setText(thisGroup.getGroupName());
+        ImageView groupImage = findViewById(R.id.group_header_image);
+        Glide.with(GroupProfileScreen.this)
+                .load(thisGroup.getGroupPic())
+                .centerCrop()
+                .placeholder(R.drawable.spinner)
+                .into(groupImage);
+
+        initButtons(); // todo Update to button chooser Join / Start
+
+        // set winner/loser
+        CircleImageView winnerImg = findViewById(R.id.group_winner_image);
+        CircleImageView loserImg = findViewById(R.id.group_loser_image);
+        TextView winnerTxt = findViewById(R.id.group_winner_name);
+        TextView loserTxt = findViewById(R.id.group_loser_name);
+
+        winnerTxt.setText(thisGroup.getFirstPlaceName());
+        Glide.with(GroupProfileScreen.this)
+                .load(thisGroup.getFirstPlacePic())
+                .into(winnerImg);
+
+        loserTxt.setText(thisGroup.getLastPlaceName());
+        Glide.with(GroupProfileScreen.this)
+                .load(thisGroup.getLastPlacePic())
+                .into(loserImg);
+
+        // set group members
+
+        // todo : remove when fail counter is removed
+        for (int i=0;i<mMembers.size();i++){
+            mFailCounter.add("1");
+        }
+        initRecyclerGrid();
 
     }
 
@@ -102,10 +192,10 @@ public class GroupProfileScreen extends AppCompatActivity {
         teamPicUrl = ((Integer)imageId).toString();
     }
 
-    private void initGroupName(TextView groupTitle){
+    private void initGroupName(TextView groupTitle, String groupName){
 
-        /* Temporary Data Members */
-        String groupName = "The New Dream Team";
+        /* Temporary Data Members *//*
+        String groupName = "The New Dream Team";*/
 
         /* Set group header */
         groupTitle.setText(groupName);
@@ -172,6 +262,12 @@ public class GroupProfileScreen extends AppCompatActivity {
         loserImg.setImageResource(R.drawable.isar);
         loserTxt.setText("AbuShefa");
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent homeScreen = new Intent(GroupProfileScreen.this,HomeScreen.class);
+        startActivity(homeScreen);
     }
 
 }

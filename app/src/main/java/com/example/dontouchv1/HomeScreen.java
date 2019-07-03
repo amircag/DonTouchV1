@@ -15,15 +15,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class HomeScreen extends AppCompatActivity {
@@ -36,8 +41,15 @@ public class HomeScreen extends AppCompatActivity {
     private ArrayList<String> mPeople = new ArrayList<>(15);
     private ArrayList<String> userData = new ArrayList<>();
 
+    private ArrayList<GroupObj> groupsForUser = new ArrayList<>();
+    private ArrayList<String> userGroupIds = new ArrayList<>();
+    private HashMap<String, Integer> userGroupIdMap = new HashMap<>();
+
     private String userNickname;
     private String userPicUrl;
+    private String userGamesCount;
+    private String userOwnsCount;
+
     /* FIREBASE VARIABLES */
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -49,13 +61,9 @@ public class HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAppDirectionLTR();
+        loadScreen();
 
-        /*if (getIntent().hasExtra("USER_DATA")){
-            userData = getIntent().getStringArrayListExtra("USER_DATA");
-        }*/
-
-
-        loadServerData();
+        /*loadServerData();*/
 
         /*setContentView(R.layout.activity_home_screen);
 
@@ -72,6 +80,99 @@ public class HomeScreen extends AppCompatActivity {
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    private void loadScreen(){
+
+        // LOAD USER DATA
+        userDocument.get(Source.DEFAULT).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userNickname = documentSnapshot.getString("nickName");
+                userPicUrl = documentSnapshot.getString("profilePic");
+                userGamesCount = "9";
+                userOwnsCount = "10";
+
+                /*
+                todo unblock after adding fields to server
+                userOwnsCount = documentSnapshot.getString("myOwnsCount");
+                userGameCount = documentSnapshot.getString("myGamesCount");
+                 */
+
+                // LOAD GROUP DATA
+                db.collection("users").document(user.getUid())
+                        .collection("teams")
+                        .orderBy("name", Query.Direction.ASCENDING)
+                        .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<DocumentSnapshot> groupList = queryDocumentSnapshots.getDocuments();
+                        int groupIndex = 0;
+                        for (DocumentSnapshot group : groupList){
+                            String groupName = group.getString("name");
+                            String groupPic = group.getString("picUrl");
+                            GroupObj groupObj = new GroupObj(groupName,groupPic,null,null);
+                            groupObj.setGroupId(group.getId());
+                            userGroupIdMap.put(group.getId(),groupIndex);
+                            groupsForUser.add(groupObj);
+                            groupIndex++;
+
+                        }
+
+
+                        /*displayScreen();*/
+                        findActiveGames();
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void findActiveGames(){
+
+        db.collection("games")
+                .whereEqualTo("active",true)
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> activeGames = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot game : activeGames){
+                    String gameTeam = game.getString("teamId");
+                    if (userGroupIdMap.containsKey(gameTeam)){
+
+                        groupsForUser.get(userGroupIdMap.get(gameTeam)).setActiveGame(true);
+                    }
+                }
+
+                displayScreen();
+
+            }
+        });
+    }
+
+    private void displayScreen(){
+        setContentView(R.layout.activity_home_screen);
+
+        /* Sets user box data */
+        TextView nickname = findViewById(R.id.name);
+        ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);
+        nickname.setText(userNickname);
+        Glide.with(HomeScreen.this)
+                .load(userPicUrl)
+                .into(userProfilePictureHome);
+        TextView userRating = findViewById(R.id.userrating);
+        TextView timeOnPhone = findViewById(R.id.total_time_on_phone);
+        userRating.setText(userOwnsCount);
+        timeOnPhone.setText(userGamesCount);
+
+        /* Sets group recycler data */
+        initGroupRecyclerView();
+
+        /* finally, set buttons */
+        setButtonListeners();
+
+
     }
 
     private void loadServerData(){
@@ -129,7 +230,7 @@ public class HomeScreen extends AppCompatActivity {
         TextView userRating = findViewById(R.id.userrating);
         TextView timeOnPhone = findViewById(R.id.total_time_on_phone);
         ImageView TimeOnPhoneIm = findViewById(R.id.time_phone_icon);
-        SearchView groupSearch = findViewById(R.id.searchView);
+        /*SearchView groupSearch = findViewById(R.id.searchView);
         groupSearch.onActionViewExpanded();
         groupSearch.setIconifiedByDefault(false);
         groupSearch.setQueryHint("Search Group...");
@@ -146,7 +247,7 @@ public class HomeScreen extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        });
+        });*/
 
 
         /* Grab user info from server */
@@ -172,14 +273,12 @@ public class HomeScreen extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         RecyclerView groupRecyclerView = findViewById(R.id.home_recycler_view);
         groupRecyclerView.setLayoutManager(layoutManager);
-        HomeScreenRecyclerAdapter groupAdapter = new HomeScreenRecyclerAdapter(this,mGroupIds,mImageNames,mImages,mPeople, userNickname, userPicUrl);
+        /*HomeScreenRecyclerAdapter groupAdapter = new HomeScreenRecyclerAdapter(this,mGroupIds,mImageNames,mImages,mPeople, userNickname, userPicUrl);*/
+        HomeScreenRecyclerAdapterUpdated groupAdapter = new HomeScreenRecyclerAdapterUpdated(this,groupsForUser,userNickname,userPicUrl);
         groupRecyclerView.setAdapter(groupAdapter);
 
     }
 
-    private void moveToProfileScreen(){
-
-    }
 
 
     private void setButtonListeners(){

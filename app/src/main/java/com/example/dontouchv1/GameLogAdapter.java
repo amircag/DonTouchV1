@@ -68,13 +68,14 @@ public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHold
         //int picOwn = mContaxt.getResources().getIdentifier("drawable/"+logs.get(i).getOwnType(),null,mContaxt.getPackageName());
         viewHolder.ownType.setImageResource(iconOwn);
         final String ownDesc = logs.get(i).getOwnDesc();
+        final String ownedUser = logs.get(i).getUserName();
 
         viewHolder.bgLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: 5/19/2019 remove from list
-                Toast toast = Toast.makeText(mContaxt,"Own Desciprtion", Toast.LENGTH_LONG);
-                toast.setText(ownDesc);
+                Toast toast = Toast.makeText(mContaxt,"Own Description", Toast.LENGTH_LONG);
+                toast.setText(ownedUser+": "+ownDesc);
                 toast.setDuration(Toast.LENGTH_LONG);
                 toast.setGravity(0,0,0);
                 toast.show();

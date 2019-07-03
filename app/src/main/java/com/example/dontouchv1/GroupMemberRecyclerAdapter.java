@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -49,9 +51,14 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
                 getIdentifier("com.example.dontouchv1.R.drawable."+mMemberImages.get(position),
                         null,null);*/
 
-        int imageId = mContext.getResources().getIdentifier
+        Glide.with(mContext)
+                .load(mMemberImages.get(position))
+                .disallowHardwareConfig()
+                .into(holder.image);
+
+        /*int imageId = mContext.getResources().getIdentifier
                 ("drawable/"+ mMemberImages.get(position),null,mContext.getPackageName());
-        holder.image.setImageResource(imageId);
+        holder.image.setImageResource(imageId);*/
 
         //holder.image.setImageResource(R.drawable.group0);
         holder.name.setText(mMemberNames.get(position));
