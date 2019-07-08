@@ -63,15 +63,6 @@ public class HomeScreen extends AppCompatActivity {
         setAppDirectionLTR();
         loadScreen();
 
-        /*loadServerData();*/
-
-        /*setContentView(R.layout.activity_home_screen);
-
-        initiateHomeScreen();
-        *//*todo: change when groups exist *//*
-        initGroupImages();
-        setButtonListeners();*/
-
     }
 
     private void setAppDirectionLTR() {
@@ -140,7 +131,6 @@ public class HomeScreen extends AppCompatActivity {
                 for (DocumentSnapshot game : activeGames){
                     String gameTeam = game.getString("teamId");
                     if (userGroupIdMap.containsKey(gameTeam)){
-
                         groupsForUser.get(userGroupIdMap.get(gameTeam)).setActiveGame(true);
                     }
                 }

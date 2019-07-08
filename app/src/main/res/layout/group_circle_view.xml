@@ -47,6 +47,7 @@
                 android:autoSizeMinTextSize="5sp"
                 android:autoSizeMaxTextSize="12sp"
                 android:textSize="11sp"
+                android:maxLines="1"
 
                 />
 

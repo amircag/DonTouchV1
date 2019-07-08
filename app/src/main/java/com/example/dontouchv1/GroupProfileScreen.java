@@ -12,11 +12,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -35,12 +33,15 @@ public class GroupProfileScreen extends AppCompatActivity {
     private String teamId, teamPicUrl;
     private GroupObj thisGroup;
     private String name;
+    private String lastGameId;
+    private boolean isActiveGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         teamId = intent.getStringExtra("TEAM_ID");
+        isActiveGame = intent.getBooleanExtra("GAME_ACTIVE",false);
         loadScreen(teamId);
 
         /*setContentView(R.layout.activity_group_profile_screen);
@@ -65,6 +66,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                 final String groupPic = groupDoc.getString("picUrl");
                 name = groupDoc.getString("name");
                 teamPicUrl = groupDoc.getString("picUrl");
+                lastGameId = groupDoc.getString("currentGame");
                 final String firstPlaceId = groupDoc.getString("firstPlace");
                 final String lastPlaceId = groupDoc.getString("lastPlace");
                 thisGroup = new GroupObj(groupName,groupPic,firstPlaceId,lastPlaceId);
@@ -195,7 +197,7 @@ public class GroupProfileScreen extends AppCompatActivity {
 
     }
 
-    private void initButtons() {
+    /*private void initButtons() {
 
         Button createGame = findViewById(R.id.newGameButton);
         createGame.setOnClickListener(new View.OnClickListener() {
@@ -219,21 +221,21 @@ public class GroupProfileScreen extends AppCompatActivity {
                         .orderBy("createdAt", Query.Direction.DESCENDING)
                         .get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(queryDocumentSnapshots.getDocuments().size() == 0) return;
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                if(queryDocumentSnapshots.getDocuments().size() == 0) return;
 
-                        DocumentSnapshot game = queryDocumentSnapshots.getDocuments().get(0);
-                        String gameId = (String) game.getId();
+                                DocumentSnapshot game = queryDocumentSnapshots.getDocuments().get(0);
+                                String gameId = (String) game.getId();
 
-                        Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
-                        joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
-                        joinGame.putExtra("GAME_ID", gameId);
-                        joinGame.putExtra("TEAM_NAME",name);
-                        joinGame.putExtras(getIntent().getExtras());
-                        startActivity(joinGame);
-                    }
-                });
+                                Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
+                                joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                                joinGame.putExtra("GAME_ID", gameId);
+                                joinGame.putExtra("TEAM_NAME",name);
+                                joinGame.putExtras(getIntent().getExtras());
+                                startActivity(joinGame);
+                            }
+                        });
             }});
 
         Button backButton = findViewById(R.id.groupBackButton);
@@ -244,6 +246,82 @@ public class GroupProfileScreen extends AppCompatActivity {
             }
         });
 
+    }*/
+
+    private void initButtons() {
+
+        Button backButton = findViewById(R.id.groupBackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        final Button gameButton = findViewById(R.id.gameButton);
+
+        // if there is a "currentGame" var, check if game is active
+        if (lastGameId == null) {
+            gameButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
+                    createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                    createGame.putExtra("TEAM_NAME", name);
+                    createGame.putExtras(getIntent().getExtras());
+                    startActivity(createGame);
+                }
+            });
+        } else if (isActiveGame){
+            gameButton.setText("Join Game");
+            gameButton.setBackground(getResources().getDrawable(R.drawable.rounded_button_joingame));
+            gameButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
+                    joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                    joinGame.putExtra("GAME_ID", lastGameId);
+                    joinGame.putExtra("TEAM_NAME", name);
+                    joinGame.putExtras(getIntent().getExtras());
+                    startActivity(joinGame);
+                }
+            });
+        } else {
+            db.collection("games")
+                    .document(lastGameId)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.getBoolean("active")) {
+                                gameButton.setText("Join Game");
+                                gameButton.setBackground(getResources().getDrawable(R.drawable.rounded_button_joingame));
+                                gameButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
+                                        joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                                        joinGame.putExtra("GAME_ID", lastGameId);
+                                        joinGame.putExtra("TEAM_NAME", name);
+                                        joinGame.putExtras(getIntent().getExtras());
+                                        startActivity(joinGame);
+                                    }
+                                });
+                            } else {
+                                gameButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
+                                        createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                                        createGame.putExtra("TEAM_NAME", name);
+                                        createGame.putExtras(getIntent().getExtras());
+                                        startActivity(createGame);
+                                    }
+                                });
+                            }
+                        }
+                    });
+        }
     }
 
     private void initWinners(){

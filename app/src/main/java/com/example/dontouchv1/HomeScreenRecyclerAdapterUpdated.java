@@ -74,6 +74,7 @@ public class HomeScreenRecyclerAdapterUpdated extends RecyclerView.Adapter<HomeS
                 groupPage.putExtra("TEAM_ID", mGroups.get(position).getGroupId());
                 groupPage.putExtra("USER_NICKNAME", userNickname);
                 groupPage.putExtra("USER_PIC_URL", userPicUrl);
+                groupPage.putExtra("GAME_ACTIVE", mGroups.get(position).isActiveGame());
                 mContext.startActivity(groupPage);
 
             }
