@@ -107,7 +107,6 @@ public class HomeScreen extends AppCompatActivity {
                             userGroupIdMap.put(group.getId(),groupIndex);
                             groupsForUser.add(groupObj);
                             groupIndex++;
-
                         }
 
 
@@ -266,6 +265,11 @@ public class HomeScreen extends AppCompatActivity {
         /*HomeScreenRecyclerAdapter groupAdapter = new HomeScreenRecyclerAdapter(this,mGroupIds,mImageNames,mImages,mPeople, userNickname, userPicUrl);*/
         HomeScreenRecyclerAdapterUpdated groupAdapter = new HomeScreenRecyclerAdapterUpdated(this,groupsForUser,userNickname,userPicUrl);
         groupRecyclerView.setAdapter(groupAdapter);
+
+        if(groupsForUser.size() != 0){
+            TextView groupHint = findViewById(R.id.no_groups_hint);
+            groupHint.setVisibility(View.INVISIBLE);
+        }
 
     }
 

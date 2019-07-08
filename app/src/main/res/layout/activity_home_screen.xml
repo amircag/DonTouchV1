@@ -206,7 +206,7 @@
     </RelativeLayout>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -222,13 +222,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Nickname">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:id="@+id/no_groups_hint"
+            android:text="@string/no_groups"
+            android:textSize="22sp"
+            android:textColor="@color/dtSilverStrok"
+            android:gravity="center"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/home_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <LinearLayout
