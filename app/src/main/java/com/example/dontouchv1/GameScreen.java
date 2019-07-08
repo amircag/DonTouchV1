@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,8 +63,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class GameScreen extends AppCompatActivity {
-    private String gameId, gameName, teamId, teamPicUrl, userNickname, userPicUrl;
+    private String gameId, gameName, teamId, teamPicUrl, userNickname, userPicUrl, groupName;
     private int playersCount, ownsCount, myOwnsCount = 0;
 
     private Owns owns = new Owns();
@@ -100,6 +103,7 @@ public class GameScreen extends AppCompatActivity {
         int gameType = intent.getIntExtra("GAME_TYPE", -1);
         userNickname = intent.getStringExtra("USER_NICKNAME");
         userPicUrl = intent.getStringExtra("USER_PIC_URL");
+        groupName = intent.getStringExtra("TEAM_NAME");
 
 
         initHeader();
@@ -524,6 +528,19 @@ public class GameScreen extends AppCompatActivity {
                 .load(teamPicUrl)
                 .disallowHardwareConfig()
                 .into((ImageView)findViewById(R.id.teamPicGameScreen));
+
+        // todo test AMIR
+
+        CircleImageView teamPic = findViewById(R.id.teamPicGameScreen);
+        teamPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(GameScreen.this,"text",Toast.LENGTH_SHORT);
+                toast.setGravity(0,0,0);
+                toast.setText("Currently playing in group: "+groupName);
+                toast.show();
+            }
+        });
     }
 
 

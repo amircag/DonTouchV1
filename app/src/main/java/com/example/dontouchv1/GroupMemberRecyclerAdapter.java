@@ -62,7 +62,9 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
 
         //holder.image.setImageResource(R.drawable.group0);
         holder.name.setText(mMemberNames.get(position));
-        holder.failCount.setText(mFailsCount.get(position));
+        /*holder.failCount.setText(mFailsCount.get(position));*/
+
+        // Remove after either making or removing profile screens
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
                 public void onClick(View view){
@@ -82,13 +84,13 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
 
         CircleImageView image;
         TextView name;
-        TextView failCount;
+        /*TextView failCount;*/
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.memberProfImage);
             name =  itemView.findViewById(R.id.memberName);
-            failCount = itemView.findViewById(R.id.fail_counter);
+            /*failCount = itemView.findViewById(R.id.fail_counter);*/
         }
     }
 

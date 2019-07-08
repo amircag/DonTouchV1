@@ -132,17 +132,17 @@ public class NewSession extends AppCompatActivity {
 
                         //TODO: when teams are ready, run this method to update team of a game running
                         final String gameId = documentReference.getId();
-//                        DocumentReference teamRf = db.collection("teams").document(teamId);
-//                        teamRf.update("currentGame", gameId,
-//                                "currentGameCreatedAt", FieldValue.serverTimestamp())
-//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                nextScreenGame(gameName, gameId);
-//                            }
-//                        });
+                        DocumentReference teamRf = db.collection("teams").document(teamId);
+                        teamRf.update("currentGame", gameId,
+                                "currentGameCreatedAt", FieldValue.serverTimestamp())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                nextScreenGame(gameName, gameId);
+                            }
+                        });
                         //TODO: when teams are ready, remove next line
-                        nextScreenGame(gameName, gameId);
+//                        nextScreenGame(gameName, gameId);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

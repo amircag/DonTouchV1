@@ -26,15 +26,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GroupProfileScreen extends AppCompatActivity {
 
-    /* PHASE ONE: only includes:
-        V Group Image
-        V Name
-        >>>> All group fails?? consider
-        V Member List (As RecyclerView Grid?) + FAIL COUNTER
-        V Create Game button
-
-
-     */
 
     private ArrayList<String> mMembers = new ArrayList<>(15);
     private ArrayList<String> mImages = new ArrayList<>(15);
@@ -43,6 +34,7 @@ public class GroupProfileScreen extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String teamId, teamPicUrl;
     private GroupObj thisGroup;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +63,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                 DocumentSnapshot groupDoc = documentSnapshot;
                 final String groupName = groupDoc.getString("name");
                 final String groupPic = groupDoc.getString("picUrl");
+                name = groupDoc.getString("name");
                 teamPicUrl = groupDoc.getString("picUrl");
                 final String firstPlaceId = groupDoc.getString("firstPlace");
                 final String lastPlaceId = groupDoc.getString("lastPlace");
@@ -210,6 +203,7 @@ public class GroupProfileScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
                 createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                createGame.putExtra("TEAM_NAME",name);
                 createGame.putExtras(getIntent().getExtras());
 //                createGame.putExtra("TEAM_ID", "SJvhAuMdny1mK0w2Ndvo");
                 startActivity(createGame);
@@ -235,6 +229,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                         Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
                         joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
                         joinGame.putExtra("GAME_ID", gameId);
+                        joinGame.putExtra("TEAM_NAME",name);
                         joinGame.putExtras(getIntent().getExtras());
                         startActivity(joinGame);
                     }

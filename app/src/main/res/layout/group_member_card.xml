@@ -53,7 +53,7 @@
 
         </RelativeLayout>
 
-        <TextView
+        <!--<TextView
             android:id="@+id/fail_counter"
             android:layout_width="18dp"
             android:layout_height="18dp"
@@ -63,7 +63,7 @@
             android:gravity="center"
             android:textColor="#FFFFFF"
             android:background="@drawable/fails_counter"
-            />
+            />-->
 
 
     </android.support.v7.widget.CardView>
