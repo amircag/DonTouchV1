@@ -344,4 +344,12 @@ public class GroupProfileScreen extends AppCompatActivity {
         startActivity(homeScreen);
     }
 
+    public void editGroupPressed(View view){
+        Intent editGroup = new Intent(this,EditGroup.class);
+        editGroup.putExtra("TEAM_PIC",teamPicUrl);
+        editGroup.putExtra("TEAM_ID",teamId);
+        editGroup.putExtra("TEAM_NAME",name);
+        startActivity(editGroup);
+    }
+
 }

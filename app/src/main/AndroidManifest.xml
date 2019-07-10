@@ -17,8 +17,16 @@
         android:roundIcon="@mipmap/phowned_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-      
-        <activity android:name=".EditProfile"
+        <activity android:name=".EditGroup"
+            android:label="Edit Group"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".EditProfile"
             android:label="Edit Profile"
             android:parentActivityName=".PersonalProfile"
             android:theme="@style/AppTheme.NoActionBar">
@@ -26,8 +34,8 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-      
-        <activity android:name=".AddMembersCreateGroup"
+        <activity
+            android:name=".AddMembersCreateGroup"
             android:label="Add members to New Group"
             android:parentActivityName=".HomeScreen"
             android:theme="@style/AppTheme.NoActionBar">
@@ -35,11 +43,9 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".GroupProfileScreen"
             android:screenOrientation="portrait"
@@ -48,7 +54,6 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-  
         <activity
             android:name=".CreateNewGroup"
             android:screenOrientation="portrait"
@@ -57,26 +62,21 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-          
-
         <activity android:name=".SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-          
         <activity
             android:name=".NewProfile"
-            android:label="Customize Your Profile">
-        </activity>
-        
+            android:label="Customize Your Profile"></activity>
         <activity
             android:name=".EndGameStats"
             android:label="@string/title_activity_end_game_stats"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".HomeScreen"
             android:screenOrientation="portrait"
@@ -86,7 +86,6 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".PersonalProfile"
             android:screenOrientation="portrait"
@@ -106,9 +105,9 @@
         <activity
             android:name=".GameScreen"
             android:label="DonTouch Game"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainScreen"
             android:label="@string/title_activity_main_screen"

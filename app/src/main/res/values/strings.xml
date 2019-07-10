@@ -89,7 +89,7 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <!-- PROFILE PAGE STRINGS -->
-    <string name="group_title"><b>GROUPS:</b></string>
+    <string name="group_title"><b>TEAMS:</b></string>
     <string name="fails_title"><b>OWNS:</b></string>
     <string name="nickname_title">NICKNAME</string>
     <string name="rank_title">RANK</string>
@@ -99,11 +99,11 @@
     <string name="times_failed_title">TIMES OWNED</string>
 
     <!-- FOR HOME SCREEN -->
-    <string name="new_group_button"><b>Create New Group</b></string>
+    <string name="new_group_button"><b>Create New Team</b></string>
 
     <!--GROUP SCREEN-->
 
-    <string name="group_members_header">Group Members:</string>
+    <string name="group_members_header">Team Members:</string>
     <string name="new_game_button">New Game</string>
     <string name="title_activity_end_game_stats">EndGameStats</string>
     <string name="action_settings">Settings</string>
@@ -134,6 +134,8 @@
 
     <string name="no_members">NO MEMBERS ADDED YET</string>
 
-    <string name="no_groups">YOU HAVEN\'T CREATED ANY GROUPS YET! \n\n\n\n CREATE A NEW GROUP USING THE BUTTON BELOW</string>
+    <string name="exit_group">EXIT TEAM</string>
+
+    <string name="no_groups">YOU HAVEN\'T CREATED ANY TEAMS YET! \n\n\n\n CREATE A NEW TEAM USING THE BUTTON BELOW</string>
 
 </resources>
