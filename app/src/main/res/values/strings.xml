@@ -134,4 +134,6 @@
 
     <string name="no_members">NO MEMBERS ADDED YET</string>
 
+    <string name="no_groups">YOU HAVEN\'T CREATED ANY GROUPS YET! \n\n\n\n CREATE A NEW GROUP USING THE BUTTON BELOW</string>
+
 </resources>

@@ -39,6 +39,10 @@
             android:text="group"
             android:textColor="#000000"
             android:textSize="17sp"
+            app:autoSizeMaxTextSize="17sp"
+            app:autoSizeMinTextSize="13sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
             android:textStyle="bold"
             android:maxLines="1"/>
     </LinearLayout>

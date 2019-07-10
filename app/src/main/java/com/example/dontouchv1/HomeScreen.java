@@ -63,15 +63,6 @@ public class HomeScreen extends AppCompatActivity {
         setAppDirectionLTR();
         loadScreen();
 
-        /*loadServerData();*/
-
-        /*setContentView(R.layout.activity_home_screen);
-
-        initiateHomeScreen();
-        *//*todo: change when groups exist *//*
-        initGroupImages();
-        setButtonListeners();*/
-
     }
 
     private void setAppDirectionLTR() {
@@ -116,7 +107,6 @@ public class HomeScreen extends AppCompatActivity {
                             userGroupIdMap.put(group.getId(),groupIndex);
                             groupsForUser.add(groupObj);
                             groupIndex++;
-
                         }
 
 
@@ -140,7 +130,6 @@ public class HomeScreen extends AppCompatActivity {
                 for (DocumentSnapshot game : activeGames){
                     String gameTeam = game.getString("teamId");
                     if (userGroupIdMap.containsKey(gameTeam)){
-
                         groupsForUser.get(userGroupIdMap.get(gameTeam)).setActiveGame(true);
                     }
                 }
@@ -276,6 +265,11 @@ public class HomeScreen extends AppCompatActivity {
         /*HomeScreenRecyclerAdapter groupAdapter = new HomeScreenRecyclerAdapter(this,mGroupIds,mImageNames,mImages,mPeople, userNickname, userPicUrl);*/
         HomeScreenRecyclerAdapterUpdated groupAdapter = new HomeScreenRecyclerAdapterUpdated(this,groupsForUser,userNickname,userPicUrl);
         groupRecyclerView.setAdapter(groupAdapter);
+
+        if(groupsForUser.size() != 0){
+            TextView groupHint = findViewById(R.id.no_groups_hint);
+            groupHint.setVisibility(View.INVISIBLE);
+        }
 
     }
 
