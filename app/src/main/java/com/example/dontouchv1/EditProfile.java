@@ -17,19 +17,25 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -154,14 +160,12 @@ public class EditProfile extends AppCompatActivity {
                             String userId = user.getUid().toString();
                             HashMap<String,Object> data = new HashMap<>();
                             data.put("profilePic", picUrl);
-
-                            data.put("nickName",((EditText)findViewById(R.id.edit_nickname)).getText().toString());
+                            String newNickname = ((EditText)findViewById(R.id.edit_nickname)).getText().toString();
+                            data.put("nickName",newNickname);
                             db.collection("users").document(userId)
                                     .update(data);
 
-                            Intent intent = new Intent(EditProfile.this,PersonalProfile.class);
-                            startActivity(intent);
-                            finish();
+                            updateDataInGroups(newNickname,picUrl);
 
                         }
                     })
@@ -184,15 +188,56 @@ public class EditProfile extends AppCompatActivity {
         else{
             String userId = user.getUid().toString();
             HashMap<String,Object> data = new HashMap<>();
-            data.put("nickName",((EditText)findViewById(R.id.edit_nickname)).getText().toString());
+            String newNickname = ((EditText)findViewById(R.id.edit_nickname)).getText().toString();
+            data.put("nickName",newNickname);
             db.collection("users").document(userId)
                     .update(data);
-            Intent intent = new Intent(EditProfile.this,PersonalProfile.class);
-            startActivity(intent);
-            finish();
+            updateDataInGroups(newNickname, null);
 
         }
     }
+
+
+    private void updateDataInGroups(final String nickname, final String picUrl){
+        final String userId = user.getUid().toString();
+
+        db.collection("users")
+                .document(userId)
+                .collection("teams")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<DocumentSnapshot> userTeams = queryDocumentSnapshots.getDocuments();
+                        ArrayList<String> teamIds = new ArrayList<>();
+                        for (DocumentSnapshot team : userTeams){
+                            teamIds.add(team.getId());
+                        }
+
+                        HashMap<String,Object> data = new HashMap<>();
+                        data.put("nickName", nickname);
+
+                        if (picUrl != null){
+                            data.put("picUrl", picUrl);
+                        }
+
+                        for (String id : teamIds){
+                            db.collection("teams")
+                                    .document(id)
+                                    .collection("users")
+                                    .document(userId)
+                                    .update(data);
+                        }
+
+                        Intent intent = new Intent(EditProfile.this, PersonalProfile.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
+
+    }
+
 
 
 
