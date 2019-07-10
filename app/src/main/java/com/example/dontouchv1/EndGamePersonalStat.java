@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -28,6 +30,7 @@ public class EndGamePersonalStat extends Fragment {
     private TextView playerRank;
     private TextView playerScore;
     private TextView timeOnPhone;
+    private TextView myName;
     private CircleImageView profileImage;
     private ImageView beerOwned;
     private ImageView runOwned;
@@ -35,6 +38,9 @@ public class EndGamePersonalStat extends Fragment {
     private String beerText ;
     private String runText ;
     private String talkText ;
+    private int myScore, myRank,myOwnedCount;
+    private long wastedTime;
+    private String myPicUrl,myNickName;
 
 
     public EndGamePersonalStat() {
@@ -45,6 +51,13 @@ public class EndGamePersonalStat extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        myScore = getArguments().getInt("MY_SCORE");
+        myRank = getArguments().getInt("MY_RANK");
+        myOwnedCount = getArguments().getInt("MY_OWMES_COUNT");
+        myPicUrl = getArguments().getString("MY_PIC_URL");
+        myNickName = getArguments().getString("MY_NICK_NAME");
+        wastedTime  = getArguments().getLong("TIME_ON_PHONE");
+
         // Inflate the layout for this fragment
         //View pr_lay = inflater.inflate(R.layout.fragment_end_game_personal_stat, container, false);
        return inflater.inflate(R.layout.fragment_end_game_personal_stat, container, false);
@@ -61,6 +74,7 @@ public class EndGamePersonalStat extends Fragment {
         beerOwned = view.findViewById(R.id.beer_image_ps);
         runOwned = view.findViewById(R.id.run_image_ps);
         talkOwned = view.findViewById(R.id.conve_image_ps);
+        myName = view.findViewById(R.id.player_name_for_stats);
         beerOwned.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,26 +117,33 @@ public class EndGamePersonalStat extends Fragment {
     }
 
     public void initPorfileImage(){
-        profileImage.setImageResource(R.drawable.profile);
+        Glide.with(getContext()).load(myPicUrl).disallowHardwareConfig().into(profileImage);
+
     }
 
     private void setPersonalStats(){
-        playerRank.setText(getPlayerRank());
-        playerScore.setText(getPlayerScore());
-        timeOnPhone.setText(getPlayerTimeOnPhone());
+        playerRank.setText(String.valueOf(myRank));
+        playerScore.setText(String.valueOf(myScore));
+        timeOnPhone.setText(setTimeOnPhone());
+        myName.setText(myNickName);
     }
 
-    private String getPlayerScore(){
-        return "23%";
+    private String setTimeOnPhone(){
+        String seconds =String.valueOf((int) ((wastedTime / 1000) % 60)) ;
+        String minutes =String.valueOf((int) ((wastedTime / (1000*60)) % 60));
+        String hours   =String.valueOf((int) ((wastedTime / (1000*60*60)) % 24));
+        if(seconds.length()==1){
+            seconds = "0"+seconds;
+        }
+        if (minutes.length() == 1){
+            minutes = "0"+minutes;
+        }
+        if (hours.length()==1){
+            hours = "0"+hours;
+        }
+        return hours+":"+minutes+":"+seconds;
     }
 
-    private String getPlayerRank(){
-        return "2";
-    }
-
-    private String getPlayerTimeOnPhone(){
-        return "0:26";
-    }
 
     private String getOwnedTextBeer(){
         beerText = "buy beer to Liad\n order the next round";

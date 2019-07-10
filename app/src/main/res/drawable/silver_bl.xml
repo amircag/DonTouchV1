@@ -6,7 +6,12 @@
 
 
     <solid android:color="@color/dtSilver" />
-    <stroke android:width="3dp" android:color="@color/dtSilverStrok">
+    <gradient android:startColor="#DBDBDB"
+        android:centerColor="#f2f2f2"
+        android:endColor="#ADA996">
+
+    </gradient>
+    <stroke android:width="1dp" android:color="@color/dtSilverStrok">
 
     </stroke>
     <corners android:radius="15dp"/>

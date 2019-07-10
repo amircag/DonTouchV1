@@ -127,10 +127,20 @@ public class EndGameGroupStats extends Fragment {
     }
 
     private void setupData(){
+        colorFirstAndSecond();
         adapter = new RecycleViewAdapterLeader(leaderBoardObjs,getContext());
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
+    }
+    private void colorFirstAndSecond(){
+        leaderBoardObjs.get(0).setBg("gold_lb");
+        if (leaderBoardObjs.size()>1) {
+            leaderBoardObjs.get(1).setBg("silver_bl");
+        }
+        if (leaderBoardObjs.size()>2){
+            leaderBoardObjs.get(leaderBoardObjs.size()-1).setBg("red_bl");
+        }
     }
 
     private void initGroupImage(){

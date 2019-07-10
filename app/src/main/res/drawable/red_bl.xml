@@ -6,6 +6,10 @@
 
 
     <solid android:color="@color/dtRed" />
+    <gradient android:startColor="#93291E"
+        android:endColor="#ED213A">
+
+    </gradient>
 
     <corners android:radius="15dp"/>
 
