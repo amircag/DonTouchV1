@@ -269,8 +269,9 @@ public class AddMembersCreateGroup extends AppCompatActivity {
                         String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 //< set >
                         phoneNumber = phoneNumber.replaceAll("[^\\d]", "");
-                        android_contact.android_contact_TelefonNr = phoneNumber;
-
+                        if (phoneNumber.length() > 9) {
+                            android_contact.android_contact_TelefonNr = phoneNumber;
+                        }
 //</ set >
                     }
                     phoneCursor.close();
