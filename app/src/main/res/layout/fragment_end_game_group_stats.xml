@@ -4,21 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EndGameGroupStats">
+    tools:context=".EndGameGroupStats"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
         android:id="@+id/layout_for_group_stat_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/dtBlack"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="30dp">
 
         <RelativeLayout
             android:id="@+id/profileImageContainer"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="180dp"
             android:layout_marginTop="0dp"
             android:gravity="center"
             android:orientation="vertical"
@@ -33,8 +35,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:background="@drawable/circle"
-                android:src="@drawable/profile_placeholder"
+                android:src="@drawable/uploadimage"
                 />
 
             <TextView
@@ -178,47 +179,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/ScoreBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:id="@+id/Score_text_gs"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="end"
-                    android:text="SCORE:"
-                    android:textAlignment="center"
-                    android:textColor="#000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/ScoreDynamic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/Score_text_gs"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_toEndOf="@+id/Score_text_gs"
-                    android:layout_toRightOf="@+id/Score_text_gs"
-                    android:textSize="18sp"
-
-                    android:text="Group Score"
-                    android:textColor="#000" />
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
                 android:id="@+id/failBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -309,5 +269,48 @@
 
 
         </LinearLayout>
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dot_ind_bold"
+                android:layout_gravity="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dot_ind"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
 </FrameLayout>
