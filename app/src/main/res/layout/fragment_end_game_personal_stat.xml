@@ -87,22 +87,35 @@
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:text="RANK"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:gravity="end"
-                    />
-                <TextView
-                    android:id="@+id/rankDynamic_ps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="end"/>
 
-                    android:autoSizeMaxTextSize="20sp"
-                    android:autoSizeMinTextSize="15sp"
-                    android:autoSizeTextType="uniform"
-                    android:text="My Rank"
-                    android:textColor="#000" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/trophy"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:id="@+id/rankDynamic_ps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:text="My Rank"
+                        android:textColor="#000"
+                        android:layout_marginLeft="8dp"/>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -121,23 +134,36 @@
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:text="SCORE"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textAlignment="center"
 
                     />
-
-                <TextView
-                    android:id="@+id/ScoreDynamic_ps"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:autoSizeMaxTextSize="20sp"
-                    android:autoSizeMinTextSize="15sp"
-                    android:autoSizeTextType="uniform"
-                    android:text="My Score"
+                    android:orientation="horizontal"
                     android:gravity="center"
-                    android:textColor="#000" />
+                    android:layout_marginTop="8dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/score_meter"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/ScoreDynamic_ps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="My Score"
+                        android:gravity="center"
+                        android:textColor="#000"
+                        android:layout_marginLeft="8dp"/>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -164,7 +190,7 @@
 
                 <TextView
                     android:id="@+id/timeTitle_ps"
-                    android:layout_width="130dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:text="TIME ON PHONE"
@@ -172,19 +198,29 @@
                     android:textStyle="bold"
                     android:textAlignment="center" />
 
-                <TextView
-                    android:id="@+id/timeDynamic_ps"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp">
 
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/on_time_personal"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:id="@+id/timeDynamic_ps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="00:00:00"
+                        android:textColor="#000"
+                        android:gravity="center"
+                        android:layout_marginLeft="8dp"/>
+                </LinearLayout>
 
-
-                    android:text="Time On Phone"
-                    android:textColor="#000"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMinTextSize="15sp"
-                    android:autoSizeMaxTextSize="20sp"
-                    android:gravity="center" />
 
 
             </LinearLayout>
@@ -199,27 +235,37 @@
                 android:layout_margin="15dp">
                 <TextView
                     android:id="@+id/ownTitle_ps"
-                    android:layout_width="130dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:text="OWNED"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    android:gravity="center"/>
 
-                    android:gravity="center"
-                    />
-
-                <TextView
-                    android:id="@+id/ownsDynamic_ps"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Time On Phone"
-                    android:textColor="#000"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMinTextSize="15sp"
-                    android:autoSizeMaxTextSize="20sp"
-                    android:gravity="center"
-                    />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/phowned_logo_small"/>
+                    <TextView
+                        android:id="@+id/ownsDynamic_ps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15"
+                        android:textColor="#000"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:layout_marginLeft="8dp"/>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -230,7 +276,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="30dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -252,45 +299,45 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="bottom">
+<!--        &lt;!&ndash;<LinearLayout&ndash;&gt;
+            &lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;
+            &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+            &lt;!&ndash;android:layout_marginTop="10dp"&ndash;&gt;
+            &lt;!&ndash;android:layout_marginBottom="10dp"&ndash;&gt;
+            &lt;!&ndash;android:layout_gravity="bottom">&ndash;&gt;
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="3dp"
-                android:layout_marginRight="3dp">
+            &lt;!&ndash;<LinearLayout&ndash;&gt;
+                &lt;!&ndash;android:layout_width="0dp"&ndash;&gt;
+                &lt;!&ndash;android:layout_weight="0.5"&ndash;&gt;
+                &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                &lt;!&ndash;android:gravity="end"&ndash;&gt;
+                &lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;
+                &lt;!&ndash;android:layout_marginEnd="3dp"&ndash;&gt;
+                &lt;!&ndash;android:layout_marginRight="3dp">&ndash;&gt;
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/dot_ind"
-                    android:layout_gravity="end"/>
-            </LinearLayout>
+                &lt;!&ndash;<ImageView&ndash;&gt;
+                    &lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;android:src="@drawable/dot_ind"&ndash;&gt;
+                    &lt;!&ndash;android:layout_gravity="end"/>&ndash;&gt;
+            &lt;!&ndash;</LinearLayout>&ndash;&gt;
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:layout_marginStart="3dp"
-                android:layout_marginLeft="3dp"
-                android:layout_gravity="center_vertical">
+            &lt;!&ndash;<LinearLayout&ndash;&gt;
+                &lt;!&ndash;android:layout_width="0dp"&ndash;&gt;
+                &lt;!&ndash;android:layout_weight="0.5"&ndash;&gt;
+                &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                &lt;!&ndash;android:gravity="start"&ndash;&gt;
+                &lt;!&ndash;android:layout_marginStart="3dp"&ndash;&gt;
+                &lt;!&ndash;android:layout_marginLeft="3dp"&ndash;&gt;
+                &lt;!&ndash;android:layout_gravity="center_vertical">&ndash;&gt;
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/dot_ind_bold"
-                    />
-            </LinearLayout>
-        </LinearLayout>
+                &lt;!&ndash;<ImageView&ndash;&gt;
+                    &lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;
+                    &lt;!&ndash;android:src="@drawable/dot_ind_bold"&ndash;&gt;
+                    &lt;!&ndash;/>&ndash;&gt;
+            &lt;!&ndash;</LinearLayout>&ndash;&gt;
+        &lt;!&ndash;</LinearLayout>-->-->
 
     </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.example.dontouchv1;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -116,7 +117,7 @@ public class EndGameStats extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 duration = String.valueOf(documentSnapshot.get("duration"));
-
+                String seconds =String.valueOf((Long.parseLong(duration) / (1000) % 60));
                 String minutes = String.valueOf ((Long.parseLong(duration) / (1000*60)) % 60);
                 String hours   = String.valueOf ((Long.parseLong(duration) / (1000*60*60)) % 24);
                 if (minutes.length() == 1){
@@ -125,7 +126,10 @@ public class EndGameStats extends AppCompatActivity {
                 if (hours.length()==1){
                     hours="0"+hours;
                 }
-                durationAsText = hours+":"+minutes;
+                if (seconds.length() == 1){
+                    seconds= "0"+seconds;
+                }
+                durationAsText = hours+":"+minutes+":"+seconds;
                 setTeamName();
             }
         });
@@ -165,6 +169,8 @@ public class EndGameStats extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabDots);
+        tabLayout.setupWithViewPager(mViewPager, true);
     }
 
 

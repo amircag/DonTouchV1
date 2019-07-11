@@ -1,6 +1,8 @@
 package com.example.dontouchv1;
 
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,6 +48,9 @@ public class EndGameGroupStats extends Fragment {
     private TextView winnerName;
     private TextView loserName;
     private TextView meetUpName;
+
+    final int semiTransparentGrey = Color.argb(155, 41, 36, 33);
+
 
 
 
@@ -148,6 +153,8 @@ public class EndGameGroupStats extends Fragment {
                 .load(teamPicUrl)
                 .disallowHardwareConfig()
                 .into(gorupImage);
+
+        gorupImage.setColorFilter(semiTransparentGrey, PorterDuff.Mode.SRC_ATOP);
     }
 
     private void setWinnerLoserDisplay(){
@@ -162,7 +169,6 @@ public class EndGameGroupStats extends Fragment {
     }
 
     private void setGroupStast(){
-        groupName.setText(teamName);
 
         groupFails.setText(String.valueOf(ownesCount));
         groupDuration.setText(duration);
