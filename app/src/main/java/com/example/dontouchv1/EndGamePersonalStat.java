@@ -32,12 +32,7 @@ public class EndGamePersonalStat extends Fragment {
     private TextView timeOnPhone;
     private TextView myName;
     private CircleImageView profileImage;
-    private ImageView beerOwned;
-    private ImageView runOwned;
-    private ImageView talkOwned;
-    private String beerText ;
-    private String runText ;
-    private String talkText ;
+    private TextView ownCount;
     private int myScore, myRank,myOwnedCount;
     private long wastedTime;
     private String myPicUrl,myNickName;
@@ -71,36 +66,9 @@ public class EndGamePersonalStat extends Fragment {
         playerScore = view.findViewById(R.id.ScoreDynamic_ps);
         timeOnPhone = view.findViewById(R.id.timeDynamic_ps);
         profileImage = view.findViewById(R.id.personalImageForStats);
-        beerOwned = view.findViewById(R.id.beer_image_ps);
-        runOwned = view.findViewById(R.id.run_image_ps);
-        talkOwned = view.findViewById(R.id.conve_image_ps);
+        ownCount  = view.findViewById(R.id.ownsDynamic_ps);
         myName = view.findViewById(R.id.player_name_for_stats);
-        beerOwned.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = (Toast) Toast.makeText(getContext(),getOwnedTextBeer(),Toast.LENGTH_SHORT);
-                toast.setGravity(0,0,0);
-                toast.show();
-            }
-        });
 
-        talkOwned.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(getContext(),getOwnedTextTalk(),Toast.LENGTH_SHORT);
-                toast.setGravity(0,0,0);
-                toast.show();
-            }
-        });
-
-        runOwned.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(getContext(),getOwnedTextRun(),Toast.LENGTH_SHORT);
-                toast.setGravity(0,0,0);
-                toast.show();
-            }
-        });
 
         Button lobbyButton = view.findViewById(R.id.lobby_bt);
         lobbyButton.setOnClickListener(new View.OnClickListener() {
@@ -123,9 +91,11 @@ public class EndGamePersonalStat extends Fragment {
 
     private void setPersonalStats(){
         playerRank.setText(String.valueOf(myRank));
-        playerScore.setText(String.valueOf(myScore));
+        String score = String.valueOf(myScore)+"%";
+        playerScore.setText(score);
         timeOnPhone.setText(setTimeOnPhone());
         myName.setText(myNickName);
+        ownCount.setText(String.valueOf(myOwnedCount));
     }
 
     private String setTimeOnPhone(){
@@ -143,23 +113,6 @@ public class EndGamePersonalStat extends Fragment {
         }
         return hours+":"+minutes+":"+seconds;
     }
-
-
-    private String getOwnedTextBeer(){
-        beerText = "buy beer to Liad\n order the next round";
-        return beerText;
-    }
-
-    private String getOwnedTextRun(){
-        runText = "run 4 times around the table \n jump 4 times";
-        return runText;
-    }
-
-    private String getOwnedTextTalk(){
-        talkText = "you got lucky today \n No OWNED from this category";
-        return talkText;
-    }
-
 
 
 
