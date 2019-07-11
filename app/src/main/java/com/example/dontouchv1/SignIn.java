@@ -73,6 +73,7 @@ public class SignIn extends AppCompatActivity {
                 intent.putExtra("USER_PHOTO", user.getPhotoUrl());
                 intent.putExtra("NEW_USER", true);
                 startActivity(intent);
+                finish();
                 // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -85,6 +86,11 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         }
+    }
+
+
+    @Override
+    public void onBackPressed(){
     }
 
 }
