@@ -553,15 +553,18 @@ public class GameScreen extends AppCompatActivity {
         // todo test AMIR
 
         CircleImageView teamPic = findViewById(R.id.teamPicGameScreen);
-        teamPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(GameScreen.this,"text",Toast.LENGTH_SHORT);
-                toast.setGravity(0,0,0);
-                toast.setText("Currently playing in group: "+groupName);
-                toast.show();
-            }
-        });
+        if (groupName != null) {
+            teamPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast toast = Toast.makeText(GameScreen.this,"text",Toast.LENGTH_SHORT);
+                    toast.setGravity(0,0,0);
+                    toast.setText("Currently playing in group: "+groupName);
+                    toast.show();
+                }
+            });
+        }
+
     }
 
 
