@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/stats_title_ps"
                 android:textColor="@color/dtGold"
-                android:text="STATISTICS"
+                android:text="MY STATISTICS"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:textStyle="bold"/>
