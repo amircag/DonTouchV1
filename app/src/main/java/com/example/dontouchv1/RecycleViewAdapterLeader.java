@@ -51,6 +51,7 @@ public class RecycleViewAdapterLeader extends RecyclerView.Adapter<RecycleViewAd
         holder.boardBg.setBackgroundResource(bgId);
         holder.playerName.setText(leaderBoardObjs.get(i).getNickName());
         holder.playerRank.setText(String.valueOf(i+1));
+        holder.owns.setText(leaderBoardObjs.get(i).getOnws());
 
 
     }
@@ -66,6 +67,7 @@ public class RecycleViewAdapterLeader extends RecyclerView.Adapter<RecycleViewAd
         TextView playerName;
         RelativeLayout leaderBoardLayout;
         LinearLayout boardBg;
+        TextView owns;
 
         public ViewHelder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +77,7 @@ public class RecycleViewAdapterLeader extends RecyclerView.Adapter<RecycleViewAd
             playerName = itemView.findViewById(R.id.nameforLeaderboard);
             leaderBoardLayout = itemView.findViewById(R.id.reltive_layout_leaderBoard);
             boardBg = itemView.findViewById(R.id.player_bg);
+            owns = itemView.findViewById(R.id.owns_leader_board);
         }
     }
 }
