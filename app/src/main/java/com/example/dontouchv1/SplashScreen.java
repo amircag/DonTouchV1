@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,8 +69,8 @@ public class SplashScreen extends AppCompatActivity {
                     if (document.getString("nickName") != null) {
                         nicknameString = document.getString("nickName");
                         dataFromServer.add(nicknameString);
-                        if(document.getString("profilcPic") != null){
-                            dataFromServer.add(document.getString("profilcPic"));
+                        if(document.getString("profilePic") != null){
+                            dataFromServer.add(document.getString("profilePic"));
                         }
                         TextView message = findViewById(R.id.welcome_message);
                         String displayMessage = getString(R.string.splash_dynamic_message,nicknameString);

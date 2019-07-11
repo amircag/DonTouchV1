@@ -174,4 +174,8 @@ public class NewProfile extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed(){
+    }
+
 }

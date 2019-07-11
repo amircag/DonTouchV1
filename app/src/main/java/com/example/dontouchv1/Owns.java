@@ -38,7 +38,7 @@ public class Owns {
         this.owns.add(new AbstractMap.SimpleEntry<>("Invite drinks to someone at another table.",BEER));
         this.owns.add(new AbstractMap.SimpleEntry<>("Get a stranger to buy you a drink.",BEER));
         this.owns.add(new AbstractMap.SimpleEntry<>("Buy two drinks and go over to a stranger and thank them.",BEER));
-        this.owns.add(new AbstractMap.SimpleEntry<>("Try to get a free cake by saying  its your birthday.",BEER));
+        this.owns.add(new AbstractMap.SimpleEntry<>("Try to get a free cake by saying its your birthday.",BEER)); // max Length
         this.owns.add(new AbstractMap.SimpleEntry<>("Drink a whole beer as fast as you can.",BEER));
         this.owns.add(new AbstractMap.SimpleEntry<>("Order the weirdest cocktail on the menu.",BEER));
         this.owns.add(new AbstractMap.SimpleEntry<>("Ask the bartender for a free drink.",BEER));

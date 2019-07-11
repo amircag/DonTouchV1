@@ -171,8 +171,10 @@ public class GameScreen extends AppCompatActivity {
                     }
                     if (ownsCount == 0){
                         TextView marqueeText = findViewById(R.id.last_phowned);
-                        Animation marquee = AnimationUtils.loadAnimation(self, R.anim.marquee);
-                        marqueeText.startAnimation(marquee);
+
+                        //todo : unblock to animate
+                        /*Animation marquee = AnimationUtils.loadAnimation(self, R.anim.marquee);
+                        marqueeText.startAnimation(marquee);*/
                     }
                 } else {
                     Log.d("Private Message", "Current data: null");
@@ -473,10 +475,26 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void updateMarquee(GameLogObj own){
+
+        CircleImageView lastOwnImg = findViewById(R.id.lastOwnedImg);
+        Glide.with(this)
+                .load(own.getUserPicUrl())
+                .disallowHardwareConfig()
+                .into(lastOwnImg);
+
+        TextView lastOwnName = findViewById(R.id.lastOwnedName);
+        lastOwnName.setText(own.getUserName());
+
+        lastOwnImg.setVisibility(View.VISIBLE);
+        lastOwnName.setVisibility(View.VISIBLE);
+
         TextView marqueeText = findViewById(R.id.last_phowned);
-        marqueeText.setText(own.getUserName()+" got phOWNED - " + own.getOwnDesc());
-        Animation marquee = AnimationUtils.loadAnimation(this, R.anim.marquee);
-        marqueeText.startAnimation(marquee);
+        /*marqueeText.setText(own.getUserName()+" got phOWNED - " + own.getOwnDesc());*/
+        marqueeText.setText("phOWNED! "+own.getOwnDesc());
+
+        // todo unblock to use marquee text
+        /*Animation marquee = AnimationUtils.loadAnimation(this, R.anim.marquee);
+        marqueeText.startAnimation(marquee);*/
     }
 
     private void initLogsView(){
