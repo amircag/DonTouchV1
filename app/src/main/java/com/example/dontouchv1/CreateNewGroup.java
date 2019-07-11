@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,7 +57,7 @@ public class CreateNewGroup extends AppCompatActivity {
 
     NewGroup_ChosenMemberAdapter mAdapter;
     Button backBotton;
-    Button createButton;
+    FloatingActionButton createButton;
     TextInputLayout groupNickname;
 
     /*private final Android_Contact selfContact = new Android_Contact();*/

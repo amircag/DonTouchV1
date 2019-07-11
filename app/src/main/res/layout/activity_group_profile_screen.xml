@@ -16,23 +16,43 @@
         <LinearLayout
             android:id="@+id/groupNavBar"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
             android:background="@color/colorPrimary"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/groupBackButton"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginBottom="0dp"
-                android:background="@drawable/ic_arrow_back_black_24dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0">
+                <Button
+                    android:id="@+id/groupBackButton"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="start"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/ic_arrow_back_black_24dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.0">
+                <Button
+                    android:id="@+id/edit_group_button"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:gravity="end"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/ic_edit_black_24dp"
+                    android:onClick="editGroupPressed"/>
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <RelativeLayout
@@ -60,11 +80,11 @@
                 android:layout_alignRight="@+id/group_header_image"
                 android:text="Group Name"
                 android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:shadowColor="@color/colorPrimary"
+                android:textColor="#FBFBFB"
+                android:shadowColor="#7F000000"
                 android:shadowDx="-4"
-                android:shadowDy="4"
-                android:shadowRadius="50"
+                android:shadowDy="-4"
+                android:shadowRadius="5"
                 android:textStyle="bold"
                 android:textSize="24sp"/>
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="#000000"
+    android:background="@color/dtBlack"
     tools:context=".HomeScreen">
 
 
@@ -69,7 +69,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/trophy"
+                app:layout_constraintBottom_toTopOf="@+id/scoreMeter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
@@ -80,21 +80,21 @@
                 />
 
             <ImageView
-                android:id="@+id/trophy"
+                android:id="@+id/scoreMeter"
                 app:layout_constraintTop_toBottomOf="@id/name"
                 android:layout_width="50dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="6dp"
-                android:src="@drawable/trophy"
+                android:src="@drawable/score_meter"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:layout_width="50dp"
                 android:layout_height="40dp"
-                android:id="@+id/userrating"
+                android:id="@+id/user_score_text"
                 app:layout_constraintTop_toBottomOf="@id/name"
-                app:layout_constraintStart_toEndOf="@id/trophy"
-                android:text="34%"
+                app:layout_constraintStart_toEndOf="@id/scoreMeter"
+                android:text="50%"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -102,22 +102,22 @@
                 />
 
             <ImageView
-                android:id="@+id/time_phone_icon"
+                android:id="@+id/total_owns_icon"
                 app:layout_constraintTop_toBottomOf="@id/name"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="12dp"
-                android:src="@drawable/ontimesupport2"
-                app:layout_constraintStart_toEndOf="@id/userrating"
+                android:src="@drawable/phowned_logo_small"
+                app:layout_constraintStart_toEndOf="@id/user_score_text"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:id="@+id/total_time_on_phone"
+                android:id="@+id/total_owns_counter"
                 app:layout_constraintTop_toBottomOf="@id/name"
-                app:layout_constraintStart_toEndOf="@id/time_phone_icon"
-                android:text="50 min."
+                app:layout_constraintStart_toEndOf="@id/total_owns_icon"
+                android:text="5"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -2,6 +2,7 @@ package com.example.dontouchv1;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class HomeScreen extends AppCompatActivity {
     private String userPicUrl;
     private String userGamesCount;
     private String userOwnsCount;
+    private String userTotalScore, userAvgScore;
 
     /* FIREBASE VARIABLES */
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -81,14 +83,28 @@ public class HomeScreen extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 userNickname = documentSnapshot.getString("nickName");
                 userPicUrl = documentSnapshot.getString("profilePic");
-                userGamesCount = "9";
-                userOwnsCount = "10";
 
-                /*
-                todo unblock after adding fields to server
-                userOwnsCount = documentSnapshot.getString("myOwnsCount");
-                userGameCount = documentSnapshot.getString("myGamesCount");
-                 */
+                userGamesCount = String.valueOf(documentSnapshot.get("myGamesCount"));
+                System.out.println("userGameCount: "+userGamesCount);
+                userOwnsCount = String.valueOf(documentSnapshot.get("myOwnsCount"));
+                System.out.println("userOwnsCount: "+userOwnsCount);
+                userTotalScore = String.valueOf(documentSnapshot.get("myTotalScore"));
+                System.out.println("userTotalScore: "+userTotalScore);
+
+                if (userGamesCount.equals("null")){
+                    userGamesCount = "0";
+                    userAvgScore = "100";
+                }
+
+                if (userOwnsCount.equals("null")){
+                    userOwnsCount = "0";
+                }
+
+                if (userTotalScore.equals("null")){
+                    userAvgScore = "100";
+                } else {
+                    userAvgScore = String.valueOf(Integer.parseInt(userTotalScore) / Integer.parseInt(userGamesCount));
+                }
 
                 // LOAD GROUP DATA
                 db.collection("users").document(user.getUid())
@@ -150,10 +166,21 @@ public class HomeScreen extends AppCompatActivity {
         Glide.with(HomeScreen.this)
                 .load(userPicUrl)
                 .into(userProfilePictureHome);
-        TextView userRating = findViewById(R.id.userrating);
-        TextView timeOnPhone = findViewById(R.id.total_time_on_phone);
-        userRating.setText(userOwnsCount);
-        timeOnPhone.setText(userGamesCount);
+        TextView userScore = findViewById(R.id.user_score_text);
+        TextView userPhowns = findViewById(R.id.total_owns_counter);
+        userScore.setText(userAvgScore+"%");
+        int parsedScore = Integer.parseInt(userAvgScore);
+
+        // todo: for color changes, unblock this
+        /*if (parsedScore >= 75){
+            userScore.setTextColor(Color.GREEN);
+        } else if (parsedScore >= 25){
+            userScore.setTextColor(Color.YELLOW);
+        } else {
+            userScore.setTextColor(Color.RED);
+        }*/
+
+        userPhowns.setText(userOwnsCount);
 
         /* Sets group recycler data */
         initGroupRecyclerView();
@@ -209,16 +236,16 @@ public class HomeScreen extends AppCompatActivity {
 
         /* Define data members */
         /*String tempNickname = "Fresh Prince";*/
-        String tempRating = "34%";
-        String timeOnPhoneText = "58 min";
+        /*String tempRating = "34%";
+        String timeOnPhoneText = "58 min";*/
 
 
         /* Define Views */
         /*TextView userNickname = findViewById(R.id.name);
         ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);*/
-        TextView userRating = findViewById(R.id.userrating);
+        /*TextView userRating = findViewById(R.id.userrating);
         TextView timeOnPhone = findViewById(R.id.total_time_on_phone);
-        ImageView TimeOnPhoneIm = findViewById(R.id.time_phone_icon);
+        ImageView TimeOnPhoneIm = findViewById(R.id.time_phone_icon);*/
         /*SearchView groupSearch = findViewById(R.id.searchView);
         groupSearch.onActionViewExpanded();
         groupSearch.setIconifiedByDefault(false);
@@ -251,8 +278,8 @@ public class HomeScreen extends AppCompatActivity {
         }*/
 
 
-        userRating.setText(tempRating);
-        timeOnPhone.setText(timeOnPhoneText);
+        /*userRating.setText(tempRating);
+        timeOnPhone.setText(timeOnPhoneText);*/
         //TimeOnPhoneIm.setImageResource(R.drawable.ontimesupport2);
 
 

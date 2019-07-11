@@ -93,16 +93,57 @@ public class GroupProfileScreen extends AppCompatActivity {
                     if (member.getId().equals(thisGroup.getFirstPlaceId())){
                         thisGroup.setFirstPlaceName(memberName);
                         thisGroup.setFirstPlacePic(memberPic);
-                    } else if (member.getId().equals(thisGroup.getLastPlaceId())){
+                    }
+
+                    if (member.getId().equals(thisGroup.getLastPlaceId())){
                         thisGroup.setLastPlaceName(memberName);
                         thisGroup.setLastPlacePic(memberPic);
                     }
                 }
 
-                startDisplay();
+                if (thisGroup.getFirstPlaceName() == null || thisGroup.getFirstPlacePic() == null) {
+                    getFirstPlace();
+                } else if (thisGroup.getLastPlaceName() == null || thisGroup.getLastPlacePic() == null){
+                    getLastPlace();
+                } else {
+                    startDisplay();
+                }
 
             }
         });
+    }
+
+    private void getFirstPlace(){
+        db.collection("users")
+                .document(thisGroup.getFirstPlaceId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        thisGroup.setFirstPlacePic(documentSnapshot.getString("profilePic"));
+                        thisGroup.setFirstPlaceName(documentSnapshot.getString("nickName"));
+
+                        if (thisGroup.getLastPlaceName() == null || thisGroup.getLastPlacePic() == null){
+                            getLastPlace();
+                        } else {
+                            startDisplay();
+                        }
+                    }
+                });
+    }
+
+    private void getLastPlace(){
+        db.collection("users")
+                .document(thisGroup.getLastPlaceId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        thisGroup.setLastPlacePic(documentSnapshot.getString("profilePic"));
+                        thisGroup.setLastPlaceName(documentSnapshot.getString("nickName"));
+                        startDisplay();
+                    }
+                });
     }
 
     private void startDisplay(){
@@ -342,6 +383,14 @@ public class GroupProfileScreen extends AppCompatActivity {
     public void onBackPressed(){
         Intent homeScreen = new Intent(GroupProfileScreen.this,HomeScreen.class);
         startActivity(homeScreen);
+    }
+
+    public void editGroupPressed(View view){
+        Intent editGroup = new Intent(this,EditGroup.class);
+        editGroup.putExtra("TEAM_PIC",teamPicUrl);
+        editGroup.putExtra("TEAM_ID",teamId);
+        editGroup.putExtra("TEAM_NAME",name);
+        startActivity(editGroup);
     }
 
 }

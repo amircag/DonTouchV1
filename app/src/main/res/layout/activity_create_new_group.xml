@@ -39,7 +39,7 @@
         <RelativeLayout
             android:id="@+id/addGroupPicForNewGroup"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="180dp"
             android:layout_marginTop="0dp"
             android:gravity="center"
             android:orientation="vertical"
@@ -53,15 +53,15 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:background="@drawable/circle"
-                android:src="@drawable/uploadimage"
+                android:background="#fff"
+                android:src="@drawable/upload_image_frame"
                 android:onClick="getTeamPic"/>
 
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="100dp"
             android:id="@+id/insertNicNameForGroup"
             android:orientation="vertical"
             android:background="@drawable/profile_border"
@@ -80,7 +80,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nick Name"
+                    android:hint="Choose a name for the team..."
                     android:maxLength="25"
                     android:maxLines="1"
                     android:inputType="text"/>
@@ -92,7 +92,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="220dp"
             android:id="@+id/added_members_layout"
             android:orientation="vertical"
             android:background="@drawable/profile_border"
@@ -113,24 +113,24 @@
 
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/holder_for_create_bt"
-        android:orientation="vertical"
-        android:gravity="center"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"
-        android:elevation="30px">
+        android:id="@+id/holder_for_create_bt">
 
-
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/create_group_bt"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/viicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:backgroundTint="@color/colorPrimary"
+            app:srcCompat="@drawable/checkmark_big"
+            />
 
-            android:textColor="@color/dtGrey" />
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
