@@ -75,7 +75,7 @@ public class EndGameGroupStats extends Fragment {
         winnerImage = view.findViewById(R.id.WinnerImageForStats);
         loserImage = view.findViewById(R.id.loserImageForStats);
         groupName = view.findViewById(R.id.group_name_for_stats);
-        groupScore = view.findViewById(R.id.ScoreDynamic);
+
         groupFails = view.findViewById(R.id.failsDynamicEndScreen);
         groupDuration = view.findViewById(R.id.timeDynamic);
         winnerName = view.findViewById(R.id.winner_name_for_stats);
@@ -127,10 +127,20 @@ public class EndGameGroupStats extends Fragment {
     }
 
     private void setupData(){
+        colorFirstAndSecond();
         adapter = new RecycleViewAdapterLeader(leaderBoardObjs,getContext());
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
+    }
+    private void colorFirstAndSecond(){
+        leaderBoardObjs.get(0).setBg("gold_lb");
+        if (leaderBoardObjs.size()>1) {
+            leaderBoardObjs.get(1).setBg("silver_bl");
+        }
+        if (leaderBoardObjs.size()>2){
+            leaderBoardObjs.get(leaderBoardObjs.size()-1).setBg("red_bl");
+        }
     }
 
     private void initGroupImage(){
@@ -153,7 +163,7 @@ public class EndGameGroupStats extends Fragment {
 
     private void setGroupStast(){
         groupName.setText(teamName);
-        groupScore.setText(getGroupScore());
+
         groupFails.setText(String.valueOf(ownesCount));
         groupDuration.setText(duration);
         meetUpName.setText(gameName);

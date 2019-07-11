@@ -36,8 +36,9 @@ public class EndGameStats extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private long timeOnPhone;
+    private int myScore;
     private String teamId,gameId,teamPicUrl,duration ,gameName,myPicUrl,myNickName,teamName,durationAsText;
-    private int teamOwned, myOwnedCount,myScore,myRank;
+    private int teamOwned, myOwnedCount,myRank;
     private ArrayList<LeaderBoardObj> leaderBoardObjs = new ArrayList<>();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -142,6 +143,7 @@ public class EndGameStats extends AppCompatActivity {
     }
 
     public void saveDb(){
+        calculateScore();
         DocumentReference teamRAF = db.collection("teams").document(teamId);
         DocumentReference userRAF = db.collection("users").document(user.getUid());
         WriteBatch batch = db.batch();
@@ -149,6 +151,12 @@ public class EndGameStats extends AppCompatActivity {
         batch.update(teamRAF,"lastPlace",leaderBoardObjs.get(leaderBoardObjs.size()-1)
                 .getUserUid());
         batch.update(userRAF,"myOwnsCount", FieldValue.increment(myOwnedCount));
+        batch.update(userRAF,"myGamesCount",FieldValue.increment(1));
+        batch.update(userRAF,"myTotalScore",FieldValue.increment(myScore));
+        batch.update(userRAF,"wastedTime",FieldValue.increment(timeOnPhone));
+
+
+        batch.commit();
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -185,7 +193,8 @@ public class EndGameStats extends AppCompatActivity {
     }
 
     public void calculateScore(){
-        myScore = (int)(1-(timeOnPhone/Long.parseLong(duration)));
+        double score =100*(1-((double)timeOnPhone/(double)Long.parseLong(duration)));
+        myScore = (int)Math.round(score);
 
     }
 
@@ -260,6 +269,7 @@ public class EndGameStats extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
     }
 
     public Bundle toGroupStats(){
@@ -277,7 +287,7 @@ public class EndGameStats extends AppCompatActivity {
 
     public Bundle toPersonalStats(){
         setMyData();
-        calculateScore();
+
         Bundle bundle = new Bundle();
         bundle.putInt("MY_SCORE",myScore);
         bundle.putInt("MY_RANK",myRank);
@@ -298,6 +308,8 @@ public class EndGameStats extends AppCompatActivity {
             }
         }
     }
+
+
 
 
 }

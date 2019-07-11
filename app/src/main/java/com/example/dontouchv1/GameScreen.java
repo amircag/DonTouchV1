@@ -76,7 +76,7 @@ public class GameScreen extends AppCompatActivity {
     private int pauseCounter = 0;
     private boolean gameActive = true;
     private Long myWasteTime = 0L;
-    private Long startTime = 0L;
+    private Long startTime = SystemClock.elapsedRealtime();
     private Long startGame = SystemClock.elapsedRealtime();
 
 
@@ -128,7 +128,7 @@ public class GameScreen extends AppCompatActivity {
 
                 if (snapshot != null && snapshot.exists()) {
                     Map<String,Object> data = snapshot.getData();
-                    if((Boolean)data.get("active") == false){
+                    if((Boolean)data.get("active") == false && gameActive){
                         gameActive = false;
                         nextToStat();
                         return;
@@ -377,6 +377,7 @@ public class GameScreen extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         //update wasteTime on server only when got phowned
+
         myWasteTime += (SystemClock.elapsedRealtime()-startTime);
         gameListen();
 
@@ -517,8 +518,10 @@ public class GameScreen extends AppCompatActivity {
         goToStats.putExtra("MY_OWNS_COUNT", myOwnsCount);
         goToStats.putExtra("MY_WASTE_TIME", myWasteTime);
         goToStats.putExtra("GAME_NAME",gameName);
-        finish();
+        System.out.println("move to Stat");
         startActivity(goToStats);
+        finish();
+
     }
 
     private void initHeader(){
