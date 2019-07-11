@@ -191,36 +191,6 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    private void loadServerData(){
-        userDocument.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    userNickname = document.getString("nickName");
-                    userPicUrl = document.getString("profilePic");
-
-                    setContentView(R.layout.activity_home_screen);
-
-                    TextView nickname = findViewById(R.id.name);
-                    ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);
-
-                    nickname.setText(userNickname);
-                    Glide.with(HomeScreen.this)
-                            .load(userPicUrl)
-                            .into(userProfilePictureHome);
-
-                }
-                else{
-                    setContentView(R.layout.activity_home_screen);
-                }
-                initiateHomeScreen();
-                initGroupImages();
-                setButtonListeners();
-            }
-        });
-    }
-
 
 
     private void initGroupImages(){
@@ -230,59 +200,6 @@ public class HomeScreen extends AppCompatActivity {
         mPeople = server.getPeople();
 
         initGroupRecyclerView();
-    }
-
-    private void initiateHomeScreen(){
-
-        /* Define data members */
-        /*String tempNickname = "Fresh Prince";*/
-        /*String tempRating = "34%";
-        String timeOnPhoneText = "58 min";*/
-
-
-        /* Define Views */
-        /*TextView userNickname = findViewById(R.id.name);
-        ImageView userProfilePictureHome = findViewById(R.id.MainProfilePicture);*/
-        /*TextView userRating = findViewById(R.id.userrating);
-        TextView timeOnPhone = findViewById(R.id.total_time_on_phone);
-        ImageView TimeOnPhoneIm = findViewById(R.id.time_phone_icon);*/
-        /*SearchView groupSearch = findViewById(R.id.searchView);
-        groupSearch.onActionViewExpanded();
-        groupSearch.setIconifiedByDefault(false);
-        groupSearch.setQueryHint("Search Group...");
-        if(!groupSearch.isFocused()){
-            groupSearch.clearFocus();
-        }
-        groupSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });*/
-
-
-        /* Grab user info from server */
-        /*userNickname.setText(tempNickname);
-        userProfilePictureHome.setImageResource(R.drawable.profile);*/
-
-        /*if (userData.size() > 0){
-            userNickname.setText(userData.get(0));
-            Glide.with(HomeScreen.this)
-                    .load(userData.get(1))
-                    .into(userProfilePictureHome);
-        }*/
-
-
-        /*userRating.setText(tempRating);
-        timeOnPhone.setText(timeOnPhoneText);*/
-        //TimeOnPhoneIm.setImageResource(R.drawable.ontimesupport2);
-
-
     }
 
     private void initGroupRecyclerView(){
