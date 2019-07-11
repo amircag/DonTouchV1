@@ -98,7 +98,7 @@ public class EndGameStats extends AppCompatActivity {
                  List<DocumentSnapshot> members = queryDocumentSnapshots.getDocuments();
                  System.out.println("hello");
                  for (DocumentSnapshot member: members){
-                     String ownsCount = String.valueOf(member.getString("userId"));
+                     String ownsCount = String.valueOf(member.get("myOwnsCount"));
                      LeaderBoardObj player = new LeaderBoardObj(member.getString("userId"),
                              member.getString("userPicUrl"),member.getString("userNickname"),
                              ownsCount);
