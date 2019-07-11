@@ -103,6 +103,9 @@ public class EditGroup extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ImageView imageView = (ImageView) findViewById(R.id.edit_group_imageview);
                 imageView.setImageBitmap(bitmap);
+                imageView.clearColorFilter();
+                ImageView camera = findViewById(R.id.editGroupCamera);
+                camera.setVisibility(View.INVISIBLE);
             }
             catch (IOException e)
             {

@@ -80,11 +80,11 @@
                 android:layout_alignRight="@+id/group_header_image"
                 android:text="Group Name"
                 android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:shadowColor="@color/colorPrimary"
+                android:textColor="#FBFBFB"
+                android:shadowColor="#7F000000"
                 android:shadowDx="-4"
-                android:shadowDy="4"
-                android:shadowRadius="50"
+                android:shadowDy="-4"
+                android:shadowRadius="5"
                 android:textStyle="bold"
                 android:textSize="24sp"/>
 

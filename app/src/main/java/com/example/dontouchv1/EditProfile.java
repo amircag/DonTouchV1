@@ -123,6 +123,9 @@ public class EditProfile extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ImageView imageView = (ImageView) findViewById(R.id.edit_profile_pic);
                 imageView.setImageBitmap(bitmap);
+                imageView.clearColorFilter();
+                ImageView camera = findViewById(R.id.editProfileCamera);
+                camera.setVisibility(View.INVISIBLE);
             }
             catch (IOException e)
             {

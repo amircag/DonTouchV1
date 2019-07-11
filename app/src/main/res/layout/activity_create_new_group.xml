@@ -53,8 +53,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:background="@drawable/circle"
-                android:src="@drawable/uploadimage"
+                android:background="#fff"
+                android:src="@drawable/upload_image_frame"
                 android:onClick="getTeamPic"/>
 
         </RelativeLayout>
@@ -80,7 +80,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nick Name"
+                    android:hint="Choose a name for the team..."
                     android:maxLength="25"
                     android:maxLines="1"
                     android:inputType="text"/>

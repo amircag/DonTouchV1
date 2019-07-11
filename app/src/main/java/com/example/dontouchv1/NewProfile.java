@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.Image;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -44,6 +46,8 @@ public class NewProfile extends AppCompatActivity {
     private String picUrl;
     private String picFilename;
 
+    final int semiTransparentGrey = Color.argb(155, 41, 36, 33);
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private NewProfile self;
@@ -74,7 +78,8 @@ public class NewProfile extends AppCompatActivity {
 
     private void initUserInfo(){
         ImageView profile = (ImageView) findViewById(R.id.newProfilePic);
-        profile.setImageResource(R.drawable.ic_person_black_24dp);
+        /*profile.setImageResource(R.drawable.ic_person_black_24dp);*/
+        profile.setColorFilter(semiTransparentGrey, PorterDuff.Mode.SRC_ATOP);
 /*
         Cursor c = getApplication().getContentResolver().query(ContactsContract.Profile.CONTENT_URI, null, null, null, null);
         c.moveToFirst();
@@ -113,6 +118,9 @@ public class NewProfile extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ImageView imageView = (ImageView) findViewById(R.id.newProfilePic);
                 imageView.setImageBitmap(bitmap);
+                imageView.clearColorFilter();
+                ImageView camera = findViewById(R.id.newProfileCamera);
+                camera.setVisibility(View.INVISIBLE);
             }
             catch (IOException e)
             {

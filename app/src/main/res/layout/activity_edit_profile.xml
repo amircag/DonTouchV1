@@ -32,7 +32,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
                 android:background="@drawable/ic_arrow_back_black_24dp"
-                android:onClick="backToProfile"/>
+                android:onClick="backToProfile" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,7 +46,7 @@
                 android:gravity="center"
                 android:text="Edit Profile"
                 android:textSize="20dp"
-                android:textColor="#000"
+                android:textColor="#fff"
                 />
 
         </LinearLayout>
@@ -84,6 +84,7 @@
                     android:onClick="chooseImage"
                     />
                 <ImageView
+                    android:id="@+id/editProfileCamera"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
