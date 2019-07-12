@@ -233,7 +233,8 @@ public class EditProfile extends AppCompatActivity {
                                     .update(data);
                         }
 
-                        Intent intent = new Intent(EditProfile.this, PersonalProfile.class);
+                        Intent intent = new Intent(EditProfile.this, ProfileScreen.class);
+                        intent.putExtra("USER_ID",user.getUid());
                         startActivity(intent);
                         finish();
                     }
