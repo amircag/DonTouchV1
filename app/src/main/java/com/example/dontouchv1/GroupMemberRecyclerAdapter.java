@@ -1,6 +1,7 @@
 package com.example.dontouchv1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,13 +26,13 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
     //vars
     private ArrayList<String> mMemberNames = new ArrayList<>();
     private ArrayList<String> mMemberImages = new ArrayList<>();
-    private ArrayList<String> mFailsCount = new ArrayList<>();
+    private ArrayList<String> mMemberIds = new ArrayList<>();
     private Context mContext;
 
-    public GroupMemberRecyclerAdapter(Context mContext, ArrayList<String> mMemberNames, ArrayList<String> mMemberImages, ArrayList<String> mFailsCount) {
+    public GroupMemberRecyclerAdapter(Context mContext, ArrayList<String> mMemberNames, ArrayList<String> mMemberImages, ArrayList<String> mIds) {
         this.mMemberNames = mMemberNames;
         this.mMemberImages = mMemberImages;
-        this.mFailsCount = mFailsCount;
+        this.mMemberIds = mIds;
         this.mContext = mContext;
     }
 
@@ -68,8 +69,13 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
                 public void onClick(View view){
-                Log.d(TAG,"OnClick: Clicked on an image: "+ mMemberNames.get(position));
-                Toast.makeText(mContext, mMemberNames.get(position), Toast.LENGTH_SHORT).show();
+                /*Log.d(TAG,"OnClick: Clicked on an image: "+ mMemberNames.get(position));
+                Toast.makeText(mContext, mMemberNames.get(position), Toast.LENGTH_SHORT).show();*/
+
+                Intent userProfile = new Intent(mContext,ProfileScreen.class);
+                userProfile.putExtra("USER_ID",mMemberIds.get(position));
+                mContext.startActivity(userProfile);
+
             }
         });
 

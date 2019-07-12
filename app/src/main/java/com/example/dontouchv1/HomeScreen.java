@@ -85,11 +85,8 @@ public class HomeScreen extends AppCompatActivity {
                 userPicUrl = documentSnapshot.getString("profilePic");
 
                 userGamesCount = String.valueOf(documentSnapshot.get("myGamesCount"));
-                System.out.println("userGameCount: "+userGamesCount);
                 userOwnsCount = String.valueOf(documentSnapshot.get("myOwnsCount"));
-                System.out.println("userOwnsCount: "+userOwnsCount);
                 userTotalScore = String.valueOf(documentSnapshot.get("myTotalScore"));
-                System.out.println("userTotalScore: "+userTotalScore);
 
                 if (userGamesCount.equals("null")){
                     userGamesCount = "0";
@@ -225,7 +222,8 @@ public class HomeScreen extends AppCompatActivity {
         userInfoBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent profileScreen = new Intent(HomeScreen.this, PersonalProfile.class);
+                Intent profileScreen = new Intent(HomeScreen.this, ProfileScreen.class);
+                profileScreen.putExtra("USER_ID",user.getUid());
                 startActivity(profileScreen);
 
             }

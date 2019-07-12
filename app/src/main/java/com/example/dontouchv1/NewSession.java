@@ -23,7 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.text.CollationElementIterator;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class NewSession extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -41,6 +43,7 @@ public class NewSession extends AppCompatActivity {
         Intent intent = getIntent();
         teamId = intent.getStringExtra("TEAM_ID");
         teamPicUrl = intent.getStringExtra("TEAM_PIC_URL");
+        randomizeName();
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
@@ -160,6 +163,38 @@ public class NewSession extends AppCompatActivity {
         intent.putExtras(getIntent().getExtras()); //team_id,team_pic,user_nick,user_pic
         startActivity(intent);
     }
+
+    public void randomizePressed(View view){
+        randomizeName();
+    }
+
+    public void randomizeName(){
+        ArrayList<String> names = new ArrayList<>();
+
+        names.add("Beer & Fries");
+        names.add("Binge Drinking");
+        names.add("PARTY TIME!");
+        names.add("Fish & Chips");
+        names.add("Getting Stoopid");
+        names.add("Shots");
+        names.add("Day n Night");
+        names.add("#WeStarted");
+        names.add("Nights Out");
+        names.add("Night to Forget");
+        names.add("Night to Remember");
+        names.add("Bar Nite");
+        names.add("Cheers!");
+        names.add("DonTouch");
+        names.add("No Phones Allowed");
+
+        EditText gameName = findViewById(R.id.gameName);
+
+        Random rand = new Random();
+        gameName.setText(names.get(rand.nextInt(names.size())));
+
+
+    }
+
 /*
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -174,4 +209,5 @@ public class NewSession extends AppCompatActivity {
         }
     }
 */
+
 }

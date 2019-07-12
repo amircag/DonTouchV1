@@ -19,7 +19,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F2F2F2"
+            android:background="@color/dtGrey"
             android:id="@+id/group_circle_layout">
 
             <de.hdodenhof.circleimageview.CircleImageView

@@ -27,7 +27,7 @@ public class GroupProfileScreen extends AppCompatActivity {
 
     private ArrayList<String> mMembers = new ArrayList<>(15);
     private ArrayList<String> mImages = new ArrayList<>(15);
-    private ArrayList<String> mFailCounter = new ArrayList<>(15);
+    private ArrayList<String> mMemberIds = new ArrayList<>(15);
     private DummyServer server = new DummyServer();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String teamId, teamPicUrl;
@@ -89,6 +89,7 @@ public class GroupProfileScreen extends AppCompatActivity {
 
                     mMembers.add(memberName);
                     mImages.add(memberPic);
+                    mMemberIds.add(member.getId());
 
                     if (member.getId().equals(thisGroup.getFirstPlaceId())){
                         thisGroup.setFirstPlaceName(memberName);
@@ -182,7 +183,7 @@ public class GroupProfileScreen extends AppCompatActivity {
 
         // todo : remove when fail counter is removed
         for (int i=0;i<mMembers.size();i++){
-            mFailCounter.add("1");
+            mMemberIds.add("1");
         }
         initRecyclerGrid();
 
@@ -193,11 +194,11 @@ public class GroupProfileScreen extends AppCompatActivity {
         mMembers = server.getGroupMembersNames();
         mImages = server.getGroupMembersImages();
 
-        mFailCounter.add("10");
-        mFailCounter.add("12");
-        mFailCounter.add("1");
-        mFailCounter.add("77");
-        mFailCounter.add("0");
+        mMemberIds.add("10");
+        mMemberIds.add("12");
+        mMemberIds.add("1");
+        mMemberIds.add("77");
+        mMemberIds.add("0");
 
 
         initRecyclerGrid();
@@ -208,7 +209,7 @@ public class GroupProfileScreen extends AppCompatActivity {
         GridLayoutManager gridLayout = new GridLayoutManager(this,4);
         RecyclerView membersRecycler = findViewById(R.id.groupMembersREC);
         membersRecycler.setLayoutManager(gridLayout);
-        GroupMemberRecyclerAdapter myAdapter = new GroupMemberRecyclerAdapter(this,mMembers,mImages,mFailCounter);
+        GroupMemberRecyclerAdapter myAdapter = new GroupMemberRecyclerAdapter(this,mMembers,mImages, mMemberIds);
         membersRecycler.setAdapter(myAdapter);
 
 

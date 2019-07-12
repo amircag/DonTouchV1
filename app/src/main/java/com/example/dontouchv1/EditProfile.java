@@ -99,7 +99,8 @@ public class EditProfile extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this,PersonalProfile.class);
+        Intent intent = new Intent(this,ProfileScreen.class);
+        intent.putExtra("USER_ID",user.getUid());
         startActivity(intent);
         finish();
     }
