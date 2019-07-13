@@ -67,25 +67,38 @@ public class ProfileScreen extends AppCompatActivity {
                         userTotalScore = String.valueOf(documentSnapshot.get("myTotalScore"));
                         userWasteTime = String.valueOf(documentSnapshot.get("wastedTime"));
 
-                        if (userGamesCount.equals("null")){
-                            userGamesCount = "0";
-                            userAvgScore = "100";
-                        }
-
-                        if (userOwnsCount.equals("null")){
-                            userOwnsCount = "0";
-                        }
-
-                        if (userTotalScore.equals("null")){
-                            userAvgScore = "100";
-                        } else {
-                            userAvgScore = String.valueOf(Integer.parseInt(userTotalScore) / Integer.parseInt(userGamesCount));
-                        }
-
+                        fillMissingData();
                         getGroupData();
 
                     }
                 });
+    }
+
+    private void fillMissingData(){
+
+        if(userGamesCount.equals("null")){
+            userOwnsCount = "0";
+        }
+
+        if(userWasteTime.equals("null")){
+            userWasteTime = "0";
+        }
+
+        if (userGamesCount.equals("null")){
+            userGamesCount = "0";
+            userAvgScore = "100";
+        }
+
+        if (userOwnsCount.equals("null")){
+            userOwnsCount = "0";
+        }
+
+        if (userTotalScore.equals("null")){
+            userAvgScore = "100";
+        } else {
+            userAvgScore = String.valueOf(Integer.parseInt(userTotalScore) / Integer.parseInt(userGamesCount));
+        }
+
     }
 
 
