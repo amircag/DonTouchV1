@@ -89,7 +89,7 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <!-- PROFILE PAGE STRINGS -->
-    <string name="group_title"><b>GROUP</b></string>
+    <string name="group_title"><b>GROUPS</b></string>
     <string name="fails_title"><b>OWNS:</b></string>
     <string name="nickname_title">NICKNAME</string>
     <string name="rank_title">RANK</string>
