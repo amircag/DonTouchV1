@@ -58,7 +58,7 @@
                 android:textSize="24sp"
                 android:gravity="center"
                 android:textColor="@color/dtGold"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="14dp"/>
 
         </LinearLayout>
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="65dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp">
 
@@ -83,7 +83,7 @@
             <ImageView
                 android:layout_width="200dp"
                 android:layout_height="280dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="45dp"
                 android:src="@drawable/no_owns_icon"
                 android:id="@+id/no_owns_ic"/>
 

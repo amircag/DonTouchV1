@@ -74,7 +74,9 @@ public class GroupMemberRecyclerAdapter extends RecyclerView.Adapter<GroupMember
 
                 Intent userProfile = new Intent(mContext,ProfileScreen.class);
                 userProfile.putExtra("USER_ID",mMemberIds.get(position));
+                userProfile.putExtra("FROM_GROUP",true);
                 mContext.startActivity(userProfile);
+
 
             }
         });
