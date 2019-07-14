@@ -309,7 +309,7 @@ public class GameScreen extends AppCompatActivity {
 
         DocumentReference player = db.collection("games").document(gameId).collection("players").document(user.getUid());
         batch.update(player,"myOwnsCount", myOwnsCount);
-        batch.update(player, "myWasteTime", myWasteTime);
+
 
         DocumentReference game = db.collection("games").document(gameId);
         batch.update(game, "ownsCount", FieldValue.increment(1));
@@ -381,6 +381,10 @@ public class GameScreen extends AppCompatActivity {
         //update wasteTime on server only when got phowned
 
         myWasteTime += (SystemClock.elapsedRealtime()-startTime);
+        startTime = SystemClock.elapsedRealtime();
+         db.collection("games").document(gameId).
+                collection("players").document(user.getUid()).
+                 update("myWasteTime",myWasteTime);
         gameListen();
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
