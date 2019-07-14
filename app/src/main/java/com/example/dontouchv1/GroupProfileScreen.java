@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +45,7 @@ public class GroupProfileScreen extends AppCompatActivity {
     private String name;
     private String lastGameId;
     private boolean isActiveGame;
+    private boolean isNewGroup = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +139,9 @@ public class GroupProfileScreen extends AppCompatActivity {
                 final String firstPlaceId = groupDoc.getString("firstPlace");
                 final String lastPlaceId = groupDoc.getString("lastPlace");
                 thisGroup = new GroupObj(groupName,groupPic,firstPlaceId,lastPlaceId);
-
+                if (firstPlaceId == null || lastPlaceId==null){
+                    isNewGroup = true;
+                }
                 loadGroupMembers(teamId);
                 listenNewGame();
             }
@@ -170,9 +174,9 @@ public class GroupProfileScreen extends AppCompatActivity {
                     }
                 }
 
-                if (thisGroup.getFirstPlaceName() == null || thisGroup.getFirstPlacePic() == null) {
+                if (!isNewGroup&&(thisGroup.getFirstPlaceName() == null || thisGroup.getFirstPlacePic() == null)) {
                     getFirstPlace();
-                } else if (thisGroup.getLastPlaceName() == null || thisGroup.getLastPlacePic() == null){
+                } else if (!isNewGroup&&(thisGroup.getLastPlaceName() == null || thisGroup.getLastPlacePic() == null)){
                     getLastPlace();
                 } else {
                     startDisplay();
@@ -236,16 +240,23 @@ public class GroupProfileScreen extends AppCompatActivity {
         CircleImageView loserImg = findViewById(R.id.group_loser_image);
         TextView winnerTxt = findViewById(R.id.group_winner_name);
         TextView loserTxt = findViewById(R.id.group_loser_name);
+        LinearLayout winLossContainer = findViewById(R.id.group_win_lose_container);
+        TextView noGamesPlayed = findViewById(R.id.no_games_played_yet);
+        if(!isNewGroup) {
 
-        winnerTxt.setText(thisGroup.getFirstPlaceName());
-        Glide.with(GroupProfileScreen.this)
-                .load(thisGroup.getFirstPlacePic())
-                .into(winnerImg);
+            winnerTxt.setText(thisGroup.getFirstPlaceName());
+            Glide.with(GroupProfileScreen.this)
+                    .load(thisGroup.getFirstPlacePic())
+                    .into(winnerImg);
 
-        loserTxt.setText(thisGroup.getLastPlaceName());
-        Glide.with(GroupProfileScreen.this)
-                .load(thisGroup.getLastPlacePic())
-                .into(loserImg);
+            loserTxt.setText(thisGroup.getLastPlaceName());
+            Glide.with(GroupProfileScreen.this)
+                    .load(thisGroup.getLastPlacePic())
+                    .into(loserImg);
+        }else {
+            winLossContainer.setVisibility(View.GONE);
+            noGamesPlayed.setVisibility(View.GONE);
+        }
 
         // set group members
 

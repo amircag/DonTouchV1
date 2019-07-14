@@ -163,11 +163,11 @@ public class CreateNewGroup extends AppCompatActivity {
         pic.put("picUrl", picUrl);
         pic.put("name",groupName);
         pic.put("createdAt", FieldValue.serverTimestamp());
-        pic.put("firstPlace",addedContacts.get(0).Uid);
+        pic.put("firstPlace",null);
         if (addedContacts.size() > 1) {
-            pic.put("lastPlace", addedContacts.get(1).Uid);
+            pic.put("lastPlace", null);
         } else {
-            pic.put("lastPlace", addedContacts.get(0).Uid);
+            pic.put("lastPlace", null);
         }
         batch.set(teamRef, pic);
 
