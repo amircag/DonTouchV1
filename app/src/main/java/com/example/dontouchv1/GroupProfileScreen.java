@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,11 +15,19 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -55,6 +64,64 @@ public class GroupProfileScreen extends AppCompatActivity {
 
 
     }
+    private void listenNewGame(){
+        DocumentReference team = db.collection("teams").document(teamId);
+        ListenerRegistration listener = team.addSnapshotListener(GroupProfileScreen.this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("Private Error", "Listen failed.", e);
+                    return;
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    Map<String,Object> data = snapshot.getData();
+
+                    if(data.get("currentGame") != null && (lastGameId == null || lastGameId.isEmpty() || lastGameId.equals("null") || !((String)data.get("currentGame")).equals(lastGameId))){
+                        lastGameId = (String) data.get("currentGame");
+
+                        final Button gameButton = findViewById(R.id.gameButton);
+                        db.collection("games")
+                                .document(lastGameId)
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if (documentSnapshot.getBoolean("active")) {
+                                            gameButton.setText("Join Game");
+                                            gameButton.setBackground(getResources().getDrawable(R.drawable.rounded_button_joingame));
+                                            gameButton.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
+                                                    joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                                                    joinGame.putExtra("GAME_ID", lastGameId);
+                                                    joinGame.putExtra("TEAM_NAME", name);
+                                                    joinGame.putExtras(getIntent().getExtras());
+                                                    startActivity(joinGame);
+                                                }
+                                            });
+                                        } else {
+                                            gameButton.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
+                                                    createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
+                                                    createGame.putExtra("TEAM_NAME", name);
+                                                    createGame.putExtras(getIntent().getExtras());
+                                                    startActivity(createGame);
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                    }
+                } else {
+                    Log.d("Private Message", "Current data: null");
+                }
+
+            }
+        });
+    }
 
     private void loadScreen(final String teamId){
         final DocumentReference groupRef = db.collection("teams").document(teamId);
@@ -72,6 +139,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                 thisGroup = new GroupObj(groupName,groupPic,firstPlaceId,lastPlaceId);
 
                 loadGroupMembers(teamId);
+                listenNewGame();
             }
         });
     }
