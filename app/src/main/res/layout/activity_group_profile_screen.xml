@@ -91,10 +91,36 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/no_games_played_yet"
+                android:text="LAST GAME RESULTS"
+                android:textSize="18sp"
+                android:layout_marginLeft="16dp"
+                android:textColor="#fff"
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/group_win_lose_container"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:layout_margin="16dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/winerloserv1"
             android:orientation="horizontal">
 
