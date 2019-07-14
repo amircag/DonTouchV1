@@ -35,7 +35,8 @@ public class EndGamePersonalStat extends Fragment {
     private TextView ownCount;
     private int myScore, myRank,myOwnedCount;
     private long wastedTime;
-    private String myPicUrl,myNickName;
+    private String myPicUrl,myNickName,gameId;
+    private Button toLogs;
 
 
     public EndGamePersonalStat() {
@@ -52,6 +53,7 @@ public class EndGamePersonalStat extends Fragment {
         myPicUrl = getArguments().getString("MY_PIC_URL");
         myNickName = getArguments().getString("MY_NICK_NAME");
         wastedTime  = getArguments().getLong("TIME_ON_PHONE");
+        gameId = getArguments().getString("GAME_ID");
 
         // Inflate the layout for this fragment
         //View pr_lay = inflater.inflate(R.layout.fragment_end_game_personal_stat, container, false);
@@ -68,6 +70,7 @@ public class EndGamePersonalStat extends Fragment {
         profileImage = view.findViewById(R.id.personalImageForStats);
         ownCount  = view.findViewById(R.id.ownsDynamic_ps);
         myName = view.findViewById(R.id.player_name_for_stats);
+        toLogs = view.findViewById(R.id.to_owns_log_bt);
 
 
         Button lobbyButton = view.findViewById(R.id.lobby_bt);
@@ -76,6 +79,15 @@ public class EndGamePersonalStat extends Fragment {
             public void onClick(View v) {
                 Intent goToLobby = new Intent(getContext(),HomeScreen.class);
                 startActivity(goToLobby);
+            }
+        });
+
+        toLogs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToLogs = new Intent(getContext(),OwnedLog.class);
+                goToLogs.putExtra("GAME_ID",gameId);
+                startActivity(goToLogs);
             }
         });
 

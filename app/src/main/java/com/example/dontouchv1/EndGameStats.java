@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,9 +37,9 @@ import java.util.List;
 public class EndGameStats extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private long timeOnPhone;
+    private long timeOnPhone,duration;
     private int myScore;
-    private String teamId,gameId,teamPicUrl,duration ,gameName,myPicUrl,myNickName,teamName,durationAsText;
+    private String teamId,gameId,teamPicUrl ,gameName,myPicUrl,myNickName,teamName,durationAsText;
     private int teamOwned, myOwnedCount,myRank;
     private ArrayList<LeaderBoardObj> leaderBoardObjs = new ArrayList<>();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -116,10 +117,13 @@ public class EndGameStats extends AppCompatActivity {
         db.collection("games").document(gameId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                duration = String.valueOf(documentSnapshot.get("duration"));
-                String seconds =String.valueOf((Long.parseLong(duration) / (1000) % 60));
-                String minutes = String.valueOf ((Long.parseLong(duration) / (1000*60)) % 60);
-                String hours   = String.valueOf ((Long.parseLong(duration) / (1000*60*60)) % 24);
+                Long createdAt =((Timestamp)documentSnapshot.get("createdAt")).getSeconds();
+                Long endedAt = ((Timestamp)documentSnapshot.get("endedAt")).getSeconds();
+                duration = endedAt-createdAt;
+
+                String seconds =String.valueOf(duration % 60);
+                String minutes = String.valueOf ((duration / (60)) % 60);
+                String hours   = String.valueOf ((duration / (60*60)) % 24);
                 if (minutes.length() == 1){
                     minutes = "0"+minutes;
                 }
@@ -199,8 +203,16 @@ public class EndGameStats extends AppCompatActivity {
     }
 
     public void calculateScore(){
-        double score =100*(1-((double)timeOnPhone/(double)Long.parseLong(duration)));
+        Long durationImMil = duration*1000;
+        double score =100*(1-((double)timeOnPhone/((double)durationImMil)));
+        System.out.println(timeOnPhone);
+        System.out.println(durationImMil);
+        System.out.println(score);
         myScore = (int)Math.round(score);
+
+        if (myScore >= 98 && myOwnedCount == 0){
+            myScore = 100;
+        }
 
     }
 
@@ -301,6 +313,7 @@ public class EndGameStats extends AppCompatActivity {
         bundle.putLong("TIME_ON_PHONE",timeOnPhone);
         bundle.putString("MY_PIC_URL",myPicUrl);
         bundle.putString("MY_NICK_NAME",myNickName);
+        bundle.putString("GAME_ID",gameId);
         return bundle;
     }
 
