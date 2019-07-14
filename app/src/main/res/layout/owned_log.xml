@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="GOOD JOB\n\n\ NO OWNED IN THIS GAME"
+                android:text="GOOD JOB!\n\n\ YOU DIDN\'T GET phOWNED THIS TIME"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:textColor="#fff"

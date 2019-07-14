@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,6 +39,7 @@ public class EndGamePersonalStat extends Fragment {
     private long wastedTime;
     private String myPicUrl,myNickName,gameId;
     private Button toLogs;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
     public EndGamePersonalStat() {
@@ -87,6 +90,8 @@ public class EndGamePersonalStat extends Fragment {
             public void onClick(View v) {
                 Intent goToLogs = new Intent(getContext(),OwnedLog.class);
                 goToLogs.putExtra("GAME_ID",gameId);
+                goToLogs.putExtra("USER_ID",user.getUid());
+                goToLogs.putExtra("FROM_GAME",true);
                 startActivity(goToLogs);
             }
         });

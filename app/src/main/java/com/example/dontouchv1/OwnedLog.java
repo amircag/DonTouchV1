@@ -31,6 +31,8 @@ public class OwnedLog extends AppCompatActivity {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private Button toLobby;
     private Context self = this;
+    private String userId;
+    private boolean fromGame;
 
 
     @Override
@@ -39,11 +41,17 @@ public class OwnedLog extends AppCompatActivity {
         setContentView(R.layout.owned_log);
         Intent intent = getIntent();
         gameId = intent.getStringExtra("GAME_ID");
+        userId= intent.getStringExtra("USER_ID");
+        fromGame = intent.getBooleanExtra("FROM_GAME",false);
         noOwnsText = findViewById(R.id.no_owns_text);
         noOwnsPic = findViewById(R.id.no_owns_ic);
         noOwnsText.setVisibility(View.INVISIBLE);
         noOwnsPic.setVisibility(View.INVISIBLE);
         toLobby = findViewById(R.id.lobby_bt_own_log);
+        toLobby.setVisibility(View.INVISIBLE);
+        if (fromGame){
+            toLobby.setVisibility(View.VISIBLE);
+        }
         toLobby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,13 +68,13 @@ public class OwnedLog extends AppCompatActivity {
     }
 
     public void getOwns(){
-        db.collection("games").document(gameId).collection("owns").whereEqualTo("userId",user.getUid())
+        db.collection("games").document(gameId).collection("owns").whereEqualTo("userId",userId)
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> owns = queryDocumentSnapshots.getDocuments();
                 for (DocumentSnapshot own : owns){
-                    if (own.get("userId").equals(user.getUid())){
+                    if (own.get("userId").equals(userId)){
                         OwnLogObj ownLog = new OwnLogObj(own.getString("ownDesc")
                                 ,(Long)own.get("ownType"));
                         ownLogObjs.add(ownLog);
