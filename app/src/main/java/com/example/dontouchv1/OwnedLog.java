@@ -88,6 +88,18 @@ public class OwnedLog extends AppCompatActivity {
     }
 
     public void initDisplay(){
+        TextView ownsTitle = findViewById(R.id.ownsHeader);
+
+        if (fromGame){
+            ownsTitle.setText("MY OWNS");
+        }
+        else if (userId.equals(user.getUid())){
+            ownsTitle.setText("MY LAST GAME\'S OWNS");
+        } else {
+            ownsTitle.setText("LAST GAME\'S OWNS");
+        }
+
+
         if (ownLogObjs.size() == 0){
             System.out.println("no Owned");
             noOwnsPic.setVisibility(View.VISIBLE);
@@ -102,5 +114,10 @@ public class OwnedLog extends AppCompatActivity {
         OwnsLogAdapter adapter = new OwnsLogAdapter(ownLogObjs, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+
+    public void backButtonPressed(View view){
+        onBackPressed();
     }
 }

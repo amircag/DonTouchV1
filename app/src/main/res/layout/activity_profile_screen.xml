@@ -331,6 +331,90 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lastGameHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintTop_toBottomOf="@id/profileUpper"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/groups_section"
+        android:background="@drawable/profile_border"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lastGameHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:paddingBottom="6dp"
+            android:textAlignment="center"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="true"
+            android:text="LAST GAME"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:background="@drawable/section_header"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.0"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0">
+                <TextView
+                    android:id="@+id/lastGameName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.0">
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/last_owned_ic"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:id="@+id/lastGameIcon"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/groups_section"
         android:layout_width="match_parent"
         android:layout_height="350dp"
@@ -339,7 +423,7 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/profile_border"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/profileUpper"
+        app:layout_constraintTop_toBottomOf="@id/lastGameHolder"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         >

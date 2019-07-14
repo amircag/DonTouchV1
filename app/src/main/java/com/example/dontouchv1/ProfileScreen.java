@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +38,7 @@ public class ProfileScreen extends AppCompatActivity {
     private String userPic, userName, userOwnsCount, userGamesCount, userWasteTime, userTotalScore;
     private String userAvgScore;
     final private ArrayList<GroupObj> usersGroups = new ArrayList<>();
+    private String lastGameId;
 
 
     @Override
@@ -66,6 +68,7 @@ public class ProfileScreen extends AppCompatActivity {
                         userGamesCount = String.valueOf(documentSnapshot.get("myGamesCount"));
                         userTotalScore = String.valueOf(documentSnapshot.get("myTotalScore"));
                         userWasteTime = String.valueOf(documentSnapshot.get("wastedTime"));
+                        lastGameId = documentSnapshot.getString("currentGame");
 
                         fillMissingData();
                         getGroupData();
@@ -146,6 +149,42 @@ public class ProfileScreen extends AppCompatActivity {
 
         /* Finally display groups */
         initGroupRecyclerView();
+
+        initLastGameData();
+    }
+
+    private void initLastGameData(){
+        if (lastGameId == null){
+            findViewById(R.id.lastGameHolder).setVisibility(View.GONE);
+        } else {
+            ImageView lastOwnsButton = findViewById(R.id.lastGameIcon);
+            lastOwnsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent lastOwns = new Intent(self,OwnedLog.class);
+                    lastOwns.putExtra("GAME_ID",lastGameId);
+                    lastOwns.putExtra("USER_ID",userId);
+                    lastOwns.putExtra("FROM_GAME",false);
+                    startActivity(lastOwns);
+                }
+            });
+
+            db.collection("games")
+                    .document(lastGameId)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            TextView lastGameTxt = findViewById(R.id.lastGameName);
+                            String gameName = documentSnapshot.getString("name");
+                            lastGameTxt.setText(gameName);
+
+                        }
+                    });
+
+        }
+
+
     }
 
     private void initEditButton(){
