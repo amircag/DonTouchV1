@@ -60,6 +60,7 @@ import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -557,17 +558,42 @@ public class GameScreen extends AppCompatActivity {
         // todo test AMIR
 
         CircleImageView teamPic = findViewById(R.id.teamPicGameScreen);
-        if (groupName != null) {
-            teamPic.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast toast = Toast.makeText(GameScreen.this,"text",Toast.LENGTH_SHORT);
-                    toast.setGravity(0,0,0);
-                    toast.setText("Currently playing in group: "+groupName);
-                    toast.show();
-                }
-            });
-        }
+        teamPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                db.collection("games")
+                        .document(gameId)
+                        .collection("players")
+                        .orderBy("joinAt", Query.Direction.ASCENDING)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                String playerPrint = "";
+                                List<DocumentSnapshot> players = queryDocumentSnapshots.getDocuments();
+                                for (DocumentSnapshot player : players){
+                                    playerPrint = playerPrint + "\n" + player.getString("userNickname");
+                                }
+
+                                Toast toast = Toast.makeText(GameScreen.this,"text",Toast.LENGTH_SHORT);
+                                toast.setGravity(0,0,0);
+                                if (groupName != null){
+                                    toast.setText(groupName+"\n\n Currently playing:"+playerPrint);
+                                }
+                                else {
+                                    toast.setText("Currently playing:"+playerPrint);
+                                }
+
+                                toast.show();
+
+                            }
+                        });
+
+
+
+            }
+        });
 
     }
 
