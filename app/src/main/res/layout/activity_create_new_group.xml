@@ -80,7 +80,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Choose a name for the team..."
+                    android:hint="Choose a name for the group..."
                     android:maxLength="25"
                     android:maxLines="1"
                     android:inputType="text"/>
