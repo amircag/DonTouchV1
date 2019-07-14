@@ -60,7 +60,7 @@ public class OwnedLog extends AppCompatActivity {
     }
 
     public void getOwns(){
-        db.collection("games").document(gameId).collection("owns")
+        db.collection("games").document(gameId).collection("owns").whereEqualTo("userId",user.getUid())
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
