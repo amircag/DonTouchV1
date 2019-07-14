@@ -138,4 +138,6 @@
 
     <string name="no_groups">YOU HAVEN\'T CREATED ANY TEAMS YET! \n\n\n\n CREATE A NEW TEAM USING THE BUTTON BELOW</string>
 
+    <string name="owns_link"><u>MY OWNS</u></string>
+
 </resources>
