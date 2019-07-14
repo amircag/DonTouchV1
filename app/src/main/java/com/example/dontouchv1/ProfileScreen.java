@@ -259,9 +259,13 @@ public class ProfileScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this,HomeScreen.class);
-        startActivity(intent);
-        finish();
+        if (getIntent().getBooleanExtra("FROM_GROUP",false)) {
+            super.onBackPressed();
+        } else {
+            Intent intent = new Intent(this, HomeScreen.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
 
