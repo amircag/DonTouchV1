@@ -79,7 +79,7 @@ public class EndGameStats extends AppCompatActivity {
         gameId = intent.getStringExtra("GAME_ID");
         teamOwned = intent.getIntExtra("OWNS_COUNT",0);
         myOwnedCount = intent.getIntExtra("MY_OWNS_COUNT",0);
-        timeOnPhone= intent.getLongExtra("MY_WASTE_TIME",0);
+        /*timeOnPhone= intent.getLongExtra("MY_WASTE_TIME",0);*/
         gameName= intent.getStringExtra("GAME_NAME");
         setLeaderBoard();
 
@@ -105,6 +105,9 @@ public class EndGameStats extends AppCompatActivity {
                              ownsCount);
 
                      leaderBoardObjs.add(player);
+                     if (member.getString("userId").equals(user.getUid())){
+                         timeOnPhone = (Long)member.get("myWasteTime");
+                     }
                  }
                  System.out.println("reach SetDUration caller");
                  setDuration();
@@ -212,6 +215,9 @@ public class EndGameStats extends AppCompatActivity {
 
         if (myScore >= 98 && myOwnedCount == 0){
             myScore = 100;
+        }
+        if (myScore <=0){
+            myScore = 1;
         }
 
     }
