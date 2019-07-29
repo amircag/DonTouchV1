@@ -1,3 +1,7 @@
+/**
+ * this class takes care of signin in to application using phone number
+ * the authorization provided by firebase auth ui
+ */
 package com.example.dontouchv1;
 
 import android.content.Intent;
@@ -26,6 +30,10 @@ public class SignIn extends AppCompatActivity {
 
     final private SignIn self = this;
 
+    /**
+     * initializing signin screen
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +41,7 @@ public class SignIn extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            // User is signed in
+            // User is signed in then show a splash screen
             /*Intent intent = new Intent(this,HomeScreen.class);*/
             Intent intent = new Intent(this,SplashScreen.class);
             intent.putExtra("USER_ID", user.getUid());
@@ -44,8 +52,7 @@ public class SignIn extends AppCompatActivity {
 
         } else {
             // No user is signed in
-
-            // Choose authentication providers
+            // Choose authentication provider by phone
             List<AuthUI.IdpConfig> providers = Arrays.asList(
                     new AuthUI.IdpConfig.PhoneBuilder().build());
 
@@ -65,6 +72,13 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
+    /**
+     * taking care of signin applied by user
+     * if successfully, then save user info on db
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,6 +99,7 @@ public class SignIn extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                //if user already exists
                                 if (task.getResult() != null && task.getResult().exists()){
                                     Intent intent = new Intent(self,SplashScreen.class);
                                     intent.putExtra("USER_ID", user.getUid());
@@ -92,7 +107,7 @@ public class SignIn extends AppCompatActivity {
                                     intent.putExtra("NEW_USER", false);
                                     startActivity(intent);
                                     finish();
-                                } else {
+                                } else { // new user
                                     Intent intent = new Intent(self,NewProfile.class);
                                     intent.putExtra("USER_ID", user.getUid());
                                     intent.putExtra("USER_PHOTO", user.getPhotoUrl());
@@ -103,13 +118,6 @@ public class SignIn extends AppCompatActivity {
                             }
                         });
 
-                /*Intent intent = new Intent(self,NewProfile.class);
-                intent.putExtra("USER_ID", user.getUid());
-                intent.putExtra("USER_PHOTO", user.getPhotoUrl());
-                intent.putExtra("NEW_USER", true);
-                startActivity(intent);
-                finish();*/
-                // ...
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -123,7 +131,9 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * override the back button
+     */
     @Override
     public void onBackPressed(){
     }
