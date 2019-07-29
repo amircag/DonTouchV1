@@ -1,3 +1,10 @@
+/**
+* This is the Game Screen class
+* It takes care of game architecture,
+* real time data synchronization,
+* and game behaviour for all players.
+*/
+
 package com.example.dontouchv1;
 
 import android.app.Notification;
@@ -91,11 +98,17 @@ public class GameScreen extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+    /**
+     * init a game
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        //set content view
         setContentView(R.layout.gamescreen);
         super.onCreate(savedInstanceState);
+
+        //get game id, team and user basic info
         Intent intent = getIntent();
         gameId = intent.getStringExtra("GAME_ID");
         gameName = intent.getStringExtra("GAME_NAME");
@@ -106,19 +119,27 @@ public class GameScreen extends AppCompatActivity {
         userPicUrl = intent.getStringExtra("USER_PIC_URL");
         groupName = intent.getStringExtra("TEAM_NAME");
 
-
+        //init header part - game basic information
         initHeader();
+        //init the real time players activity log
         initLogsView();
         setTerminationButton();
         setGameType(gameType);
 
+        //listen to players activity changed in db
         gameListen();
+        //join to a new/running game
         joinGame();
     }
 
+    /*
+    listen to players activity saved in db
+    termination - will exit the game for everyone
+    */
     private void gameListen(){
         final DocumentReference gameRf = db.collection("games").document(gameId);
-        gameListener =  gameRf.addSnapshotListener(GameScreen.this, new EventListener<DocumentSnapshot>() {
+        gameListener =  gameRf
+                .addSnapshotListener(GameScreen.this, new EventListener<DocumentSnapshot>(){
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
@@ -129,11 +150,13 @@ public class GameScreen extends AppCompatActivity {
 
                 if (snapshot != null && snapshot.exists()) {
                     Map<String,Object> data = snapshot.getData();
+                    // if game terminated by any user, then it exit this game screen
                     if((Boolean)data.get("active") == false && gameActive){
                         gameActive = false;
                         nextToStat();
                         return;
                     }
+
                     //init game data if need (return to game after exit)
                     if(gameName == null || !gameName.equals((String)data.get("name"))){
                         teamId = (String)data.get("teamId");
@@ -143,12 +166,17 @@ public class GameScreen extends AppCompatActivity {
                         setGameType(((Long) data.get("type")).intValue());
                     }
 
-                    //update game
+                    //update game if any change has made
+
+                    //new player joined
                     if(((Long)data.get("playersCount")).intValue() != playersCount){
                         updatePlayersCounterText(((Long)data.get("playersCount")).intValue());
                     }
+
+                    // new OWN to a player need to be added to game log
                     if(((Long)data.get("ownsCount")).intValue() != ownsCount){
-                        gameRf.collection("owns").orderBy("createdAt", Query.Direction.DESCENDING).get()
+                        gameRf.collection("owns")
+                                .orderBy("createdAt", Query.Direction.DESCENDING).get()
                                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -160,7 +188,8 @@ public class GameScreen extends AppCompatActivity {
                                     String nickname = (String) data.get("userNickname");
                                     String ownDesc = (String) data.get("ownDesc");
                                     int ownType = ((Long) data.get("ownType")).intValue();
-                                    GameLogObj own = new GameLogObj(picUrl,nickname,ownDesc,ownType);
+                                    GameLogObj own =
+                                            new GameLogObj(picUrl,nickname,ownDesc,ownType);
 
                                     owns.add(own);
                                 }
@@ -170,13 +199,13 @@ public class GameScreen extends AppCompatActivity {
                             }
                         });
                     }
-                    if (ownsCount == 0){
-                        TextView marqueeText = findViewById(R.id.last_phowned);
-
-                        //todo : unblock to animate
-                        /*Animation marquee = AnimationUtils.loadAnimation(self, R.anim.marquee);
-                        marqueeText.startAnimation(marquee);*/
-                    }
+//                    if (ownsCount == 0){
+//                        TextView marqueeText = findViewById(R.id.last_phowned);
+//
+//                        //unblock to animate
+//                        /*Animation marquee = AnimationUtils.loadAnimation(self, R.anim.marquee);
+//                        marqueeText.startAnimation(marquee);*/
+//                    }
                 } else {
                     Log.d("Private Message", "Current data: null");
                 }
@@ -185,11 +214,17 @@ public class GameScreen extends AppCompatActivity {
 
     }
 
+    /**
+     * join to the game (by db)
+     */
     private void joinGame(){
-        CollectionReference players = db.collection("games").document(gameId).collection("players");
-        players.whereEqualTo("userId", user.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        CollectionReference players = db.collection("games")
+                .document(gameId).collection("players");
+        players.whereEqualTo("userId", user.getUid()).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                // if this player is not already joined the game, then update his data from db
                 if(queryDocumentSnapshots.size() != 0){
                     DocumentSnapshot userData = queryDocumentSnapshots.getDocuments().get(0);
                     myOwnsCount = ((Long)userData.get("myOwnsCount")).intValue();
@@ -197,11 +232,12 @@ public class GameScreen extends AppCompatActivity {
                     return;
                 };
 
+
                 WriteBatch batch = db.batch();
                 DocumentReference gameRf = db.collection("games").document(gameId);
                 batch.update(gameRf, "playersCount", FieldValue.increment(1));
-                updateTotalGames();
-                DocumentReference playerRf = db.collection("games").document(gameId).collection("players").document(user.getUid());
+                DocumentReference playerRf = db.collection("games").document(gameId)
+                        .collection("players").document(user.getUid());
                 Map<String,Object> userData = new HashMap<>();
                 userData.put("joinAt", FieldValue.serverTimestamp());
                 userData.put("userId",user.getUid());
@@ -214,14 +250,16 @@ public class GameScreen extends AppCompatActivity {
                 DocumentReference userRf = db.collection("users").document(user.getUid());
                 batch.update(userRf,"currentGame", gameId);
 
-                batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-
+                batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //updates player's games played counter
+                        updateTotalGames();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e("Private Error", "Failed to join a new game player");
+                        Log.e("Private Error", "Failed to join a new player to a game");
                     }
                 });
             }
@@ -229,6 +267,14 @@ public class GameScreen extends AppCompatActivity {
 
     }
 
+
+    /**
+     * OWN threshold by game type
+     * if "kill" it is by 1 time
+     * if "chill" it is by 5 times
+     * if "thrill" each player has a random 1-5 range
+     * @param gameType the game type determined in NewSession or existing game
+     */
     private void setGameType(int gameType) {
         if (gameType==R.id.chill) ownThreshold = 5;
         else if (gameType==R.id.kill) ownThreshold = 1;
@@ -238,6 +284,11 @@ public class GameScreen extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * tracking player touching the phone and getting out of game app
+     * collect also time, and if crossed threshold it gets OWNED
+     */
     @Override
     protected void onPause(){
         super.onPause();
@@ -253,8 +304,8 @@ public class GameScreen extends AppCompatActivity {
     }
 
     /**
-     * Is the screen of the device on.
-     * @param context the context
+     * Is the screen of the device on. (to find out the player didn't get out of game)
+     * @param context the context of this screen
      * @return true when (at least one) screen is on
      */
     public boolean isScreenOn(Context context) {
@@ -276,6 +327,9 @@ public class GameScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * takes care of notification configuration in android
+     */
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -292,12 +346,18 @@ public class GameScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * set a new random Own to the player
+     */
     private void setOwn() {
+        // get a random own by Owns Class
         final Map.Entry<String, Integer> own = owns.getRandOwn();
 
         WriteBatch batch = db.batch();
 
-        DocumentReference ownRf = db.collection("games").document(gameId).collection("owns").document();
+        //write to owns log in db
+        DocumentReference ownRf = db.collection("games")
+                .document(gameId).collection("owns").document();
         Map<String,Object> ownData = new HashMap<>();
         ownData.put("ownDesc", own.getKey());
         ownData.put("ownType", own.getValue());
@@ -305,20 +365,22 @@ public class GameScreen extends AppCompatActivity {
         ownData.put("userNickname", userNickname);
         ownData.put("userPicUrl", userPicUrl);
         ownData.put("createdAt", FieldValue.serverTimestamp());
-
         batch.set(ownRf, ownData);
 
-        DocumentReference player = db.collection("games").document(gameId).collection("players").document(user.getUid());
+        //count owns to game player
+        DocumentReference player = db.collection("games")
+                .document(gameId).collection("players").document(user.getUid());
         batch.update(player,"myOwnsCount", myOwnsCount);
 
-
+        //count owns of game
         DocumentReference game = db.collection("games").document(gameId);
         batch.update(game, "ownsCount", FieldValue.increment(1));
 
         batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
             public void onSuccess(Void aVoid) {
+                //notification to the OWNED player
                 pushNotif(own);
-                //playSound(); //fixed to be directly from Notification
+                //updates to a new threshold if in "thrill" mode
                 if(thrill) updateThreshold();
                 ownWarn = own;
             }
@@ -329,13 +391,11 @@ public class GameScreen extends AppCompatActivity {
         });
     }
 
-    //depracated - using directly from Notification
-    private void playSound() {
-        MediaPlayer ring = MediaPlayer.create(GameScreen.this,R.raw.notif);
-        ring.setLooping(false);
-        ring.start();
-    }
-
+    /**
+     * push notification of OWN to the player that got OWNED
+     * showing him OWN details and plays a noisy sound
+     * @param own the own info
+     */
     private void pushNotif(Map.Entry<String, Integer> own) {
         //createNotificationChannel();
         final Intent notificationIntent = new Intent(this, GameScreen.class);
@@ -343,8 +403,11 @@ public class GameScreen extends AppCompatActivity {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Uri soundUri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.notif);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "phOWNED")
+        Uri soundUri = Uri.parse("android.resource://"
+                + getApplicationContext().getPackageName()
+                + "/" + R.raw.notif);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this,"phOWNED")
                 .setSmallIcon(R.drawable.phowned_logo_small)
                 .setContentTitle("You Got phOWNED!")
                 .setContentText(own.getKey())
@@ -354,7 +417,8 @@ public class GameScreen extends AppCompatActivity {
                 .setSound(soundUri)
                 .setContentIntent(resultPendingIntent);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
             if(soundUri != null){
@@ -367,7 +431,8 @@ public class GameScreen extends AppCompatActivity {
                         .build();
 
                 // Creating Channel
-                NotificationChannel notificationChannel = new NotificationChannel("phOWNED","phOWNED",NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel notificationChannel = new NotificationChannel(
+                        "phOWNED","phOWNED",NotificationManager.IMPORTANCE_HIGH);
                 notificationChannel.setSound(soundUri,audioAttributes);
                 notificationManager.createNotificationChannel(notificationChannel);
             }
@@ -376,6 +441,11 @@ public class GameScreen extends AppCompatActivity {
         notificationManager.notify(1, builder.build());
     }
 
+    /**
+     * takes care when OWNED player got back to game
+     * collect waste time outside game screen
+     * and shows him special popup of his OWN details
+     */
     @Override
     protected void onResume(){
         super.onResume();
@@ -383,12 +453,13 @@ public class GameScreen extends AppCompatActivity {
 
         myWasteTime += (SystemClock.elapsedRealtime()-startTime);
         startTime = SystemClock.elapsedRealtime();
-         db.collection("games").document(gameId).
+        db.collection("games").document(gameId).
                 collection("players").document(user.getUid()).
                  update("myWasteTime",myWasteTime);
         gameListen();
 
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager =
+                (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
 
         if (ownWarn == null) return;
@@ -396,9 +467,14 @@ public class GameScreen extends AppCompatActivity {
         ownWarn = null;
     }
 
+    /**
+     * show a popup to an OWNED player (when coming back to game screen)
+     */
     private void showOwnPopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.game_own_popup, (ViewGroup) findViewById(R.id.gameOwnPopup), false);
+        View popupView = inflater.inflate(
+                R.layout.game_own_popup,
+                (ViewGroup)findViewById(R.id.gameOwnPopup),false);
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
@@ -409,7 +485,7 @@ public class GameScreen extends AppCompatActivity {
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(findViewById(R.id.recycler_game_log), Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(findViewById(R.id.recycler_game_log),Gravity.CENTER,0,0);
 
 
         // dismiss the popup window when touched
@@ -420,7 +496,8 @@ public class GameScreen extends AppCompatActivity {
                 return true;
             }
         });
-        popupView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+        popupView.setOnSystemUiVisibilityChangeListener(
+                new View.OnSystemUiVisibilityChangeListener() {
             @Override
             public void onSystemUiVisibilityChange(int visibility) {
                 popupWindow.dismiss();
@@ -428,6 +505,9 @@ public class GameScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * tries to find out if a player closed the application (from outside)
+     */
     @Override
     protected void onDestroy(){
         // !!! not sure this update would take place
@@ -440,6 +520,9 @@ public class GameScreen extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /**
+     * get a random threshold in 1-5 range for "thrill" game type
+     */
     private void updateThreshold() {
         if (thrill){
             Random random = new Random();
@@ -447,6 +530,10 @@ public class GameScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * termination button that close the game for all players
+     * by updating the db of game finish
+     */
     private void setTerminationButton() {
         ImageView endGameButton = findViewById(R.id.end_game_button);
 
@@ -457,28 +544,35 @@ public class GameScreen extends AppCompatActivity {
                         .setTitle("Are you sure to Terminate?")
                         .setMessage("This will terminate the game for everybody!")
                         .setIcon(R.drawable.phowned_logo_small)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
+                        .setPositiveButton(android.R.string.yes,
+                                new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 terminateBack();
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
-
             }
         });
-
     }
 
+
+    /**
+     * updates the log view with given owns
+     * @param owns owns array list to update
+     */
     private void updateLogs(ArrayList<GameLogObj> owns){
         logArray.clear();
         logArray.addAll(owns);
         GameLogObj lastOwn = logArray.get(0);
-        // TODO: remove first own from recycle
+        // if want to remove first own from recycle
         // logArray.remove(0);
         updateMarquee(lastOwn);
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * shows the marquee text of last own in the top of the log
+     * @param own the last own obj
+     */
     private void updateMarquee(GameLogObj own){
 
         CircleImageView lastOwnImg = findViewById(R.id.lastOwnedImg);
@@ -497,11 +591,14 @@ public class GameScreen extends AppCompatActivity {
         /*marqueeText.setText(own.getUserName()+" got phOWNED - " + own.getOwnDesc());*/
         marqueeText.setText("phOWNED! "+own.getOwnDesc());
 
-        // todo unblock to use marquee text
+        // unblock to use marquee text
         /*Animation marquee = AnimationUtils.loadAnimation(this, R.anim.marquee);
         marqueeText.startAnimation(marquee);*/
     }
 
+    /**
+     *  initiating game log of owns
+     */
     private void initLogsView(){
         RecyclerView logsView = findViewById(R.id.recycler_game_log);
         adapter = new GameLogAdapter(logArray,this);
@@ -510,6 +607,11 @@ public class GameScreen extends AppCompatActivity {
         logsView.setLayoutManager(linMng);
     }
 
+
+    /**
+     * update db of game termination by one player
+     * and saving the game length
+     */
     private void terminateBack(){
         Long duration = SystemClock.elapsedRealtime() - startGame;
         DocumentReference gameRf = db.collection("games").document(gameId);
@@ -526,12 +628,18 @@ public class GameScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * updates player's games played counter
+     */
     private void updateTotalGames(){
         DocumentReference userRAF = db.collection("users").document(user.getUid());
         WriteBatch batch = db.batch();
         batch.update(userRAF,"myGamesCount",FieldValue.increment(1));
     }
 
+    /**
+     * calls the next Statistics Screen
+     */
     private void nextToStat(){
         Intent goToStats = new Intent(GameScreen.this,EndGameStats.class);
         goToStats.putExtra("TEAM_ID",teamId);
@@ -544,9 +652,11 @@ public class GameScreen extends AppCompatActivity {
         System.out.println("move to Stat");
         startActivity(goToStats);
         finish();
-
     }
 
+    /**
+     * initiating the header view of game general information
+     */
     private void initHeader(){
         ((TextView)findViewById(R.id.gameNameGameScreen)).setText(gameName);
 
@@ -555,13 +665,10 @@ public class GameScreen extends AppCompatActivity {
                 .disallowHardwareConfig()
                 .into((ImageView)findViewById(R.id.teamPicGameScreen));
 
-        // todo test AMIR
-
         CircleImageView teamPic = findViewById(R.id.teamPicGameScreen);
         teamPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 db.collection("games")
                         .document(gameId)
                         .collection("players")
@@ -571,12 +678,15 @@ public class GameScreen extends AppCompatActivity {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                 String playerPrint = "";
-                                List<DocumentSnapshot> players = queryDocumentSnapshots.getDocuments();
+                                List<DocumentSnapshot> players =
+                                        queryDocumentSnapshots.getDocuments();
                                 for (DocumentSnapshot player : players){
-                                    playerPrint = playerPrint + "\n" + player.getString("userNickname");
+                                    playerPrint = playerPrint + "\n" +
+                                            player.getString("userNickname");
                                 }
 
-                                Toast toast = Toast.makeText(GameScreen.this,"text",Toast.LENGTH_SHORT);
+                                Toast toast = Toast.makeText(
+                                        GameScreen.this,"text",Toast.LENGTH_SHORT);
                                 toast.setGravity(0,0,0);
                                 if (groupName != null){
                                     toast.setText(groupName+"\n\n Currently playing:"+playerPrint);
@@ -584,22 +694,16 @@ public class GameScreen extends AppCompatActivity {
                                 else {
                                     toast.setText("Currently playing:"+playerPrint);
                                 }
-
                                 toast.show();
-
                             }
                         });
-
-
-
             }
         });
-
     }
 
 
     /**
-     * this method display the amount of friends in the game
+     * display num of players in the game
      */
     private void updatePlayersCounterText(int playersNum){
         TextView playersCountText = findViewById(R.id.playersCount);
@@ -607,10 +711,12 @@ public class GameScreen extends AppCompatActivity {
         playersCount = playersNum;
     }
 
-
+    /**
+     * blocks back button
+     */
     @Override
     public void onBackPressed() {
-        //block back button
+
     }
 
 }
