@@ -1,3 +1,8 @@
+/**
+ * this class takes care of creating new game session
+ * including game name and type
+ */
+
 package com.example.dontouchv1;
 
 import android.content.Intent;
@@ -35,6 +40,10 @@ public class NewSession extends AppCompatActivity {
     private String teamId;
     private String teamPicUrl;
 
+    /**
+     * initiating screen
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,13 +52,17 @@ public class NewSession extends AppCompatActivity {
         Intent intent = getIntent();
         teamId = intent.getStringExtra("TEAM_ID");
         teamPicUrl = intent.getStringExtra("TEAM_PIC_URL");
+        //get an automatic random game name
         randomizeName();
-
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
     }
 
-    static final RadioGroup.OnCheckedChangeListener ToggleListener = new RadioGroup.OnCheckedChangeListener() {
+    /**
+     * selects game type (front)
+     */
+    static final RadioGroup.OnCheckedChangeListener ToggleListener =
+            new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
             for (int j = 0; j < radioGroup.getChildCount(); j++) {
@@ -71,6 +84,10 @@ public class NewSession extends AppCompatActivity {
         // app specific stuff ..
     }
 
+    /**
+     * selecting game type (front)
+     * @param view this view
+     */
     public void onTypeSelected(View view){
         LinearLayout linearLayout = (LinearLayout)view.getParent();
         for (int i=0; i<linearLayout.getChildCount(); i++){
@@ -110,6 +127,11 @@ public class NewSession extends AppCompatActivity {
          selectedGame = view.getId();
     }
 
+    /**
+     * creates a new game in the db (with name and type)
+     * and sends to next screen
+     * @param view
+     */
     public void onClickCreate(View view){
         EditText gameNameText = (EditText) findViewById(R.id.gameName);
         //if(selectedGame == -1) return;
@@ -132,20 +154,18 @@ public class NewSession extends AppCompatActivity {
         db.collection("games").add(game).
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     public void onSuccess(DocumentReference documentReference) {
-
-                        //TODO: when teams are ready, run this method to update team of a game running
                         final String gameId = documentReference.getId();
-                        DocumentReference teamRf = db.collection("teams").document(teamId);
+                        DocumentReference teamRf =
+                                db.collection("teams").document(teamId);
                         teamRf.update("currentGame", gameId,
-                                "currentGameCreatedAt", FieldValue.serverTimestamp())
+                                "currentGameCreatedAt",
+                                FieldValue.serverTimestamp())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 nextScreenGame(gameName, gameId);
                             }
                         });
-                        //TODO: when teams are ready, remove next line
-//                        nextScreenGame(gameName, gameId);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -155,6 +175,11 @@ public class NewSession extends AppCompatActivity {
         });
     }
 
+    /**
+     * open the next screen - the Game Screen
+     * @param name the game name
+     * @param gameId the game id
+     */
     private void nextScreenGame(String name, String gameId) {
         Intent intent = new Intent(this, GameScreen.class);
         intent.putExtra("GAME_TYPE", selectedGame);
@@ -164,10 +189,17 @@ public class NewSession extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * when the random game name button pushed,
+     * @param view this view
+     */
     public void randomizePressed(View view){
         randomizeName();
     }
 
+    /**
+     * get a random game name
+     */
     public void randomizeName(){
         ArrayList<String> names = new ArrayList<>();
 
@@ -191,23 +223,6 @@ public class NewSession extends AppCompatActivity {
 
         Random rand = new Random();
         gameName.setText(names.get(rand.nextInt(names.size())));
-
-
     }
-
-/*
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(NewSession.this, Statistics.class);
-                startActivity(intent);
-                finish();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-*/
 
 }
