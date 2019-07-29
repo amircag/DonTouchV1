@@ -1,3 +1,6 @@
+/**
+ * this class is adapter for the game log of owns
+ */
 package com.example.dontouchv1;
 
 import android.content.Context;
@@ -21,34 +24,48 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHolder> {
 
     private ArrayList<GameLogObj> logs;
-
-
     private Context mContaxt;
 
+    /**
+     * initiate the adapter
+     * @param logArray array list of GameLogObj with owns info
+     * @param context the context of the main GameScreen
+     */
     public GameLogAdapter(ArrayList<GameLogObj> logArray, Context context) {
-//        memberPic = memberImage;
-//        membersName = name;
         mContaxt = context;
         this.logs = logArray;
-//        memcersId = id;
     }
 
+    /**
+     * inflates the view with the logs
+     * @param viewGroup
+     * @param i
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycle_game_screen,viewGroup,false);
+        View view = LayoutInflater
+                .from(viewGroup.getContext())
+                .inflate(R.layout.recycle_game_screen,viewGroup,false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
+    /**
+     * remove own from specific index
+     * @param position the index to remove
+     */
     public void removeFromView(int position){
-//        memberPic.remove(position);
-//        membersName.remove(position);
-//        memcersId.remove(position);
         logs.remove(position);
         notifyDataSetChanged();
     }
 
+    /**
+     * arranging own info to be inflated to the vies
+     * @param viewHolder
+     * @param i
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final int position = i;
@@ -70,10 +87,10 @@ public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHold
         final String ownDesc = logs.get(i).getOwnDesc();
         final String ownedUser = logs.get(i).getUserName();
 
+        //onclick show a toast of own description
         viewHolder.bgLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 5/19/2019 remove from list
                 Toast toast = Toast.makeText(mContaxt,"Own Description", Toast.LENGTH_LONG);
                 toast.setText(ownedUser+": "+ownDesc);
                 toast.setDuration(Toast.LENGTH_LONG);
@@ -83,24 +100,33 @@ public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHold
         });
     }
 
+    /**
+     * get num of owns in log
+     * @return logs size
+     */
     @Override
     public int getItemCount() {
         return logs.size();
     }
 
+    /**
+     * this sub class takes care of the view of each own log
+     */
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         CircleImageView userPic;
         ImageView ownType;
         LinearLayout bgLayout;
 
+        /**
+         * constructor of own log
+         * @param itemView
+         */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             userPic = itemView.findViewById(R.id.userPic_game);
             ownType = itemView.findViewById(R.id.ownType_game);
             bgLayout = itemView.findViewById(R.id.player_bg);
-
         }
     }
 
