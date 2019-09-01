@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dontouchv1">
+    package="com.HUJI.phOWNED">
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -17,14 +17,14 @@
         android:roundIcon="@mipmap/phowned_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OwnedLog"
+        <activity android:name="com.HUJI.phOWNED.OwnedLog"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProfileScreen"
+            android:name="com.HUJI.phOWNED.ProfileScreen"
             android:label="Edit Group"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditGroup"
+            android:name="com.HUJI.phOWNED.EditGroup"
             android:label="Edit Group"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -40,28 +40,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EditProfile"
+            android:name="com.HUJI.phOWNED.EditProfile"
             android:label="Edit Profile"
-            android:parentActivityName=".PersonalProfile"
+            android:parentActivityName="com.HUJI.phOWNED.PersonalProfile"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddMembersCreateGroup"
+            android:name="com.HUJI.phOWNED.AddMembersCreateGroup"
             android:label="Add members to New Group"
-            android:parentActivityName=".HomeScreen"
+            android:parentActivityName="com.HUJI.phOWNED.HomeScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SplashScreen"
+            android:name="com.HUJI.phOWNED.SplashScreen"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".GroupProfileScreen"
+            android:name="com.HUJI.phOWNED.GroupProfileScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -69,14 +69,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateNewGroup"
+            android:name="com.HUJI.phOWNED.CreateNewGroup"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignIn">
+        <activity android:name="com.HUJI.phOWNED.SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,15 +84,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewProfile"
+            android:name="com.HUJI.phOWNED.NewProfile"
             android:label="Customize Your Profile" />
         <activity
-            android:name=".EndGameStats"
+            android:name="com.HUJI.phOWNED.EndGameStats"
             android:label="@string/title_activity_end_game_stats"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".HomeScreen"
+            android:name="com.HUJI.phOWNED.HomeScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
@@ -101,34 +101,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PersonalProfile"
+            android:name="com.HUJI.phOWNED.PersonalProfile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.HUJI.phOWNED.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".NewSession"
+            android:name="com.HUJI.phOWNED.NewSession"
             android:label="Create New Game"
-            android:parentActivityName=".MainScreen"
+            android:parentActivityName="com.HUJI.phOWNED.MainScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameScreen"
+            android:name="com.HUJI.phOWNED.GameScreen"
             android:label="DonTouch Game"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainScreen"
+            android:name="com.HUJI.phOWNED.MainScreen"
             android:label="@string/title_activity_main_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.HUJI.phOWNED.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
     </application>

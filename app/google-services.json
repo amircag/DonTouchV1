@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "1099364909912",
-    "firebase_url": "https://dontouchv1.firebaseio.com",
-    "project_id": "dontouchv1",
-    "storage_bucket": "dontouchv1.appspot.com"
+    "project_number": "235325256195",
+    "firebase_url": "https://phowned-new.firebaseio.com",
+    "project_id": "phowned-new",
+    "storage_bucket": "phowned-new.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1099364909912:android:62326a3d4d7babbb",
+        "mobilesdk_app_id": "1:235325256195:android:c9a6d721096d79b2",
         "android_client_info": {
-          "package_name": "com.example.dontouchv1"
+          "package_name": "com.HUJI.phOWNED"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1099364909912-532ophaljd0pm50h4l4ou9pjgfadeaos.apps.googleusercontent.com",
+          "client_id": "235325256195-c875s8dkmg6046f2gg8fn5pragtplg5q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.HUJI.phOWNED",
+            "certificate_hash": "d8cb74471f0870e454334158d1df01579e7b5c70"
+          }
+        },
+        {
+          "client_id": "235325256195-betns0nspeod1ld5am0d8fsoce2c5rvd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBHZ2iJtJKO1F-mkkA3cne-QDcn6rKSpT4"
+          "current_key": "AIzaSyBnsW29ZAmX9saB0UdH1u-2jq7Z5Y5CbOQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1099364909912-532ophaljd0pm50h4l4ou9pjgfadeaos.apps.googleusercontent.com",
+              "client_id": "235325256195-betns0nspeod1ld5am0d8fsoce2c5rvd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

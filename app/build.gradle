@@ -4,7 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.dontouchv1"
+        applicationId "com.HUJI.phOWNED"
         minSdkVersion 16
         multiDexEnabled true
         targetSdkVersion 28
@@ -21,6 +21,7 @@ android {
         }
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
