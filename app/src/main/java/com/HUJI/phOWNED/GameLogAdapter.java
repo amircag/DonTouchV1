@@ -19,6 +19,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * this class is a recycler adapter for the game log screen
+ */
 public class GameLogAdapter extends RecyclerView.Adapter<GameLogAdapter.ViewHolder> {
 
     private ArrayList<GameLogObj> logs;

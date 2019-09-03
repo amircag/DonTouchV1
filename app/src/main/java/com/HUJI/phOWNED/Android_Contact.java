@@ -2,6 +2,9 @@ package com.HUJI.phOWNED;
 
 import java.io.Serializable;
 
+/**
+ * this class is responsible for holding a contact in a format that we can use.
+ */
 public class Android_Contact implements Serializable {
     //----------------< fritzbox_Contacts() >----------------
     public String android_contact_Name;
@@ -12,6 +15,9 @@ public class Android_Contact implements Serializable {
 
     public boolean added = false;
 
+    /**
+     * this method change the status of the contact.
+     */
     public void changeState(){
         if (added){
             added= false;

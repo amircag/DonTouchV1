@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * this class is a recycler adapter for adding members in creating new group screen
+ */
 public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembersAdapter.ViewHolder> {
 
     private ArrayList<String> memberPic = new ArrayList<>();
@@ -24,6 +27,9 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
 
     private Context mContaxt;
 
+    /**
+     * constructor for the class
+     */
     public NewGroupMembersAdapter(ArrayList<Android_Contact> contacts,Context context) {
 //        memberPic = memberImage;
 //        membersName = name;
@@ -48,6 +54,9 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
         notifyDataSetChanged();
     }
 
+    /**
+     *insert the data to the holders
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final int position = i;
@@ -59,21 +68,27 @@ public class NewGroupMembersAdapter extends RecyclerView.Adapter<NewGroupMembers
                 .load(contactsToAdd.get(position).picUrl)
                 .disallowHardwareConfig()
                 .into(viewHolder.newMemberPic);
-
+        //remove from view and list when clicking
         viewHolder.newMemberLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 5/19/2019 remove from list
+
                 removeFromView(position);
             }
         });
     }
 
+    /**
+     * @return the size of the recycler
+     */
     @Override
     public int getItemCount() {
         return contactsToAdd.size();
     }
 
+    /**
+     * this class act as holder for the recycler objects
+     */
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView newMemberPic;

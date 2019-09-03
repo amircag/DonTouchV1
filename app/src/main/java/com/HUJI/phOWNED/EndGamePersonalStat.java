@@ -21,6 +21,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
+ * this class is responsible for the end game personal statistic and displaying them as a fragment
+ * of the end game activity.
  * A simple {@link Fragment} subclass.
  */
 public class EndGamePersonalStat extends Fragment {
@@ -46,6 +48,7 @@ public class EndGamePersonalStat extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //get the data from the activity
         myScore = getArguments().getInt("MY_SCORE");
         myRank = getArguments().getInt("MY_RANK");
         myOwnedCount = getArguments().getInt("MY_OWMES_COUNT");
@@ -71,7 +74,7 @@ public class EndGamePersonalStat extends Fragment {
         myName = view.findViewById(R.id.player_name_for_stats);
         toLogs = view.findViewById(R.id.to_owns_log_bt);
 
-
+        // go to lobby button
         Button lobbyButton = view.findViewById(R.id.lobby_bt);
         lobbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,11 +100,17 @@ public class EndGamePersonalStat extends Fragment {
         setPersonalStats();
     }
 
+    /**
+     * display the user pic
+     */
     public void initPorfileImage(){
         Glide.with(getContext()).load(myPicUrl).disallowHardwareConfig().into(profileImage);
 
     }
 
+    /**
+     *  display to personal statistic
+     */
     private void setPersonalStats(){
         playerRank.setText(String.valueOf(myRank));
         String score = String.valueOf(myScore)+"%";
@@ -111,6 +120,10 @@ public class EndGamePersonalStat extends Fragment {
         ownCount.setText(String.valueOf(myOwnedCount));
     }
 
+    /**
+     * convert millisecond to a hours:min:sec format
+     * @return
+     */
     private String setTimeOnPhone(){
         String seconds =String.valueOf((int) ((wastedTime / 1000) % 60)) ;
         String minutes =String.valueOf((int) ((wastedTime / (1000*60)) % 60));

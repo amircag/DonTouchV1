@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * this class is map database for all the OWNS in the game. from this class we take all the owns in
+ * the game in random.
+ */
 public class Owns {
     private final int BEER = 1, RUN = 2, CONVERS = 3;
     private List<Map.Entry<String, Integer>> owns;
@@ -66,6 +70,9 @@ public class Owns {
         this.owns.add(new AbstractMap.SimpleEntry<>("Tell a stranger that you come here often ",CONVERS));
     }
 
+    /**
+     * @return a random own from the map.
+     */
     public Map.Entry<String, Integer> getRandOwn(){
         Random rand = new Random();
         return owns.get(rand.nextInt(owns.size()));
