@@ -17,6 +17,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Adapter for the game end statistic screen recycle view
+ */
 public class RecycleViewAdapterLeader extends RecyclerView.Adapter<RecycleViewAdapterLeader.ViewHelder>{
     private static final String TAG = "RecycleViewAdapterLeade";
 

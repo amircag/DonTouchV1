@@ -15,6 +15,11 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * DISCONTINUED
+ * Previous version of the "Home Screen" recycler adapter.
+ * Replaced with newer version under the name "HomeScreenRecyclerAdapterUpdated.java"
+ */
 public class HomeScreenRecyclerAdapter extends RecyclerView.Adapter<HomeScreenRecyclerAdapter.ViewHolder>{
 
 

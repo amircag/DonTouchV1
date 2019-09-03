@@ -18,11 +18,17 @@ import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 
+/**
+ * App start-up splash screen
+ * displayed when an existing user enters the application, while data is loaded
+ */
 public class SplashScreen extends AppCompatActivity {
 
+    /* Timer variables */
     private final int WAIT_DURATION = 3500;
     private Handler timer;
 
+    /* Firebase variables */
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -52,10 +58,12 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
+    /**
+     * Gets user's data from the server
+     */
     private ArrayList<String> getUsername(){
         final ArrayList<String> dataFromServer = new ArrayList<>();
         DocumentReference docRef = db.collection("users").document(user.getUid());
-        //DocumentSnapshot doc = docRef.get(Source.DEFAULT).getResult();
         docRef.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -81,16 +89,5 @@ public class SplashScreen extends AppCompatActivity {
         });
         return dataFromServer;
     }
-
-
-
-
-        /*String nicknameString = doc.getString("nickName");
-        if (nicknameString != null){
-            return nicknameString;
-        }
-        else{
-            return "friend";
-        }*/
 
 }

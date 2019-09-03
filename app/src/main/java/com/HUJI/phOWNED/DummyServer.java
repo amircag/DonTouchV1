@@ -2,6 +2,10 @@ package com.HUJI.phOWNED;
 
 import java.util.ArrayList;
 
+/**
+ * This is a dummy server class used in the development proccess to mock a real firebase server.
+ * used for the first milestone only.
+ */
 public class DummyServer {
 
     /* GROUPS: Names, Images, Members */

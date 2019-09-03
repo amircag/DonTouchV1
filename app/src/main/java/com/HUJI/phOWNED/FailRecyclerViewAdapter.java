@@ -12,6 +12,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * DISCONTINUED CLASS
+ * Used as a recycleview adapter in a previous version of the profile screen
+ * used for Milestones 1-2
+ */
 public class FailRecyclerViewAdapter extends RecyclerView.Adapter<FailRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "FailRecyclerViewAdapter";

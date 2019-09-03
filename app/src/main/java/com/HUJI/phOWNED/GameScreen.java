@@ -196,13 +196,7 @@ public class GameScreen extends AppCompatActivity {
                             }
                         });
                     }
-//                    if (ownsCount == 0){
-//                        TextView marqueeText = findViewById(R.id.last_phowned);
-//
-//                        //unblock to animate
-//                        /*Animation marquee = AnimationUtils.loadAnimation(self, R.anim.marquee);
-//                        marqueeText.startAnimation(marquee);*/
-//                    }
+
                 } else {
                     Log.d("Private Message", "Current data: null");
                 }

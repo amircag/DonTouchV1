@@ -31,15 +31,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * NEW PROFILE SCREEN
+ * In this screen users create a personal profile with their name and profile picture.
+ * This screen is only accessible after registering to the game with a new phone number.
+ */
 public class NewProfile extends AppCompatActivity {
 
+    /* Environment Variables */
     private static final int PICK_IMAGE_REQ = 0;
     private Uri filePath;
     private String picUrl;
     private String picFilename;
 
+    /* GUI Constants */
     final int semiTransparentGrey = Color.argb(155, 41, 36, 33);
 
+    /* Firebase Variables */
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private NewProfile self;
@@ -60,6 +68,10 @@ public class NewProfile extends AppCompatActivity {
         initUserInfo();
     }
 
+    /**
+     * Lets user pick a specific image from their phone gallery.
+     * @param view
+     */
     public void pickFromGallery(View view){
         Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -68,6 +80,9 @@ public class NewProfile extends AppCompatActivity {
         startActivityForResult(intent,PICK_IMAGE_REQ);
     }
 
+    /**
+     * GUI Method
+     */
     private void initUserInfo(){
         ImageView profile = (ImageView) findViewById(R.id.newProfilePic);
         /*profile.setImageResource(R.drawable.ic_person_black_24dp);*/
@@ -81,6 +96,10 @@ public class NewProfile extends AppCompatActivity {
 */
     }
 
+    /**
+     * This action is called when pressing the "save" button
+     * @param view current view
+     */
     public void onClickSave(View view){
         //intent.putExtra("PROFILE_EMAIL",((EditText)findViewById(R.id.profileEmail)).getText());
         //intent.putExtra("PROFILE_IMAGE_BYTE", bs.toByteArray());
@@ -88,6 +107,9 @@ public class NewProfile extends AppCompatActivity {
 
     }
 
+    /**
+     * Uploads the user input data to the firebase server.
+     */
     private void saveDB(){
         String userId = user.getUid().toString();
         HashMap<String,Object> data = new HashMap<>();
@@ -121,6 +143,10 @@ public class NewProfile extends AppCompatActivity {
         }
     }
 
+    /**
+     * Uploads the user's image to the firestore
+     * @param filePath user's input filepath
+     */
     private void uploadImage(Uri filePath) {
 
         if(filePath != null)

@@ -1,6 +1,12 @@
 package com.HUJI.phOWNED;
 
+/**
+ * Class representing a GROUP object, carries info about a specific group and is used in different
+ * activities to get info about that group
+ */
 public class GroupObj {
+
+    // <--------GROUP VARIABLES------> //
 
     private String groupName;
     private String groupPic;
@@ -11,7 +17,19 @@ public class GroupObj {
     private String lastPlaceName;
     private String lastPlacePic;
     private String groupId;
-    private boolean activeGame;
+    private boolean activeGame; // true iff there's an active game under the group
+
+
+    // <--------CONSTRUCTORS------> //
+
+    public GroupObj(String groupName, String groupPic, String firstPlaceId, String lastPlaceId) {
+        this.groupName = groupName;
+        this.groupPic = groupPic;
+        this.firstPlaceId = firstPlaceId;
+        this.lastPlaceId = lastPlaceId;
+    }
+
+    // <--------GETTERS / SETTERS------> //
 
     public boolean isActiveGame() {
         return activeGame;
@@ -59,13 +77,6 @@ public class GroupObj {
 
     public void setLastPlacePic(String lastPlacePic) {
         this.lastPlacePic = lastPlacePic;
-    }
-
-    public GroupObj(String groupName, String groupPic, String firstPlaceId, String lastPlaceId) {
-        this.groupName = groupName;
-        this.groupPic = groupPic;
-        this.firstPlaceId = firstPlaceId;
-        this.lastPlaceId = lastPlaceId;
     }
 
     public String getGroupName() {

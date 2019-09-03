@@ -19,6 +19,11 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Adapter for the group recycler view in the app's home screen.
+ * displays the user's groups with their name and image, and another icon if there's an active game
+ * in that group.
+ */
 public class HomeScreenRecyclerAdapterUpdated extends RecyclerView.Adapter<HomeScreenRecyclerAdapterUpdated.ViewHolder>{
 
 
@@ -26,7 +31,6 @@ public class HomeScreenRecyclerAdapterUpdated extends RecyclerView.Adapter<HomeS
     private String userNickname;
     private String userPicUrl;
 
-    /*private ArrayList<String> mGroupIds, mImageNames, mImage, mPeople;*/
     private List<GroupObj> mGroups;
     private Context mContext;
 

@@ -30,6 +30,14 @@ import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * GROUP'S PROFILE SCREEN
+ * Used to display a group's info: name, image, identity of group members and last game's
+ * winner & loser. From this screen the user can
+ * (1) create a new game under the group
+ * (2) go to another member's profile
+ * (3) go to the "edit group" screen
+ */
 public class GroupProfileScreen extends AppCompatActivity {
 
 
@@ -52,18 +60,12 @@ public class GroupProfileScreen extends AppCompatActivity {
         teamId = intent.getStringExtra("TEAM_ID");
         isActiveGame = intent.getBooleanExtra("GAME_ACTIVE",false);
         loadScreen(teamId);
-
-        /*setContentView(R.layout.activity_group_profile_screen);
-        TextView groupTitle = findViewById(R.id.group_header_name);
-        ImageView groupImage = findViewById(R.id.group_header_image);
-        initGroupName(groupTitle,"a");
-        initGroupImage(groupImage);
-        initButtons();
-        initMembers();
-        initWinners();*/
-
-
     }
+
+    /**
+     * Listens for new games creates under the group. If a new game is created when the user
+     * on this screen, the "New Game" button will change into a "Join Game"  button
+     */
     private void listenNewGame(){
         DocumentReference team = db.collection("teams").document(teamId);
         ListenerRegistration listener = team.addSnapshotListener(GroupProfileScreen.this, new EventListener<DocumentSnapshot>() {
@@ -123,6 +125,11 @@ public class GroupProfileScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads group's data from the firebase firestore and the main screen components (by calling
+     * other methods)
+     * @param teamId the group to be displayed in the current instance.
+     */
     private void loadScreen(final String teamId){
         final DocumentReference groupRef = db.collection("teams").document(teamId);
         groupRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -146,6 +153,11 @@ public class GroupProfileScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * Load group members info from server to display under the "members" section
+     * also loads the first/last place member's names and profile pics.
+     * @param teamId the group to be displayed in the current instance.
+     */
     private void loadGroupMembers(final String teamId){
         db.collection("teams").document(teamId)
                 .collection("users")
@@ -161,17 +173,20 @@ public class GroupProfileScreen extends AppCompatActivity {
                     mImages.add(memberPic);
                     mMemberIds.add(member.getId());
 
+                    // if a previous "first place" member already exists, set their details
                     if (member.getId().equals(thisGroup.getFirstPlaceId())){
                         thisGroup.setFirstPlaceName(memberName);
                         thisGroup.setFirstPlacePic(memberPic);
                     }
 
+                    // if a previous "last place" member already exists, set their details
                     if (member.getId().equals(thisGroup.getLastPlaceId())){
                         thisGroup.setLastPlaceName(memberName);
                         thisGroup.setLastPlacePic(memberPic);
                     }
                 }
 
+                // load first and last place's data from the server
                 if (!isNewGroup&&(thisGroup.getFirstPlaceName() == null || thisGroup.getFirstPlacePic() == null)) {
                     getFirstPlace();
                 } else if (!isNewGroup&&(thisGroup.getLastPlaceName() == null || thisGroup.getLastPlacePic() == null)){
@@ -184,6 +199,9 @@ public class GroupProfileScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get first place member's data from the server
+     */
     private void getFirstPlace(){
         db.collection("users")
                 .document(thisGroup.getFirstPlaceId())
@@ -203,6 +221,9 @@ public class GroupProfileScreen extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Get last place member's data from the server
+     */
     private void getLastPlace(){
         db.collection("users")
                 .document(thisGroup.getLastPlaceId())
@@ -217,6 +238,9 @@ public class GroupProfileScreen extends AppCompatActivity {
                 });
     }
 
+    /**
+     * call the layout and load all main screen components with data received from the server.
+     */
     private void startDisplay(){
         // set screen
         setContentView(R.layout.activity_group_profile_screen);
@@ -231,9 +255,10 @@ public class GroupProfileScreen extends AppCompatActivity {
                 .placeholder(R.drawable.spinner)
                 .into(groupImage);
 
-        initButtons(); // todo Update to button chooser Join / Start
+        // call the method that initiates all buttons on screen
+        initButtons();
 
-        // set winner/loser
+        // set winner/loser image/name
         CircleImageView winnerImg = findViewById(R.id.group_winner_image);
         CircleImageView loserImg = findViewById(R.id.group_loser_image);
         TextView winnerTxt = findViewById(R.id.group_winner_name);
@@ -258,7 +283,6 @@ public class GroupProfileScreen extends AppCompatActivity {
 
         // set group members
 
-        // todo : remove when fail counter is removed
         for (int i=0;i<mMembers.size();i++){
             mMemberIds.add("1");
         }
@@ -266,107 +290,21 @@ public class GroupProfileScreen extends AppCompatActivity {
 
     }
 
-    private void initMembers(){
 
-        mMembers = server.getGroupMembersNames();
-        mImages = server.getGroupMembersImages();
-
-        mMemberIds.add("10");
-        mMemberIds.add("12");
-        mMemberIds.add("1");
-        mMemberIds.add("77");
-        mMemberIds.add("0");
-
-
-        initRecyclerGrid();
-    }
-
-
+    /**
+     * Initiates the screen's member recycler grid view.
+     */
     private void initRecyclerGrid(){
         GridLayoutManager gridLayout = new GridLayoutManager(this,4);
         RecyclerView membersRecycler = findViewById(R.id.groupMembersREC);
         membersRecycler.setLayoutManager(gridLayout);
         GroupMemberRecyclerAdapter myAdapter = new GroupMemberRecyclerAdapter(this,mMembers,mImages, mMemberIds);
         membersRecycler.setAdapter(myAdapter);
-
-
     }
 
-
-    private void initGroupImage(ImageView groupImage){
-
-        /* Temporary Data Members */
-        String imageName = "group0";
-
-        /* Set group header */
-        int imageId = this.getResources().getIdentifier
-                ("drawable/"+ imageName,null,this.getPackageName());
-        groupImage.setImageResource(imageId);
-
-        teamPicUrl = ((Integer)imageId).toString();
-    }
-
-    private void initGroupName(TextView groupTitle, String groupName){
-
-        /* Temporary Data Members *//*
-        String groupName = "The New Dream Team";*/
-
-        /* Set group header */
-        groupTitle.setText(groupName);
-
-    }
-
-    /*private void initButtons() {
-
-        Button createGame = findViewById(R.id.newGameButton);
-        createGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createGame = new Intent(GroupProfileScreen.this, NewSession.class);
-                createGame.putExtra("TEAM_PIC_URL", teamPicUrl);
-                createGame.putExtra("TEAM_NAME",name);
-                createGame.putExtras(getIntent().getExtras());
-//                createGame.putExtra("TEAM_ID", "SJvhAuMdny1mK0w2Ndvo");
-                startActivity(createGame);
-            }});
-
-        Button joinGame = findViewById(R.id.joinGameButton);
-        joinGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: add a filter for team only
-                CollectionReference games = db.collection("games");
-                games.whereEqualTo("active", true)
-                        .orderBy("createdAt", Query.Direction.DESCENDING)
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                if(queryDocumentSnapshots.getDocuments().size() == 0) return;
-
-                                DocumentSnapshot game = queryDocumentSnapshots.getDocuments().get(0);
-                                String gameId = (String) game.getId();
-
-                                Intent joinGame = new Intent(GroupProfileScreen.this, GameScreen.class);
-                                joinGame.putExtra("TEAM_PIC_URL", teamPicUrl);
-                                joinGame.putExtra("GAME_ID", gameId);
-                                joinGame.putExtra("TEAM_NAME",name);
-                                joinGame.putExtras(getIntent().getExtras());
-                                startActivity(joinGame);
-                            }
-                        });
-            }});
-
-        Button backButton = findViewById(R.id.groupBackButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-    }*/
-
+    /**
+     * Initiate all on screen buttons ("new game", "join game", "edit group" and back)
+     */
     private void initButtons() {
 
         Button backButton = findViewById(R.id.groupBackButton);
@@ -379,7 +317,9 @@ public class GroupProfileScreen extends AppCompatActivity {
 
         final Button gameButton = findViewById(R.id.gameButton);
 
-        // if there is a "currentGame" var, check if game is active
+        // if there is a "currentGame" var for the group, check if game is active:
+
+        // if no previous game ID, set button as "create game"
         if (lastGameId == null) {
             gameButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -391,7 +331,8 @@ public class GroupProfileScreen extends AppCompatActivity {
                     startActivity(createGame);
                 }
             });
-        } else if (isActiveGame){
+        } // if a previous game exists, set button as "join game"
+        else if (isActiveGame){
             gameButton.setText("Join Game");
             gameButton.setBackground(getResources().getDrawable(R.drawable.rounded_button_joingame));
             gameButton.setOnClickListener(new View.OnClickListener() {
@@ -406,6 +347,7 @@ public class GroupProfileScreen extends AppCompatActivity {
                 }
             });
         } else {
+            // if uncertain, check if game exists or not and set button accordingly
             db.collection("games")
                     .document(lastGameId)
                     .get()
@@ -443,26 +385,16 @@ public class GroupProfileScreen extends AppCompatActivity {
         }
     }
 
-    private void initWinners(){
-        CircleImageView winnerImg = findViewById(R.id.group_winner_image);
-        CircleImageView loserImg = findViewById(R.id.group_loser_image);
-        TextView winnerTxt = findViewById(R.id.group_winner_name);
-        TextView loserTxt = findViewById(R.id.group_loser_name);
-
-        winnerImg.setImageResource(R.drawable.asaf);
-        winnerTxt.setText("Chef");
-
-        loserImg.setImageResource(R.drawable.isar);
-        loserTxt.setText("AbuShefa");
-
-    }
-
     @Override
     public void onBackPressed(){
         Intent homeScreen = new Intent(GroupProfileScreen.this,HomeScreen.class);
         startActivity(homeScreen);
     }
 
+    /**
+     * Start "edit group" activity
+     * @param view curr view
+     */
     public void editGroupPressed(View view){
         Intent editGroup = new Intent(this,EditGroup.class);
         editGroup.putExtra("TEAM_PIC",teamPicUrl);

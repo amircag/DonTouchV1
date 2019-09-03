@@ -65,7 +65,6 @@ public class CreateNewGroup extends AppCompatActivity {
     FloatingActionButton createButton;
     TextInputLayout groupNickname;
 
-    /*private final Android_Contact selfContact = new Android_Contact();*/
 
 
     @Override
@@ -77,7 +76,6 @@ public class CreateNewGroup extends AppCompatActivity {
         groupNickname = findViewById(R.id.group_nickName_input);
         //display the added members
         getDisplay();
-        initPicMembersToAdd();
         initMembersView();
         backBotton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,11 +200,6 @@ public class CreateNewGroup extends AppCompatActivity {
             batch.set(userRef,data);
         }
 
-        /*DocumentReference meRef = db.collection("users").document(user.getUid()).collection("teams").document(teamId);
-        Map<String,Object> data = new HashMap<>();
-        data.put("name",groupName);
-        batch.set(meRef, data);*/
-
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             public void onComplete(@NonNull Task<Void> task) {
                 Intent newIntent = new Intent(CreateNewGroup.this, GroupProfileScreen.class);
@@ -221,25 +214,6 @@ public class CreateNewGroup extends AppCompatActivity {
                 Log.e("Private Error", "Failed to put team users");
             }
         });
-    }
-
-    private void initPicMembersToAdd(){
-//        for (int i=0; i<MembersToAdd.size();i++){
-//            Android_Contact curContact = MembersToAdd.get(i);
-//            // TODO: 5/20/2019 change to phone num to get pic from server
-//            newMemberPic.add(getMemberPic(curContact.android_contact_Name));
-//            newMemberName.add(curContact.android_contact_Name);
-//            System.out.println(MembersToAdd.size());
-//
-//        }
-//        newMemberName.add("issar");
-//        newMemberPic.add("isar");
-//        newMemberName.add("amir");
-//        newMemberPic.add("amir");
-//        newMemberName.add("asaf");
-//        newMemberPic.add("asaf");
-
-
     }
 
     /**
@@ -262,7 +236,6 @@ public class CreateNewGroup extends AppCompatActivity {
 
 
         if (getIntent().hasExtra("CHOSEN_MEMBERS")){
-            /*ArrayList<String> members = getIntent().getStringArrayListExtra("CHOSEN_MEMBERS");*/
             ArrayList<Android_Contact> contactlist = (ArrayList<Android_Contact>) getIntent().getSerializableExtra("CHOSEN_MEMBERS");
             /*ArrayList<String> members = getIntent().getStringArrayListExtra("CHOSEN_MEMBERS");*/
             for (Android_Contact name:contactlist){
@@ -278,7 +251,6 @@ public class CreateNewGroup extends AppCompatActivity {
      * @param teamId the ID of the team to save in.
      */
     public void addSelfAndSaveDB(final Android_Contact contact, final String teamId){
-        /*final Android_Contact selfContact = new Android_Contact();*/
         db.collection("users")
                 .whereEqualTo("phoneNumber",user.getPhoneNumber())
                 .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -302,24 +274,6 @@ public class CreateNewGroup extends AppCompatActivity {
             }
         });
 
-
-        /*DocumentReference userDocument = db.collection("users").document(user.getUid());
-        userDocument.get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    DocumentSnapshot userData = task.getResult();
-                    System.out.println("Grabbed user document");
-                    selfContact.nickName = userData.getString("nickName");
-                    selfContact.picUrl = userData.getString("profilePic");
-                } else {
-                    System.out.println("Couldn't grab document");
-                    selfContact.nickName = "boo";
-                    selfContact.picUrl = "zzzz";
-                }
-
-            }
-        });*/
 
     }
 

@@ -136,24 +136,6 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
     }
 
-    private void initPicMembersToAdd(){
-//        for (int i=0; i<MembersToAdd.size();i++){
-//            Android_Contact curContact = MembersToAdd.get(i);
-//            // TODO: 5/20/2019 change to phone num to get pic from server
-//            newMemberPic.add(getMemberPic(curContact.android_contact_Name));
-//            newMemberName.add(curContact.android_contact_Name);
-//
-//        }
-//        newMemberName.add("issar");
-//        newMemberPic.add("isar");
-//        newMemberName.add("amir");
-//        newMemberPic.add("amir");
-//        newMemberName.add("asaf");
-//        newMemberPic.add("asaf");
-
-
-    }
-
     /**
      * this method is responsible for the added members view. it will show the pic and name of each
      * added member in horizontal view and will adopt when a change as been made
@@ -188,51 +170,20 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
     }
 
-    private String getMemberPic(String phoneNum){
-        // TODO: 5/19/2019 get pic from server
-        return phoneNum;
-    }
-
-
-    private void havePhownd(final Android_Contact android_contact){
-        String pn = "+" + android_contact.android_contact_TelefonNr;
-        db.collection("users")
-                .orderBy("phoneNumber")
-                .whereGreaterThanOrEqualTo("phoneNumber", pn)
-                .whereLessThanOrEqualTo("phoneNumber", pn)
-                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<DocumentSnapshot> users = queryDocumentSnapshots.getDocuments();
-                if (users.size() > 1) {
-                    Log.e("Private Error", "more than one user for one phone number " + android_contact.android_contact_TelefonNr);
-                    System.out.println(users);
-                } else if (users.size() == 0){
-                    Log.e("Private Error", "no user with phone number " + android_contact.android_contact_TelefonNr);
-                } else{
-                    DocumentSnapshot user = users.get(0);
-                    android_contact.Uid = user.getId();
-                    android_contact.nickName = user.getString("nickName");
-                    android_contact.picUrl = user.getString("profilePic");
-                    arrayList_Android_Contacts.add(android_contact);
-                    listadapter.notifyDataSetChanged();
-                }
-            }
-        });
-    }
-
     /**
      * this method get all the contact from the user phone and insert it into
      * Android_Contact obj list
      */
     public void fp_get_Android_Contacts() {
-//----------------< fp_get_Android_Contacts() >----------------
+
+        //----------------< fp_get_Android_Contacts() >----------------
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 100);
             return;
         }
-//--< get all Contacts >--
+
+        //--< get all Contacts >--
         Cursor cursor_Android_Contacts = null;
         ContentResolver contentResolver = getContentResolver();
         try {
@@ -240,24 +191,24 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         } catch (Exception ex) {
             Log.e("Error on contact", ex.getMessage());
         }
-//--</ get all Contacts >--
+        //--</ get all Contacts >--
 
-//----< Check: hasContacts >----
+        //----< Check: hasContacts >----
         if (cursor_Android_Contacts.getCount() > 0) {
-//----< has Contacts >----
-//----< @Loop: all Contacts >----
+            //----< has Contacts >----
+            //----< @Loop: all Contacts >----
             while (cursor_Android_Contacts.moveToNext()) {
-//< init >
+                //< init >
                 Android_Contact android_contact = new Android_Contact();
                 String contact_id = cursor_Android_Contacts.getString(cursor_Android_Contacts.getColumnIndex(ContactsContract.Contacts._ID));
                 String contact_display_name = cursor_Android_Contacts.getString(cursor_Android_Contacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-//</ init >
+                //</ init >
 
-//----< set >----
+                //----< set >----
                 android_contact.android_contact_Name = contact_display_name;
 
 
-//----< get phone number >----
+                //----< get phone number >----
                 int hasPhoneNumber = Integer.parseInt(cursor_Android_Contacts.getString(cursor_Android_Contacts.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
                 if (hasPhoneNumber > 0) {
 
@@ -270,32 +221,32 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
                     while (phoneCursor.moveToNext()) {
                         String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//< set >
+                        //< set >
                         phoneNumber = phoneNumber.replaceAll("[^\\d]", "");
                         if (phoneNumber.length() > 9) {
                             android_contact.android_contact_TelefonNr = phoneNumber;
                         }
-//</ set >
+                        //</ set >
                     }
                     phoneCursor.close();
                 }
-//----</ set >----
-//----</ get phone number >----
+                //----</ set >----
+                //----</ get phone number >----
 
-// Add the contact to the ArrayList
+                // Add the contact to the ArrayList
                 allContacts.add(android_contact);
                 //havePhownd(android_contact);
             }
-//----</ @Loop: all Contacts >----
+            //----</ @Loop: all Contacts >----
             setApplicationContacts(allContacts);
-//< show results >
-//</ show results >
+            //< show results >
+            //</ show results >
 
 
         }
-//----</ Check: hasContacts >----
+        //----</ Check: hasContacts >----
 
-// ----------------</ fp_get_Android_Contacts() >----------------
+    // ----------------</ fp_get_Android_Contacts() >----------------
     }
 
     /**
@@ -368,12 +319,12 @@ public class AddMembersCreateGroup extends AppCompatActivity {
      */
     public class Adapter_for_Android_Contacts extends BaseAdapter {
         //----------------< Adapter_for_Android_Contacts() >----------------
-//< Variables >
+
+        // Variables:
         Context mContext;
 
         RelativeLayout relativeLayout;
         ImageView addedMemberIcon;
-//</ Variables >
 
         //< constructor with ListArray >
         public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact) {
@@ -432,7 +383,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         }
 
 
-//----</ show items >----
-//----------------</ Adapter_for_Android_Contacts() >----------------
+            //----</ show items >----
+        //----------------</ Adapter_for_Android_Contacts() >----------------
     }
 }

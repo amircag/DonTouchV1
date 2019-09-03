@@ -38,16 +38,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * This activity is responsible for the "Edit Group" screen,
+ * which lets you edit an existing group (changing name/photo and quitting the group)
+ */
 public class EditGroup extends AppCompatActivity {
 
+    // GUI constants
     final int semiTransparentGrey = Color.argb(155, 41, 36, 33);
-
     private static final int PICK_IMAGE_REQ = 0;
+
+    // server variables
     private Uri filePath;
-
-
     private EditGroup self = this;
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String teamId,teamPicUrl,teamName;
@@ -72,18 +75,24 @@ public class EditGroup extends AppCompatActivity {
         EditText enterGroupname = findViewById(R.id.edit_group_edit_name);
         ImageView choosePic = findViewById(R.id.edit_group_imageview);
         choosePic.setColorFilter(semiTransparentGrey, PorterDuff.Mode.SRC_ATOP);
-
         enterGroupname.setText(teamName);
         Glide.with(this)
                 .load(teamPicUrl)
                 .into(choosePic);
     }
 
+    /**
+     * method carried when back arrow is pressed
+     */
     public void backToPrevScreen(View view){
         onBackPressed();
         finish();
     }
 
+    /**
+     * this method lets the user choose a new image from their phone to upload as the group image
+     * @param view current view
+     */
     public void chooseNewTeamImage(View view){
         Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -92,6 +101,9 @@ public class EditGroup extends AppCompatActivity {
         startActivityForResult(intent,PICK_IMAGE_REQ);
     }
 
+    /**
+     * updates the photo on the activity to the one the user chose
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -103,6 +115,8 @@ public class EditGroup extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ImageView imageView = (ImageView) findViewById(R.id.edit_group_imageview);
                 imageView.setImageBitmap(bitmap);
+
+                // remove gray filter set the camera icon to invisible
                 imageView.clearColorFilter();
                 ImageView camera = findViewById(R.id.editGroupCamera);
                 camera.setVisibility(View.INVISIBLE);
@@ -114,13 +128,22 @@ public class EditGroup extends AppCompatActivity {
         }
     }
 
+    /**
+     * action when "save" button is pressed
+     * @param view
+     */
     public void saveGroupChangesPressed(View view){
         saveProfileChanges(filePath);
     }
 
+    /**
+     * Save the changes to the group made by the user, upload to firebase and calls next methods
+     * @param filePath filepath of chosen image
+     */
     private void saveProfileChanges(Uri filePath) {
 
-        if(filePath != null)
+
+        if(filePath != null) // case when user chose new image for the group
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
@@ -178,7 +201,12 @@ public class EditGroup extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * updates the changes in the group under each user's "group" collection
+     * and then starts the next activity
+     * @param groupName the new group name (if applicable)
+     * @param picUrl the new pic url (if applicable)
+     */
     private void updateGroupDataForUsers(final String groupName, final String picUrl){
 
         db.collection("teams")
@@ -220,6 +248,9 @@ public class EditGroup extends AppCompatActivity {
     }
 
 
+    /**
+     * sets the "exit group" button
+     */
     private void setExitGroupButton(){
 
         Button exitGroupButton = findViewById(R.id.edit_group_exit_button);
@@ -243,6 +274,12 @@ public class EditGroup extends AppCompatActivity {
 
     }
 
+    /**
+     * Removes current user from the group (after "exit group" is pressed,
+     * and updates this info in all relevant firebase documents
+     * (deletes group from user's group collection, and deletes user from the group's user
+     * collection)
+     */
     private void removeUser(){
 
         // delete team from user's collection
