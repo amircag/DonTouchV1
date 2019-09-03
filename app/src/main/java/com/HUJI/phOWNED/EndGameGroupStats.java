@@ -23,6 +23,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
+ * this class is responsible for the end of a game group statistics and displaying them
+ * as a fragment of the end game statistic.
  * A simple {@link Fragment} subclass.
  */
 public class EndGameGroupStats extends Fragment {
@@ -61,13 +63,15 @@ public class EndGameGroupStats extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        //get the results from the activity
         leaderBoardObjs = (ArrayList<LeaderBoardObj>)getArguments().getSerializable("LEADER_BOARD");
         duration = getArguments().getString("DURATION");
         ownesCount = getArguments().getInt("OWNES_COUNT");
         gameName = getArguments().getString("GAME_NAME");
         teamPicUrl = getArguments().getString("TEAM_PIC_URL");
         teamName = getArguments().getString("TEAM_NAME");
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_end_game_group_stats, container, false);
 
     }
@@ -92,6 +96,9 @@ public class EndGameGroupStats extends Fragment {
         setWinnerLoserDisplay();
     }
 
+    /**
+     * init the leader board view
+     */
     private void initLeaderBoard(){
 
 //
@@ -131,6 +138,9 @@ public class EndGameGroupStats extends Fragment {
 
     }
 
+    /**
+     * set the leader board info from activity and adapter
+     */
     private void setupData(){
         colorFirstAndSecond();
         adapter = new RecycleViewAdapterLeader(leaderBoardObjs,getContext());
@@ -138,6 +148,10 @@ public class EndGameGroupStats extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
+
+    /**
+     * this method colored the first, second and last place in the game
+     */
     private void colorFirstAndSecond(){
         leaderBoardObjs.get(0).setBg("gold_lb");
         if (leaderBoardObjs.size()>1) {
@@ -148,6 +162,9 @@ public class EndGameGroupStats extends Fragment {
         }
     }
 
+    /**
+     * this method display the group pic
+     */
     private void initGroupImage(){
         Glide.with(getContext())
                 .load(teamPicUrl)
@@ -157,6 +174,9 @@ public class EndGameGroupStats extends Fragment {
         gorupImage.setColorFilter(semiTransparentGrey, PorterDuff.Mode.SRC_ATOP);
     }
 
+    /**
+     * this method display the winner and loser of the game
+     */
     private void setWinnerLoserDisplay(){
         String winnerPic = leaderBoardObjs.get(0).getPicUrl();
         String winnerNickName = leaderBoardObjs.get(0).getNickName();
@@ -168,6 +188,9 @@ public class EndGameGroupStats extends Fragment {
         loserName.setText(losserName);
     }
 
+    /**
+     * this method display the group statistic
+     */
     private void setGroupStast(){
 
         groupFails.setText(String.valueOf(ownesCount));

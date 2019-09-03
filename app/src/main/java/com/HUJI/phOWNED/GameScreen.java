@@ -67,6 +67,9 @@ import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * this class is responsible for the game screen, this is the class that runs the game
+ */
 public class GameScreen extends AppCompatActivity {
     private String gameId, gameName, teamId, teamPicUrl, userNickname, userPicUrl, groupName;
     private int playersCount, ownsCount, myOwnsCount = 0;

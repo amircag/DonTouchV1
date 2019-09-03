@@ -36,13 +36,20 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AddMembersCreateGroup extends AppCompatActivity {
+/**
+ * This class is responsible for adding members in the creating new group process. This class
+ * display only your content that already have the app and lets the user chose from them.
+ * The display is interactive and let's the user add or remove members from the new
+ * team that been created
+ */
 
+public class AddMembersCreateGroup extends AppCompatActivity {
+    //instance of the data base
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private Button backBt;
     private FloatingActionButton continueBt;
-
+    //default massage for the initial display
     private final String choose_friends_msg = "Please select at least 1 friend to add to the group.";
 
     NewGroupMembersAdapter adapter;
@@ -53,16 +60,16 @@ public class AddMembersCreateGroup extends AppCompatActivity {
     ArrayList<Android_Contact> MembersToAdd = new ArrayList<Android_Contact>();
     ArrayList<Android_Contact> allContacts = new ArrayList<>();
 
-
     private AddMembersCreateGroup self = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_members_create_group);
-
+        //get the contacts
         fp_get_Android_Contacts();
-        initPicMembersToAdd();
+//        initPicMembersToAdd();
+        //ini the added member view
         initMembersView();
         hint_for_recycler = findViewById(R.id.hint_for_add_members_text);
         backBt = findViewById(R.id.backButton_for_add_members);
@@ -103,6 +110,11 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         }return membersNames;
     }
 
+    /**
+     * this method insert or remove new member from the team, add if the member is not in the list
+     * and remove if in.
+     * @param position in the list of contacts
+     */
     public void insertNewMember(int position){
         Android_Contact curContact = arrayList_Android_Contacts.get(position);
         if (curContact.added) {
@@ -141,6 +153,12 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
 
     }
+
+    /**
+     * this method is responsible for the added members view. it will show the pic and name of each
+     * added member in horizontal view and will adopt when a change as been made
+     * (adding or removing member)
+     */
     private void initMembersView(){
         RecyclerView recyclerView = findViewById(R.id.newGroupMembersRecyclerView);
         adapter = new NewGroupMembersAdapter(MembersToAdd,this);
@@ -203,7 +221,10 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * this method get all the contact from the user phone and insert it into
+     * Android_Contact obj list
+     */
     public void fp_get_Android_Contacts() {
 //----------------< fp_get_Android_Contacts() >----------------
 
@@ -277,6 +298,9 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 // ----------------</ fp_get_Android_Contacts() >----------------
     }
 
+    /**
+     * ask for permission to access the user contacts.
+     */
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
         if (requestCode == 100) {
@@ -288,7 +312,11 @@ public class AddMembersCreateGroup extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * this method check for all the contacts in the user phone if they have the app, if so it will
+     * add them to contact display list, and init the recycler.
+     * @param allContacts all the user contact
+     */
     private void setApplicationContacts(final ArrayList<Android_Contact> allContacts){
         db.collection("users")
                 .orderBy("phoneNumber")
@@ -316,6 +344,7 @@ public class AddMembersCreateGroup extends AppCompatActivity {
                     final ListView listView_Android_Contacts = findViewById(R.id.listview_Android_Contacts);
                     listView_Android_Contacts.setAdapter(listadapter);
                     listView_Android_Contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        //notify the adapter on data changed
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             arrayList_Android_Contacts.get(position).changeState();
@@ -334,6 +363,9 @@ public class AddMembersCreateGroup extends AppCompatActivity {
 
     }
 
+    /**
+     * this is the list view adapter for the display of the contacts.
+     */
     public class Adapter_for_Android_Contacts extends BaseAdapter {
         //----------------< Adapter_for_Android_Contacts() >----------------
 //< Variables >

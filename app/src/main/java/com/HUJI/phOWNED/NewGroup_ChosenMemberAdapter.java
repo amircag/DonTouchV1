@@ -15,6 +15,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * this class is a recycler view adapter for added member in new group screen
+ */
 public class NewGroup_ChosenMemberAdapter extends RecyclerView.Adapter<NewGroup_ChosenMemberAdapter.ViewHolder> {
 
     private ArrayList<String> memberPic = new ArrayList<>();
@@ -24,6 +27,9 @@ public class NewGroup_ChosenMemberAdapter extends RecyclerView.Adapter<NewGroup_
 
     private Context mContaxt;
 
+    /**
+     * constructor of the adapter
+     */
     public NewGroup_ChosenMemberAdapter(ArrayList<Android_Contact> contacts, Context context) {
 //
         mContaxt = context;
@@ -31,6 +37,10 @@ public class NewGroup_ChosenMemberAdapter extends RecyclerView.Adapter<NewGroup_
 //
     }
 
+    /**
+     * init the view holder for each obj
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -51,11 +61,18 @@ public class NewGroup_ChosenMemberAdapter extends RecyclerView.Adapter<NewGroup_
 
     }
 
+    /**
+     * size of the recycler
+     * @return
+     */
     @Override
     public int getItemCount() {
         return contactsToAdd.size();
     }
 
+    /**
+     * this class act as a holder for each obj in the recycler
+     */
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView newMemberPic;

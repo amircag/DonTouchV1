@@ -34,6 +34,10 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+/**
+ * this class is responsible for calculate all the end game statistic and displaying them trow
+ * fragments
+ */
 public class EndGameStats extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -86,6 +90,9 @@ public class EndGameStats extends AppCompatActivity {
 
     }
 
+    /**
+     * this method set the leader board based on number of fails.
+     */
     public void setLeaderBoard(){
         //
         System.out.println(gameId);
@@ -116,6 +123,9 @@ public class EndGameStats extends AppCompatActivity {
          });
     }
 
+    /**
+     * this method calculate the duration of the game and return it in hour:min:sec format.
+     */
     public void setDuration(){
         db.collection("games").document(gameId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -142,6 +152,9 @@ public class EndGameStats extends AppCompatActivity {
         });
     }
 
+    /**
+     * this method get the group name from the database
+     */
     private void setTeamName(){
         db.collection("teams").document(teamId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -153,6 +166,9 @@ public class EndGameStats extends AppCompatActivity {
         });
     }
 
+    /**
+     * this method save the statistic both personal and group in the database
+     */
     public void saveDb(){
         calculateScore();
         DocumentReference teamRAF = db.collection("teams").document(teamId);
@@ -205,12 +221,13 @@ public class EndGameStats extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * this method calculate the score of the user in the last game
+     */
     public void calculateScore(){
         Long durationImMil = duration*1000;
         double score =100*(1-((double)timeOnPhone/((double)durationImMil)));
-        System.out.println(timeOnPhone);
-        System.out.println(durationImMil);
-        System.out.println(score);
+
         myScore = (int)Math.round(score);
 
         if (myScore >= 98 && myOwnedCount == 0){
@@ -296,6 +313,9 @@ public class EndGameStats extends AppCompatActivity {
 
     }
 
+    /**
+     * this method send the relevant statistic to the group end game statistic fragment
+     */
     public Bundle toGroupStats(){
         Bundle myB = new Bundle();
         myB.putInt("OWNES_COUNT",teamOwned);
@@ -309,6 +329,9 @@ public class EndGameStats extends AppCompatActivity {
         return myB;
     }
 
+    /**
+     * this method send the relevant statistic to the personal end game statistic fragment
+     */
     public Bundle toPersonalStats(){
         setMyData();
 
@@ -323,6 +346,9 @@ public class EndGameStats extends AppCompatActivity {
         return bundle;
     }
 
+    /**
+     * this method sets the user rank in the game
+     */
     private void setMyData(){
         for (int i=0; i< leaderBoardObjs.size();i++){
             if(user.getUid().equals(leaderBoardObjs.get(i).getUserUid())){

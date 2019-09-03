@@ -45,9 +45,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
+/**
+ * this class is responsible for creating a new group. that mean it will let the user upload a
+ * group pic and name. the class will display the added members(pic & name).
+ */
 public class CreateNewGroup extends AppCompatActivity {
+    //instance of the data base
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //instance of the user
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private Uri filePath;
     private String picUrl;
@@ -70,6 +75,7 @@ public class CreateNewGroup extends AppCompatActivity {
         setContentView(R.layout.activity_create_new_group);
         backBotton  = findViewById(R.id.backButton_for_create_group);
         groupNickname = findViewById(R.id.group_nickName_input);
+        //display the added members
         getDisplay();
         initPicMembersToAdd();
         initMembersView();
@@ -95,7 +101,9 @@ public class CreateNewGroup extends AppCompatActivity {
 
     }
 
-
+    /**
+     * this method create the group in the data base
+     */
     private void save(){
         Map<String,Object> team = new HashMap<>();
         team.put("name", groupName);
@@ -113,6 +121,10 @@ public class CreateNewGroup extends AppCompatActivity {
         });
     }
 
+    /**
+     * this method upload a chosen from the user pic for a given group
+     * @param teamId
+     */
     private void uploadImage(final String teamId){
         if(filePath != null)
         {
@@ -156,6 +168,10 @@ public class CreateNewGroup extends AppCompatActivity {
 
     }
 
+    /**
+     * this method add all the info of the group to the data base and save it under the group ID
+     * @param teamId the group to save
+     */
     private void saveDB(final String teamId){
         WriteBatch batch = db.batch();
         DocumentReference teamRef = db.collection("teams").document(teamId);
@@ -170,7 +186,7 @@ public class CreateNewGroup extends AppCompatActivity {
             pic.put("lastPlace", null);
         }
         batch.set(teamRef, pic);
-
+        //add all the necessary members info to the group
         for (int i=0; i<addedContacts.size(); i++){
             DocumentReference userTeamRef = db.collection("teams").document(teamId).collection("users").document(addedContacts.get(i).Uid);
             Map<String,Object> userData = new HashMap<>();
@@ -225,6 +241,10 @@ public class CreateNewGroup extends AppCompatActivity {
 
 
     }
+
+    /**
+     * this method init the added members display
+     */
     private void initMembersView(){
         RecyclerView recyclerView = findViewById(R.id.recycle_added_members);
         mAdapter = new NewGroup_ChosenMemberAdapter(addedContacts,this);
@@ -235,29 +255,11 @@ public class CreateNewGroup extends AppCompatActivity {
 
     }
 
-
+    /**
+     * this method get the added members from the intent
+     */
     private void getDisplay(){
-/*      Android_Contact asaf = new Android_Contact();
-        asaf.android_contact_Name= "asaf";
-        addedContacts.add(asaf);
-        Android_Contact amir = new Android_Contact();
-        amir.android_contact_Name= "amir";
-        addedContacts.add(amir);
-        Android_Contact isar = new Android_Contact();
-        isar.android_contact_Name= "isar";
-        addedContacts.add(isar);
-        Android_Contact noa = new Android_Contact();
-        noa.android_contact_Name= "noa";
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);
-        addedContacts.add(noa);*/
+
 
         if (getIntent().hasExtra("CHOSEN_MEMBERS")){
             /*ArrayList<String> members = getIntent().getStringArrayListExtra("CHOSEN_MEMBERS");*/
@@ -269,6 +271,12 @@ public class CreateNewGroup extends AppCompatActivity {
         }
     }
 
+    /**
+     * this method add the user to the group and save all the group in the data base using save
+     * method
+     * @param contact the user contact info as Android_Contact obj
+     * @param teamId the ID of the team to save in.
+     */
     public void addSelfAndSaveDB(final Android_Contact contact, final String teamId){
         /*final Android_Contact selfContact = new Android_Contact();*/
         db.collection("users")
