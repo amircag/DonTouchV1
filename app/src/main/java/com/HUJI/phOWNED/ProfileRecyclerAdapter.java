@@ -14,6 +14,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Adapter for the "groups" recycler view in the Profile Screen.
+ */
 public class ProfileRecyclerAdapter extends RecyclerView.Adapter<ProfileRecyclerAdapter.ViewHolder> {
 
     private ArrayList<GroupObj> mGroups;

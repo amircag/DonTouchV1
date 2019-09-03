@@ -22,6 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Sign in screen
+ */
 public class SignIn extends AppCompatActivity {
 
     private int RC_SIGN_IN;

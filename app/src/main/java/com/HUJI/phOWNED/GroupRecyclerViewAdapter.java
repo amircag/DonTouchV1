@@ -14,9 +14,13 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * DISCONTINUED
+ * Contains an old recycler adapter used in the previous version of the Personal Profile screen.
+ */
 public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "GroupRecyclerViewAdapter";
+    private static final String TAG = "GroupRec";
 
     //vars
     private ArrayList<String> mGroupNames = new ArrayList<>();
@@ -41,11 +45,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG,"onBindViewHolder: called.");
-
-
-        /*int id = mContext.getResources().
-                getIdentifier("com.example.dontouchv1.R.drawable."+mGroupImages.get(position),
-                        null,null);*/
 
         int imageId = mContext.getResources().getIdentifier
                 ("drawable/"+mGroupImages.get(position),null,mContext.getPackageName());

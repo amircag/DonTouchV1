@@ -29,6 +29,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * CREATE NEW GAME SCREEN
+ * This screen lets users create a new game under one of their groups. in this screen the users can
+ * (1) Pick a group name
+ * (2) choose the game difficulty
+ */
 public class NewSession extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -215,6 +221,9 @@ public class NewSession extends AppCompatActivity {
         names.add("Cheers!");
         names.add("DonTouch");
         names.add("No Phones Allowed");
+        names.add("Dream Team Time");
+        names.add("A Meeting In Rome");
+        names.add("All Shots Are Fun");
 
         EditText gameName = findViewById(R.id.gameName);
 

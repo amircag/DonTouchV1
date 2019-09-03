@@ -100,40 +100,6 @@ public class EndGameGroupStats extends Fragment {
      * init the leader board view
      */
     private void initLeaderBoard(){
-
-//
-//
-//        playersImage.add("asaf");
-//        playersName.add("Chef");
-//        playersRank.add("1.");
-//        playersBg.add("gold_lb");
-//
-//
-//        playersImage.add("amir");
-//        playersName.add("Fresh Prince");
-//        playersRank.add("2.");
-//        playersBg.add("silver_bl");
-//
-//
-//
-//        playersImage.add("noa");
-//        playersName.add("NoaMen");
-//        playersRank.add("3.");
-//        playersBg.add("bronze_bl");
-//
-//
-//        playersImage.add("isar");
-//        playersName.add("AbuShefa");
-//        playersRank.add("4.");
-//        playersBg.add("profile_border");
-//
-//
-//        playersImage.add("liav");
-//        playersName.add("Liad");
-//        playersRank.add("5.");
-//        playersBg.add("red_bl");
-
-
         setupData();
 
     }
@@ -196,26 +162,6 @@ public class EndGameGroupStats extends Fragment {
         groupFails.setText(String.valueOf(ownesCount));
         groupDuration.setText(duration);
         meetUpName.setText(gameName);
-    }
-
-    private String getGroupName(){
-        return "The New Dream Team";
-    }
-
-    private String getGroupScore(){
-        return "34%";
-    }
-
-    private String getGroupOwned(){
-        return "13";
-    }
-
-    private String getGroupDuration(){
-        return "1:57";
-    }
-
-    private String getGameName(){
-        return "The Good Guys";
     }
 
 

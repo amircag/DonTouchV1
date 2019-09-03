@@ -26,6 +26,11 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * DISCONTINUED
+ * Older version of the profile screen, includes hard coded data. was used in the first demo
+ * and replaced with newer and better ProfileScreen activity
+ */
 public class PersonalProfile extends AppCompatActivity {
 
     private RecyclerView groupsRecyclerView;

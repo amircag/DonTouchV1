@@ -24,8 +24,20 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * PROFILE SCREEN
+ * This activity creates a profile screen, either for the playing user or for other users of the app.
+ * In the profile screen, users can see:
+ * (1) User's name & image
+ * (2) User's statistics (based on previous games played)
+ * (3) User's groups
+ * (4) Last owns received by the user
+ * If the user visits their own profile, they also have the option of going to the
+ * "Edit Profile" screen.
+ */
 public class ProfileScreen extends AppCompatActivity {
 
+    /* Firebase variables */
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -52,7 +64,9 @@ public class ProfileScreen extends AppCompatActivity {
         getUserData();
     }
 
-
+    /**
+     * Get the displayed user's data from firebase
+     */
     private void getUserData(){
 
         db.collection("users")
@@ -77,6 +91,9 @@ public class ProfileScreen extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Create placeholders when certain stats are missing (due to users being new)
+     */
     private void fillMissingData(){
 
         if(userGamesCount.equals("null")){
@@ -105,6 +122,9 @@ public class ProfileScreen extends AppCompatActivity {
     }
 
 
+    /**
+     * Get data for all of the displayed user's gorups.
+     */
     private void getGroupData(){
 
         db.collection("users")
@@ -131,7 +151,9 @@ public class ProfileScreen extends AppCompatActivity {
                 });
     }
 
-
+    /**
+     * Initiates the screen.
+     */
     private void startView(){
         setContentView(R.layout.activity_profile_screen);
 
@@ -153,6 +175,9 @@ public class ProfileScreen extends AppCompatActivity {
         initLastGameData();
     }
 
+    /**
+     * Displays data about players' last game, and enables users to see that player's last game owns.
+     */
     private void initLastGameData(){
         if (lastGameId == null){
             findViewById(R.id.lastGameHolder).setVisibility(View.GONE);
@@ -187,6 +212,9 @@ public class ProfileScreen extends AppCompatActivity {
 
     }
 
+    /**
+     * Initiates the edit button, if the user views their own profile.
+     */
     private void initEditButton(){
         if (userId.equals(user.getUid())){
 
@@ -208,6 +236,9 @@ public class ProfileScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets most TextViews on the page with server data
+     */
     private void setScreenText(){
         TextView ownsCount = findViewById(R.id.profileOwnsText);
         TextView gameCount = findViewById(R.id.profileGamesText);
@@ -220,6 +251,9 @@ public class ProfileScreen extends AppCompatActivity {
         setTimerText();
     }
 
+    /**
+     * Calculates timestamp from epoch time and sets the relevant textview
+     */
     private void setTimerText(){
         TextView wasteTime = findViewById(R.id.profileTimerText);
         String seconds = String.valueOf(((Integer.parseInt(userWasteTime) / 1000) % 60)) ;
@@ -253,6 +287,10 @@ public class ProfileScreen extends AppCompatActivity {
     }
 
 
+    /**
+     * Calls action when back arrow button is pressed
+     * @param view
+     */
     public void backButtonPressed(View view){
         onBackPressed();
     }

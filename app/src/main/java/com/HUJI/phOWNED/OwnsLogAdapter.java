@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for the Owns recycler view in the game screen.
+ */
 public class OwnsLogAdapter extends RecyclerView.Adapter<OwnsLogAdapter.ViewHolder> {
 
 

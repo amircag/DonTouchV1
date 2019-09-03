@@ -27,20 +27,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * HOME SCREEN ACTIVITY
+ * This class contains the Main screen of the activity (called the "Home Screen"), the screen
+ * that is displayed when the user opens the app, and is used to navigate to the user's profile,
+ * groups, and the 'create new group' option.
+ */
 public class HomeScreen extends AppCompatActivity {
 
-
-    private static final String TAG = "HomeScreen";
-    private ArrayList<String> mGroupIds = new ArrayList<>(15);
-    private ArrayList<String> mImageNames = new ArrayList<>(15);
-    private ArrayList<String> mImages = new ArrayList<>(15);
-    private ArrayList<String> mPeople = new ArrayList<>(15);
-    private ArrayList<String> userData = new ArrayList<>();
-
+    /* Variables for user's groups */
     private ArrayList<GroupObj> groupsForUser = new ArrayList<>();
-    private ArrayList<String> userGroupIds = new ArrayList<>();
     private HashMap<String, Integer> userGroupIdMap = new HashMap<>();
 
+    /* Main screen variables */
     private String userNickname;
     private String userPicUrl;
     private String userGamesCount;
@@ -53,7 +52,7 @@ public class HomeScreen extends AppCompatActivity {
     DocumentReference userDocument = db.collection("users").document(user.getUid());
 
 
-    private DummyServer server = new DummyServer();
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +69,12 @@ public class HomeScreen extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
+    /**
+     * Sets up main screen content by calling other methods
+     */
     private void loadScreen(){
 
-        // LOAD USER DATA
+        // Load user data from firebase:
         userDocument.get(Source.DEFAULT).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -82,6 +84,8 @@ public class HomeScreen extends AppCompatActivity {
                 userGamesCount = String.valueOf(documentSnapshot.get("myGamesCount"));
                 userOwnsCount = String.valueOf(documentSnapshot.get("myOwnsCount"));
                 userTotalScore = String.valueOf(documentSnapshot.get("myTotalScore"));
+
+                // set default values in case user has no data yet:
 
                 if (userGamesCount.equals("null")){
                     userGamesCount = "0";
@@ -98,7 +102,7 @@ public class HomeScreen extends AppCompatActivity {
                     userAvgScore = String.valueOf(Integer.parseInt(userTotalScore) / Integer.parseInt(userGamesCount));
                 }
 
-                // LOAD GROUP DATA
+                // Load user's groups data from firebase:
                 db.collection("users").document(user.getUid())
                         .collection("teams")
                         .orderBy("name", Query.Direction.ASCENDING)
@@ -117,8 +121,6 @@ public class HomeScreen extends AppCompatActivity {
                             groupIndex++;
                         }
 
-
-                        /*displayScreen();*/
                         findActiveGames();
 
                     }
@@ -127,6 +129,10 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * Look in all of the user's groups to determine which of them have currently active games.
+     * This is later used to display an "active game" icon on next to the group.
+     */
     private void findActiveGames(){
 
         db.collection("games")
@@ -148,6 +154,9 @@ public class HomeScreen extends AppCompatActivity {
         });
     }
 
+    /**
+     * Display screen contents with the data received from the server.
+     */
     private void displayScreen(){
         setContentView(R.layout.activity_home_screen);
 
@@ -161,17 +170,21 @@ public class HomeScreen extends AppCompatActivity {
         TextView userScore = findViewById(R.id.user_score_text);
         TextView userPhowns = findViewById(R.id.total_owns_counter);
         userScore.setText(userAvgScore+"%");
-        int parsedScore = Integer.parseInt(userAvgScore);
 
-        // todo: for color changes, unblock this
-        /*if (parsedScore >= 75){
+
+        // todo: unblock the next section to make color-changing score text
+        /*
+        int parsedScore = Integer.parseInt(userAvgScore);
+        if (parsedScore >= 75){
             userScore.setTextColor(Color.GREEN);
         } else if (parsedScore >= 25){
             userScore.setTextColor(Color.YELLOW);
         } else {
             userScore.setTextColor(Color.RED);
-        }*/
+        }
+        */
 
+        /* Display user phowns counter */
         userPhowns.setText(userOwnsCount);
 
         /* Sets group recycler data */
@@ -184,16 +197,9 @@ public class HomeScreen extends AppCompatActivity {
     }
 
 
-
-    private void initGroupImages(){
-        mGroupIds = server.getGroupIds();
-        mImages = server.getGroupImages();
-        mImageNames = server.getGroupNames();
-        mPeople = server.getPeople();
-
-        initGroupRecyclerView();
-    }
-
+    /**
+     * Start groups recycler view
+     */
     private void initGroupRecyclerView(){
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         RecyclerView groupRecyclerView = findViewById(R.id.home_recycler_view);
@@ -210,7 +216,9 @@ public class HomeScreen extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Sets all button actions for the screen
+     */
     private void setButtonListeners(){
         /* Set "Go to Profile" listener */
         RelativeLayout userInfoBox = findViewById(R.id.Nickname);
@@ -228,6 +236,7 @@ public class HomeScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // todo: unblock to add option of exit dialog
         /*new AlertDialog.Builder(this)
                 .setTitle("Exit Game")
                 .setMessage("Are you sure you want to exit?")
@@ -238,12 +247,13 @@ public class HomeScreen extends AppCompatActivity {
                         finish();
                     }
                 });*/
-
-        // close when clicking back
-        /*finish();*/
     }
 
 
+    /**
+     * go to "create group" screen
+     * @param view current view
+     */
     public void createGroupPressed(View view){
         Intent intent = new Intent(HomeScreen.this,AddMembersCreateGroup.class);
         intent.putExtra("USER_NICKNAME", userNickname);

@@ -37,14 +37,20 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * This activity is responsible for the "Edit Profile" screen,
+ * lets the user update their personal info
+ * (changing name/profile pic)
+ */
 public class EditProfile extends AppCompatActivity {
 
-
+    /**
+     * firebase variables
+     */
     private static final int PICK_IMAGE_REQ = 0;
     private Uri filePath;
     private String picUrl;
     private String picFilename;
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -88,6 +94,10 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets the back arrow button
+     * @param view current view
+     */
     public void backToProfile(View view){
         onBackPressed();
 
@@ -102,6 +112,10 @@ public class EditProfile extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * this method lets the user choose a new image from their phone to upload as a profile picture
+     * @param view current view
+     */
     public void chooseImage(View view){
         Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -110,6 +124,9 @@ public class EditProfile extends AppCompatActivity {
         startActivityForResult(intent,PICK_IMAGE_REQ);
     }
 
+    /**
+     * updates the photo on the activity to the one the user chose
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -121,6 +138,8 @@ public class EditProfile extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ImageView imageView = (ImageView) findViewById(R.id.edit_profile_pic);
                 imageView.setImageBitmap(bitmap);
+
+                // remove gray filter set the camera icon to invisible
                 imageView.clearColorFilter();
                 ImageView camera = findViewById(R.id.editProfileCamera);
                 camera.setVisibility(View.INVISIBLE);
@@ -132,11 +151,18 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * call action when "save" button is pressed
+     * @param view
+     */
     public void saveChangesClick(View view){
         saveProfileChanges(filePath);
     }
 
+    /**
+     * Save the changes to the group made by the user, upload to firebase and calls next methods
+     * @param filePath filepath of chosen image
+     */
     private void saveProfileChanges(Uri filePath) {
 
         if(filePath != null)
@@ -198,10 +224,16 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * updates the changes in the group under each group the user is part of, and then
+     * starts the next activity
+     * @param nickname user's new nickname (if applicable)
+     * @param picUrl user's new profile pic url (if applicable)
+     */
     private void updateDataInGroups(final String nickname, final String picUrl){
         final String userId = user.getUid().toString();
 
+        // collect all teams user is part of
         db.collection("users")
                 .document(userId)
                 .collection("teams")
@@ -222,6 +254,8 @@ public class EditProfile extends AppCompatActivity {
                             data.put("picUrl", picUrl);
                         }
 
+                        // go through each group user is part of and updates this user's
+                        // document in them
                         for (String id : teamIds){
                             db.collection("teams")
                                     .document(id)
@@ -230,6 +264,7 @@ public class EditProfile extends AppCompatActivity {
                                     .update(data);
                         }
 
+                        // when finished, go to user's profile
                         Intent intent = new Intent(EditProfile.this, ProfileScreen.class);
                         intent.putExtra("USER_ID",user.getUid());
                         startActivity(intent);
